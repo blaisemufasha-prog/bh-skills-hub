@@ -402,6 +402,11 @@ header{
     margin:18px 0;
 }
 
+.editor caption{
+    font-weight:700;
+    margin-bottom:7px;
+}
+
 .editor th,
 .editor td{
     border:1px solid #94a3b8;
@@ -593,16 +598,10 @@ header{
 }
 
 footer{
-    background:#111827;
-    color:#cbd5e1;
     text-align:center;
-    padding:26px 15px;
-    margin-top:30px;
-    font-size:14px;
-}
-
-footer strong{
-    color:white;
+    padding:25px 15px;
+    color:#64748b;
+    font-size:13px;
 }
 
 @media(max-width:950px){
@@ -773,12 +772,14 @@ footer strong{
 <div class="mode-bar">
 
     <button
+        type="button"
         id="beginnerBtn"
         class="mode-btn active">
         🌱 Beginner Mode
     </button>
 
     <button
+        type="button"
         id="professionalBtn"
         class="mode-btn">
         🎓 Professional Mode
@@ -908,7 +909,7 @@ footer strong{
     </button>
 
     <select
-        onchange="formatBlock(this.value)">
+        id="formatSelect">
 
         <option value="">
             Format
@@ -981,30 +982,35 @@ footer strong{
 <div class="actions">
 
     <button
+        type="button"
         id="previousBtn"
         class="action-btn previous-btn">
         ← Previous
     </button>
 
     <button
+        type="button"
         id="nextBtn"
         class="action-btn next-btn">
         Next →
     </button>
 
     <button
+        type="button"
         id="saveBtn"
         class="action-btn save-btn">
         💾 Save Section
     </button>
 
     <button
+        type="button"
         id="completeBtn"
         class="action-btn complete-btn">
         ✅ Mark Complete
     </button>
 
     <button
+        type="button"
         id="reviewProjectBtn"
         class="action-btn review-btn">
         📋 Review Project
@@ -1029,6 +1035,7 @@ footer strong{
         <h2>Add Table</h2>
 
         <button
+            type="button"
             class="close-modal"
             id="closeTableModal">
             ×
@@ -1076,12 +1083,14 @@ footer strong{
     <div class="modal-actions">
 
         <button
+            type="button"
             class="modal-btn cancel-btn"
             id="cancelTable">
             Cancel
         </button>
 
         <button
+            type="button"
             class="modal-btn primary-btn"
             id="insertTable">
             Insert Table
@@ -1102,6 +1111,7 @@ footer strong{
         <h2>Add Figure</h2>
 
         <button
+            type="button"
             class="close-modal"
             id="closeFigureModal">
             ×
@@ -1134,12 +1144,14 @@ footer strong{
     <div class="modal-actions">
 
         <button
+            type="button"
             class="modal-btn cancel-btn"
             id="cancelFigure">
             Cancel
         </button>
 
         <button
+            type="button"
             class="modal-btn primary-btn"
             id="uploadFigure">
             Upload & Insert
@@ -1197,9 +1209,9 @@ import {
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
 
 
-/* =========================================
+/* =====================================================
    FIREBASE
-========================================= */
+===================================================== */
 
 const firebaseConfig = {
 
@@ -1237,9 +1249,9 @@ const storage =
     getStorage(app);
 
 
-/* =========================================
+/* =====================================================
    VARIABLES
-========================================= */
+===================================================== */
 
 let currentUser = null;
 let project = null;
@@ -1255,9 +1267,9 @@ let isSaving = false;
 let saveAgain = false;
 
 
-/* =========================================
+/* =====================================================
    URL
-========================================= */
+===================================================== */
 
 const params =
     new URLSearchParams(
@@ -1268,9 +1280,9 @@ const urlProjectId =
     params.get("id");
 
 
-/* =========================================
-   GET LOCAL PROJECT
-========================================= */
+/* =====================================================
+   LOCAL PROJECT
+===================================================== */
 
 function getLocalProject(){
 
@@ -1303,20 +1315,20 @@ function getLocalProject(){
 }
 
 
-/* =========================================
+/* =====================================================
    PROJECT ID
-========================================= */
+===================================================== */
 
 function getProjectId(){
 
-    const cleanUrlId =
+    const id =
         urlProjectId
         ? String(urlProjectId).trim()
         : "";
 
-    if(cleanUrlId){
+    if(id){
 
-        return cleanUrlId;
+        return id;
 
     }
 
@@ -1339,9 +1351,9 @@ function getProjectId(){
 }
 
 
-/* =========================================
+/* =====================================================
    PROJECT URL
-========================================= */
+===================================================== */
 
 function projectUrl(page){
 
@@ -1365,9 +1377,9 @@ function projectUrl(page){
 }
 
 
-/* =========================================
+/* =====================================================
    STRUCTURES
-========================================= */
+===================================================== */
 
 const structures = {
 
@@ -1469,9 +1481,9 @@ const structures = {
 };
 
 
-/* =========================================
+/* =====================================================
    LESSONS
-========================================= */
+===================================================== */
 
 const lessons = {
 
@@ -1785,13 +1797,14 @@ how:"Organize chapters logically from basic concepts toward advanced ideas.",
 contain:"Sections, explanations, examples, figures and references.",
 example:"A networking book could progress from fundamentals to routing and security.",
 mistakes:"Avoid mixing unrelated topics."
+}
 
 };
 
 
-/* =========================================
+/* =====================================================
    GENERIC LESSON
-========================================= */
+===================================================== */
 
 function getLesson(title){
 
@@ -1817,156 +1830,63 @@ function getLesson(title){
 }
 
 
-/* =========================================
-   SAFE FIRESTORE CLEANER
-========================================= */
-
-function cleanFirestoreData(value){
-
-    if(value === undefined){
-
-        return undefined;
-
-    }
-
-    if(value === null){
-
-        return null;
-
-    }
-
-    if(
-        Array.isArray(value)
-    ){
-
-        return value
-            .map(
-                item =>
-                cleanFirestoreData(item)
-            )
-            .filter(
-                item =>
-                item !== undefined
-            );
-
-    }
-
-    if(
-        typeof value === "object" &&
-        !(value instanceof Date)
-    ){
-
-        const result = {};
-
-        Object.entries(value)
-            .forEach(
-                ([key,val])=>{
-
-                    const cleaned =
-                        cleanFirestoreData(
-                            val
-                        );
-
-                    if(
-                        cleaned !== undefined
-                    ){
-
-                        result[key] =
-                            cleaned;
-
-                    }
-
-                }
-            );
-
-        return result;
-
-    }
-
-    return value;
-
-}
-
-
-/* =========================================
+/* =====================================================
    NORMALIZE SECTIONS
-========================================= */
+===================================================== */
 
 function normalizeSections(rawSections){
 
-    if(
-        Array.isArray(rawSections)
-    ){
+    if(Array.isArray(rawSections)){
 
         return rawSections
-            .filter(
-                item =>
-                item !== null &&
-                item !== undefined
-            )
-            .map(
-                (item,index)=>{
+            .filter(item => item !== null && item !== undefined)
+            .map((item,index)=>{
 
-                    if(
-                        typeof item === "string"
-                    ){
-
-                        return {
-
-                            id:
-                            "section_" + index,
-
-                            title:
-                            item,
-
-                            key:
-                            item,
-
-                            content:"",
-
-                            completed:false
-
-                        };
-
-                    }
+                if(typeof item === "string"){
 
                     return {
-
-                        id:
-                        String(
-                            item.id ||
-                            "section_" + index
-                        ),
-
-                        title:
-                        String(
-                            item.title ||
-                            item.key ||
-                            "Section " +
-                            (index + 1)
-                        ),
-
-                        key:
-                        String(
-                            item.key ||
-                            item.title ||
-                            "Section " +
-                            (index + 1)
-                        ),
-
-                        content:
-                        typeof item.content ===
-                        "string"
-                        ? item.content
-                        : "",
-
-                        completed:
-                        item.completed === true
-
+                        id:"section_"+index,
+                        title:item,
+                        key:item,
+                        content:"",
+                        completed:false
                     };
 
                 }
-            );
+
+                return {
+
+                    id:
+                    String(
+                        item?.id ||
+                        "section_"+index
+                    ),
+
+                    title:
+                    String(
+                        item?.title ||
+                        item?.key ||
+                        "Section "+(index+1)
+                    ),
+
+                    key:
+                    String(
+                        item?.key ||
+                        item?.title ||
+                        "Section "+(index+1)
+                    ),
+
+                    content:
+                    typeof item?.content === "string"
+                    ? item.content
+                    : "",
+
+                    completed:
+                    item?.completed === true
+
+                };
+
+            });
 
     }
 
@@ -2048,8 +1968,7 @@ function normalizeSections(rawSections){
                     ),
 
                     content:
-                    typeof item.content ===
-                    "string"
+                    typeof item.content === "string"
                     ? item.content
                     : "",
 
@@ -2063,20 +1982,19 @@ function normalizeSections(rawSections){
 
     }
 
-
     return [];
 
 }
 
 
-/* =========================================
+/* =====================================================
    BUILD SECTIONS
-========================================= */
+===================================================== */
 
 function buildSections(){
 
     const type =
-        project.type ||
+        project?.type ||
         "University Thesis";
 
     const structure =
@@ -2085,7 +2003,7 @@ function buildSections(){
 
     const existing =
         normalizeSections(
-            project.sections
+            project?.sections
         );
 
     sections =
@@ -2112,14 +2030,13 @@ function buildSections(){
                     id:
                     "section_" + index,
 
-                    title,
+                    title:title,
 
                     key:title,
 
                     content:
                     saved &&
-                    typeof saved.content ===
-                    "string"
+                    typeof saved.content === "string"
                     ? saved.content
                     : "",
 
@@ -2135,52 +2052,52 @@ function buildSections(){
 }
 
 
-/* =========================================
-   RENDER PROJECT INFO
-========================================= */
+/* =====================================================
+   RENDER PROJECT
+===================================================== */
 
 function renderProjectInfo(){
 
     document.getElementById(
         "projectTitle"
     ).textContent =
-        project.title ||
+        project?.title ||
         "Untitled Academic Project";
 
     document.getElementById(
         "projectType"
     ).textContent =
-        project.type ||
+        project?.type ||
         "Academic Project";
 
     document.getElementById(
         "projectAuthor"
     ).textContent =
-        project.authorName ||
-        project.author ||
-        currentUser.displayName ||
-        currentUser.email ||
+        project?.authorName ||
+        project?.author ||
+        currentUser?.displayName ||
+        currentUser?.email ||
         "-";
 
     document.getElementById(
         "projectInstitution"
     ).textContent =
-        project.university ||
-        project.institution ||
+        project?.university ||
+        project?.institution ||
         "-";
 
     document.getElementById(
         "projectDepartment"
     ).textContent =
-        project.department ||
-        project.program ||
+        project?.department ||
+        project?.program ||
         "-";
 
     document.getElementById(
         "projectYear"
     ).textContent =
-        project.academicYear ||
-        project.year ||
+        project?.academicYear ||
+        project?.year ||
         "-";
 
     document.getElementById(
@@ -2193,9 +2110,9 @@ function renderProjectInfo(){
 }
 
 
-/* =========================================
-   RENDER SIDEBAR
-========================================= */
+/* =====================================================
+   SIDEBAR
+===================================================== */
 
 function renderSidebar(){
 
@@ -2217,9 +2134,7 @@ function renderSidebar(){
             item.className =
                 "section-item";
 
-            if(
-                index === currentIndex
-            ){
+            if(index === currentIndex){
 
                 item.classList.add(
                     "active"
@@ -2227,9 +2142,7 @@ function renderSidebar(){
 
             }
 
-            if(
-                section.completed
-            ){
+            if(section.completed){
 
                 item.classList.add(
                     "completed"
@@ -2265,13 +2178,18 @@ function renderSidebar(){
 }
 
 
-/* =========================================
-   RENDER CURRENT SECTION
-========================================= */
+/* =====================================================
+   CURRENT SECTION
+===================================================== */
 
 function renderCurrentSection(){
 
     if(!sections.length){
+
+        showMessageBox(
+            "No sections are available for this project.",
+            "error"
+        );
 
         return;
 
@@ -2307,14 +2225,12 @@ function renderCurrentSection(){
 
     renderSidebar();
 
-    updateCompleteButton();
-
 }
 
 
-/* =========================================
-   UPDATE LESSON
-========================================= */
+/* =====================================================
+   LESSON
+===================================================== */
 
 function updateLesson(){
 
@@ -2360,9 +2276,9 @@ function updateLesson(){
 }
 
 
-/* =========================================
+/* =====================================================
    MODE
-========================================= */
+===================================================== */
 
 function setMode(mode){
 
@@ -2407,9 +2323,9 @@ function setMode(mode){
 }
 
 
-/* =========================================
-   FORMAT
-========================================= */
+/* =====================================================
+   EDITOR FORMATTING
+===================================================== */
 
 window.format =
 function(command,value=null){
@@ -2421,18 +2337,25 @@ function(command,value=null){
 
     editor.focus();
 
-    document.execCommand(
-        command,
-        false,
-        value
-    );
+    try{
+
+        document.execCommand(
+            command,
+            false,
+            value
+        );
+
+    }catch(error){
+
+        console.error(
+            "Formatting error:",
+            error
+        );
+
+    }
 
 };
 
-
-/* =========================================
-   FORMAT BLOCK
-========================================= */
 
 window.formatBlock =
 function(tag){
@@ -2450,18 +2373,25 @@ function(tag){
 
     editor.focus();
 
-    document.execCommand(
-        "formatBlock",
-        false,
-        tag
-    );
+    try{
+
+        document.execCommand(
+            "formatBlock",
+            false,
+            tag
+        );
+
+    }catch(error){
+
+        console.error(
+            "Format block error:",
+            error
+        );
+
+    }
 
 };
 
-
-/* =========================================
-   CLEAR
-========================================= */
 
 window.clearFormatting =
 function(){
@@ -2473,18 +2403,53 @@ function(){
 
     editor.focus();
 
-    document.execCommand(
-        "removeFormat",
-        false,
-        null
-    );
+    try{
+
+        document.execCommand(
+            "removeFormat",
+            false,
+            null
+        );
+
+    }catch(error){
+
+        console.error(
+            "Clear formatting error:",
+            error
+        );
+
+    }
 
 };
 
 
-/* =========================================
-   SAVE MEMORY
-========================================= */
+/* =====================================================
+   FORMAT SELECT
+===================================================== */
+
+document.getElementById(
+    "formatSelect"
+).addEventListener(
+    "change",
+    function(){
+
+        if(this.value){
+
+            window.formatBlock(
+                this.value
+            );
+
+        }
+
+        this.value = "";
+
+    }
+);
+
+
+/* =====================================================
+   SAVE CURRENT MEMORY
+===================================================== */
 
 async function saveCurrentToMemory(){
 
@@ -2502,21 +2467,15 @@ async function saveCurrentToMemory(){
             "editor"
         );
 
-    if(!editor){
-
-        return;
-
-    }
-
     sections[currentIndex].content =
         editor.innerHTML;
 
 }
 
 
-/* =========================================
+/* =====================================================
    BUILDER STATE
-========================================= */
+===================================================== */
 
 function builderStateKey(){
 
@@ -2554,6 +2513,7 @@ function saveBuilderState(){
             key,
             JSON.stringify({
 
+                currentIndex:
                 currentIndex,
 
                 mode:
@@ -2567,8 +2527,8 @@ function saveBuilderState(){
 
     }catch(error){
 
-        console.warn(
-            "Builder state save failed:",
+        console.error(
+            "Builder state save error:",
             error
         );
 
@@ -2608,82 +2568,104 @@ function loadBuilderState(){
 }
 
 
-/* =========================================
+/* =====================================================
    LOCAL PROJECT
-========================================= */
+===================================================== */
 
 function makeLocalProject(data){
 
     return {
 
         id:
-        data.id,
+        String(
+            data?.id || ""
+        ),
 
         title:
-        data.title || "",
+        String(
+            data?.title || ""
+        ),
 
         type:
-        data.type || "",
+        String(
+            data?.type || ""
+        ),
 
         authorName:
-        data.authorName ||
-        data.author ||
-        "",
+        String(
+            data?.authorName ||
+            data?.author ||
+            ""
+        ),
 
         author:
-        data.author ||
-        data.authorName ||
-        "",
+        String(
+            data?.author ||
+            data?.authorName ||
+            ""
+        ),
 
         university:
-        data.university ||
-        data.institution ||
-        "",
+        String(
+            data?.university ||
+            data?.institution ||
+            ""
+        ),
 
         institution:
-        data.institution ||
-        data.university ||
-        "",
+        String(
+            data?.institution ||
+            data?.university ||
+            ""
+        ),
 
         faculty:
-        data.faculty ||
-        "",
+        String(
+            data?.faculty || ""
+        ),
 
         department:
-        data.department ||
-        "",
+        String(
+            data?.department || ""
+        ),
 
         program:
-        data.program ||
-        "",
+        String(
+            data?.program || ""
+        ),
 
         supervisor:
-        data.supervisor ||
-        "",
+        String(
+            data?.supervisor || ""
+        ),
 
         academicYear:
-        data.academicYear ||
-        data.year ||
-        "",
+        String(
+            data?.academicYear ||
+            data?.year ||
+            ""
+        ),
 
         year:
-        data.year ||
-        data.academicYear ||
-        "",
+        String(
+            data?.year ||
+            data?.academicYear ||
+            ""
+        ),
 
         sections:
         normalizeSections(
-            data.sections
+            data?.sections
         ),
 
         references:
-        Array.isArray(data.references)
+        Array.isArray(data?.references)
         ? data.references
         : [],
 
         progress:
         Number(
-            data.progress || 0
+            data?.progress || 0
         )
 
     };
@@ -2691,9 +2673,9 @@ function makeLocalProject(data){
 }
 
 
-/* =========================================
-   SAVE LOCAL
-========================================= */
+/* =====================================================
+   SAVE LOCAL PROJECT
+===================================================== */
 
 function saveLocalProject(){
 
@@ -2717,7 +2699,7 @@ function saveLocalProject(){
     }catch(error){
 
         console.error(
-            "Local save error:",
+            "Local project save error:",
             error
         );
 
@@ -2726,9 +2708,94 @@ function saveLocalProject(){
 }
 
 
-/* =========================================
-   CREATE CLEAN FIRESTORE PROJECT
-========================================= */
+/* =====================================================
+   FIRESTORE-SAFE DATA
+===================================================== */
+
+function cleanFirestoreData(value){
+
+    if(value === undefined){
+
+        return undefined;
+
+    }
+
+    if(value === null){
+
+        return null;
+
+    }
+
+    if(
+        typeof value === "string" ||
+        typeof value === "number" ||
+        typeof value === "boolean"
+    ){
+
+        return value;
+
+    }
+
+    if(value instanceof Date){
+
+        return value;
+
+    }
+
+    if(Array.isArray(value)){
+
+        return value
+            .map(
+                item =>
+                cleanFirestoreData(item)
+            )
+            .filter(
+                item =>
+                item !== undefined
+            );
+
+    }
+
+    if(
+        typeof value === "object"
+    ){
+
+        const result = {};
+
+        Object.entries(
+            value
+        ).forEach(
+            ([key,val])=>{
+
+                const cleaned =
+                    cleanFirestoreData(
+                        val
+                    );
+
+                if(
+                    cleaned !== undefined
+                ){
+
+                    result[key] =
+                        cleaned;
+
+                }
+
+            }
+        );
+
+        return result;
+
+    }
+
+    return value;
+
+}
+
+
+/* =====================================================
+   CREATE SAFE FIRESTORE PROJECT
+===================================================== */
 
 function createFirestoreProject(){
 
@@ -2739,27 +2806,24 @@ function createFirestoreProject(){
                 id:
                 String(
                     section?.id ||
-                    "section_" + index
+                    "section_"+index
                 ),
 
                 title:
                 String(
                     section?.title ||
-                    "Section " +
-                    (index + 1)
+                    "Section "+(index+1)
                 ),
 
                 key:
                 String(
                     section?.key ||
                     section?.title ||
-                    "Section " +
-                    (index + 1)
+                    "Section "+(index+1)
                 ),
 
                 content:
-                typeof section?.content ===
-                "string"
+                typeof section?.content === "string"
                 ? section.content
                 : "",
 
@@ -2768,6 +2832,7 @@ function createFirestoreProject(){
 
             })
         );
+
 
     const data = {
 
@@ -2859,12 +2924,16 @@ function createFirestoreProject(){
         safeSections,
 
         currentSection:
-        Number.isInteger(currentIndex)
+        Number.isInteger(
+            currentIndex
+        )
         ? currentIndex
         : 0,
 
         currentLesson:
-        Number.isInteger(currentIndex)
+        Number.isInteger(
+            currentIndex
+        )
         ? currentIndex
         : 0,
 
@@ -2881,6 +2950,7 @@ function createFirestoreProject(){
 
     };
 
+
     return cleanFirestoreData(
         data
     );
@@ -2888,17 +2958,15 @@ function createFirestoreProject(){
 }
 
 
-/* =========================================
+/* =====================================================
    SAVE PROJECT
-========================================= */
+===================================================== */
 
 async function saveProject(
     showMessage = true
 ){
 
-    if(
-        !currentUser
-    ){
+    if(!currentUser){
 
         showMessageBox(
             "You are not logged in. Please login again.",
@@ -2908,6 +2976,7 @@ async function saveProject(
         return false;
 
     }
+
 
     if(
         !project ||
@@ -2922,6 +2991,7 @@ async function saveProject(
         return false;
 
     }
+
 
     if(!sections.length){
 
@@ -2970,8 +3040,7 @@ async function saveProject(
 
         if(
             !firestoreProject ||
-            typeof firestoreProject !==
-            "object"
+            typeof firestoreProject !== "object"
         ){
 
             throw new Error(
@@ -3022,7 +3091,7 @@ async function saveProject(
     }catch(error){
 
         console.error(
-            "Save project error:",
+            "SAVE PROJECT ERROR:",
             error
         );
 
@@ -3044,8 +3113,7 @@ async function saveProject(
 
         isSaving = false;
 
-        saveBtn.disabled =
-            false;
+        saveBtn.disabled = false;
 
         saveBtn.textContent =
             "💾 Save Section";
@@ -3059,7 +3127,7 @@ async function saveProject(
                 ()=>{
                     saveProject(false);
                 },
-                100
+                150
             );
 
         }
@@ -3069,9 +3137,9 @@ async function saveProject(
 }
 
 
-/* =========================================
+/* =====================================================
    MARK COMPLETE
-========================================= */
+===================================================== */
 
 async function markComplete(){
 
@@ -3086,6 +3154,7 @@ async function markComplete(){
 
     }
 
+
     if(
         !project ||
         !projectRef
@@ -3099,6 +3168,7 @@ async function markComplete(){
         return;
 
     }
+
 
     if(
         !sections.length ||
@@ -3115,15 +3185,15 @@ async function markComplete(){
     }
 
 
-    const completeBtn =
+    const button =
         document.getElementById(
             "completeBtn"
         );
 
 
-    completeBtn.disabled = true;
+    button.disabled = true;
 
-    completeBtn.textContent =
+    button.textContent =
         "Saving...";
 
 
@@ -3137,7 +3207,9 @@ async function markComplete(){
 
 
         const saved =
-            await saveProject(false);
+            await saveProject(
+                false
+            );
 
 
         if(!saved){
@@ -3159,30 +3231,10 @@ async function markComplete(){
         renderCurrentSection();
 
 
-        setTimeout(
-            ()=>{
-
-                if(
-                    currentIndex <
-                    sections.length - 1
-                ){
-
-                    showMessageBox(
-                        "Great! You can now continue to the next section.",
-                        "info"
-                    );
-
-                }
-
-            },
-            600
-        );
-
-
     }catch(error){
 
         console.error(
-            "Mark complete error:",
+            "MARK COMPLETE ERROR:",
             error
         );
 
@@ -3203,45 +3255,7 @@ async function markComplete(){
 
     }finally{
 
-        completeBtn.disabled =
-            false;
-
-        completeBtn.textContent =
-            "✅ Mark Complete";
-
-    }
-
-}
-
-
-/* =========================================
-   COMPLETE BUTTON STATE
-========================================= */
-
-function updateCompleteButton(){
-
-    const button =
-        document.getElementById(
-            "completeBtn"
-        );
-
-    if(
-        !button ||
-        !sections[currentIndex]
-    ){
-
-        return;
-
-    }
-
-    if(
-        sections[currentIndex].completed
-    ){
-
-        button.textContent =
-            "✅ Section Completed";
-
-    }else{
+        button.disabled = false;
 
         button.textContent =
             "✅ Mark Complete";
@@ -3251,9 +3265,9 @@ function updateCompleteButton(){
 }
 
 
-/* =========================================
+/* =====================================================
    PROGRESS
-========================================= */
+===================================================== */
 
 function calculateProgress(){
 
@@ -3263,12 +3277,13 @@ function calculateProgress(){
 
     }
 
+
     const completed =
         sections.filter(
             section =>
-            section &&
             section.completed === true
         ).length;
+
 
     return Math.round(
         (
@@ -3285,15 +3300,18 @@ function updateProgress(){
     const progress =
         calculateProgress();
 
+
     document.getElementById(
         "progressBar"
     ).style.width =
         progress + "%";
 
+
     document.getElementById(
         "progressText"
     ).textContent =
         progress + "%";
+
 
     if(project){
 
@@ -3305,9 +3323,9 @@ function updateProgress(){
 }
 
 
-/* =========================================
+/* =====================================================
    NAVIGATION
-========================================= */
+===================================================== */
 
 function updateNavigation(){
 
@@ -3315,6 +3333,7 @@ function updateNavigation(){
         "previousBtn"
     ).disabled =
         currentIndex === 0;
+
 
     document.getElementById(
         "nextBtn"
@@ -3327,67 +3346,50 @@ function updateNavigation(){
 
 async function nextSection(){
 
+    await saveCurrentToMemory();
+
+    const saved =
+        await saveProject(false);
+
+
+    if(!saved){
+
+        return;
+
+    }
+
+
     if(
-        currentIndex >=
+        currentIndex <
         sections.length - 1
     ){
+
+        currentIndex++;
+
+        saveBuilderState();
+
+        renderCurrentSection();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }else{
 
         showMessageBox(
             "You are on the final section of this project.",
             "info"
         );
 
-        return;
-
     }
-
-
-    await saveCurrentToMemory();
-
-
-    const saved =
-        await saveProject(false);
-
-
-    if(!saved){
-
-        showMessageBox(
-            "The current section could not be saved. Please try again.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    currentIndex++;
-
-    saveBuilderState();
-
-    renderCurrentSection();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
 
 }
 
 
 async function previousSection(){
 
-    if(
-        currentIndex <= 0
-    ){
-
-        return;
-
-    }
-
-
     await saveCurrentToMemory();
-
 
     const saved =
         await saveProject(false);
@@ -3395,33 +3397,32 @@ async function previousSection(){
 
     if(!saved){
 
-        showMessageBox(
-            "The current section could not be saved. Please try again.",
-            "error"
-        );
-
         return;
 
     }
 
 
-    currentIndex--;
+    if(currentIndex > 0){
 
-    saveBuilderState();
+        currentIndex--;
 
-    renderCurrentSection();
+        saveBuilderState();
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+        renderCurrentSection();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
 
 }
 
 
-/* =========================================
+/* =====================================================
    TABLE
-========================================= */
+===================================================== */
 
 const tableModal =
     document.getElementById(
@@ -3434,11 +3435,9 @@ document.getElementById(
 ).addEventListener(
     "click",
     ()=>{
-
         tableModal.classList.add(
             "show"
         );
-
     }
 );
 
@@ -3497,8 +3496,8 @@ document.getElementById(
 
 
         if(
-            !rows ||
-            !columns ||
+            !Number.isInteger(rows) ||
+            !Number.isInteger(columns) ||
             rows < 1 ||
             columns < 1
         ){
@@ -3587,9 +3586,9 @@ document.getElementById(
 );
 
 
-/* =========================================
+/* =====================================================
    FIGURE
-========================================= */
+===================================================== */
 
 const figureModal =
     document.getElementById(
@@ -3795,18 +3794,18 @@ async function uploadFigure(){
         );
 
 
-        await saveCurrentToMemory();
-
-
         const saved =
             await saveProject(false);
 
 
         if(!saved){
 
-            throw new Error(
-                "The figure uploaded, but the project content could not be saved."
+            showMessageBox(
+                "Figure uploaded, but the section could not be saved.",
+                "error"
             );
+
+            return;
 
         }
 
@@ -3833,7 +3832,7 @@ async function uploadFigure(){
     }catch(error){
 
         console.error(
-            "Figure upload error:",
+            "FIGURE UPLOAD ERROR:",
             error
         );
 
@@ -3847,6 +3846,7 @@ async function uploadFigure(){
             "error"
         );
 
+
     }finally{
 
         button.disabled = false;
@@ -3859,9 +3859,9 @@ async function uploadFigure(){
 }
 
 
-/* =========================================
+/* =====================================================
    INSERT HTML
-========================================= */
+===================================================== */
 
 function insertHTMLAtCursor(html){
 
@@ -3872,18 +3872,30 @@ function insertHTMLAtCursor(html){
 
     editor.focus();
 
-    document.execCommand(
-        "insertHTML",
-        false,
-        html
-    );
+
+    try{
+
+        document.execCommand(
+            "insertHTML",
+            false,
+            html
+        );
+
+    }catch(error){
+
+        console.error(
+            "Insert HTML error:",
+            error
+        );
+
+    }
 
 }
 
 
-/* =========================================
+/* =====================================================
    REVIEW
-========================================= */
+===================================================== */
 
 function openReview(){
 
@@ -3900,6 +3912,13 @@ function openReview(){
         return;
 
     }
+
+
+    saveCurrentToMemory();
+
+    saveLocalProject();
+
+    saveBuilderState();
 
 
     window.location.href =
@@ -3926,9 +3945,9 @@ document.getElementById(
 );
 
 
-/* =========================================
+/* =====================================================
    REFERENCES
-========================================= */
+===================================================== */
 
 document.getElementById(
     "referencesBtn"
@@ -3957,9 +3976,9 @@ document.getElementById(
 );
 
 
-/* =========================================
-   BUTTONS
-========================================= */
+/* =====================================================
+   MAIN BUTTONS
+===================================================== */
 
 document.getElementById(
     "previousBtn"
@@ -3981,7 +4000,11 @@ document.getElementById(
     "saveBtn"
 ).addEventListener(
     "click",
-    ()=>saveProject(true)
+    function(){
+
+        saveProject(true);
+
+    }
 );
 
 
@@ -3989,7 +4012,11 @@ document.getElementById(
     "completeBtn"
 ).addEventListener(
     "click",
-    markComplete
+    function(){
+
+        markComplete();
+
+    }
 );
 
 
@@ -3997,7 +4024,13 @@ document.getElementById(
     "beginnerBtn"
 ).addEventListener(
     "click",
-    ()=>setMode("beginner")
+    function(){
+
+        setMode(
+            "beginner"
+        );
+
+    }
 );
 
 
@@ -4005,28 +4038,32 @@ document.getElementById(
     "professionalBtn"
 ).addEventListener(
     "click",
-    ()=>setMode("professional")
+    function(){
+
+        setMode(
+            "professional"
+        );
+
+    }
 );
 
 
-/* =========================================
-   EDITOR
-========================================= */
+/* =====================================================
+   EDITOR INPUT
+===================================================== */
 
 document.getElementById(
     "editor"
 ).addEventListener(
     "input",
-    ()=>{
+    function(){
 
         if(
             sections[currentIndex]
         ){
 
             sections[currentIndex].content =
-                document.getElementById(
-                    "editor"
-                ).innerHTML;
+                this.innerHTML;
 
         }
 
@@ -4036,9 +4073,9 @@ document.getElementById(
 );
 
 
-/* =========================================
+/* =====================================================
    AUTO SAVE
-========================================= */
+===================================================== */
 
 function startAutoSave(){
 
@@ -4076,9 +4113,9 @@ function startAutoSave(){
 }
 
 
-/* =========================================
+/* =====================================================
    ESCAPE
-========================================= */
+===================================================== */
 
 function escapeHTML(value){
 
@@ -4091,45 +4128,65 @@ function escapeHTML(value){
 
     }
 
+
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 function escapeAttribute(value){
 
-    return escapeHTML(value);
+    return escapeHTML(
+        value
+    );
 
 }
 
 
 function sanitizeFilename(filename){
 
-    return filename
-        .replace(
-            /[^a-zA-Z0-9._-]/g,
-            "_"
-        )
-        .replace(
-            /_+/g,
-            "_"
-        )
-        .substring(
-            0,
-            120
-        );
+    return String(
+        filename || "image"
+    )
+    .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+    )
+    .replace(
+        /_+/g,
+        "_"
+    )
+    .substring(
+        0,
+        120
+    );
 
 }
 
 
-/* =========================================
+/* =====================================================
    MESSAGE
-========================================= */
+===================================================== */
 
 function showMessageBox(
     text,
@@ -4146,7 +4203,8 @@ function showMessageBox(
         text;
 
 
-    message.className = "";
+    message.className =
+        "";
 
 
     message.classList.add(
@@ -4172,10 +4230,8 @@ function showMessageBox(
     message.hideTimer =
         setTimeout(
             ()=>{
-
                 message.style.display =
                     "none";
-
             },
             5000
         );
@@ -4183,9 +4239,58 @@ function showMessageBox(
 }
 
 
-/* =========================================
+/* =====================================================
+   GLOBAL ERROR HANDLING
+===================================================== */
+
+window.addEventListener(
+    "error",
+    function(event){
+
+        console.error(
+            "Global JavaScript Error:",
+            event.error || event.message
+        );
+
+        showMessageBox(
+            "JavaScript error: " +
+            (
+                event.message ||
+                "Unknown error."
+            ),
+            "error"
+        );
+
+    }
+);
+
+
+window.addEventListener(
+    "unhandledrejection",
+    function(event){
+
+        console.error(
+            "Unhandled Promise Error:",
+            event.reason
+        );
+
+        showMessageBox(
+            "Operation failed: " +
+            (
+                event.reason?.message ||
+                event.reason ||
+                "Unknown error."
+            ),
+            "error"
+        );
+
+    }
+);
+
+
+/* =====================================================
    LOAD PROJECT
-========================================= */
+===================================================== */
 
 async function loadProject(){
 
@@ -4240,9 +4345,7 @@ async function loadProject(){
             );
 
 
-        if(
-            snapshot.exists()
-        ){
+        if(snapshot.exists()){
 
             project = {
 
@@ -4273,15 +4376,11 @@ async function loadProject(){
                 };
 
 
+                const restoreData =
+                    createFirestoreProject();
+
+
                 try{
-
-                    const restoreData =
-                        cleanFirestoreData(
-                            makeLocalProject(
-                                project
-                            )
-                        );
-
 
                     await setDoc(
                         projectRef,
@@ -4294,7 +4393,7 @@ async function loadProject(){
                 }catch(restoreError){
 
                     console.warn(
-                        "Could not restore local project to Firestore:",
+                        "Could not restore local project:",
                         restoreError
                     );
 
@@ -4337,6 +4436,10 @@ async function loadProject(){
         buildSections();
 
 
+        let savedState =
+            loadBuilderState();
+
+
         if(
             Number.isInteger(
                 project.currentSection
@@ -4355,19 +4458,19 @@ async function loadProject(){
             currentIndex =
                 project.currentLesson;
 
-        }else{
-
-            const state =
-                loadBuilderState();
-
+        }else if(
+            savedState &&
+            Number.isInteger(
+                savedState.currentIndex
+            )
+        ){
 
             currentIndex =
-                state &&
-                Number.isInteger(
-                    state.currentIndex
-                )
-                ? state.currentIndex
-                : 0;
+                savedState.currentIndex;
+
+        }else{
+
+            currentIndex = 0;
 
         }
 
@@ -4390,18 +4493,19 @@ async function loadProject(){
             currentMode =
                 "professional";
 
-        }else{
-
-            const state =
-                loadBuilderState();
-
+        }else if(
+            savedState &&
+            savedState.mode ===
+            "professional"
+        ){
 
             currentMode =
-                state &&
-                state.mode ===
-                "professional"
-                ? "professional"
-                : "beginner";
+                "professional";
+
+        }else{
+
+            currentMode =
+                "beginner";
 
         }
 
@@ -4429,7 +4533,7 @@ async function loadProject(){
             "Could not load project: " +
             (
                 error?.message ||
-                "Unknown error."
+                "Unknown Firebase error."
             ),
             "error"
         );
@@ -4439,9 +4543,9 @@ async function loadProject(){
 }
 
 
-/* =========================================
+/* =====================================================
    AUTH
-========================================= */
+===================================================== */
 
 onAuthStateChanged(
     auth,
@@ -4468,7 +4572,6 @@ onAuthStateChanged(
                 "login.html"
             );
 
-
             return;
 
         }
@@ -4490,13 +4593,13 @@ onAuthStateChanged(
 );
 
 
-/* =========================================
-   MODAL BACKDROP
-========================================= */
+/* =====================================================
+   MODALS
+===================================================== */
 
 tableModal.addEventListener(
     "click",
-    event=>{
+    function(event){
 
         if(
             event.target ===
@@ -4513,7 +4616,7 @@ tableModal.addEventListener(
 
 figureModal.addEventListener(
     "click",
-    event=>{
+    function(event){
 
         if(
             event.target ===
@@ -4528,15 +4631,17 @@ figureModal.addEventListener(
 );
 
 
-/* =========================================
+/* =====================================================
    BEFORE UNLOAD
-========================================= */
+===================================================== */
 
 window.addEventListener(
     "beforeunload",
-    ()=>{
+    function(){
 
         saveCurrentToMemory();
+
+        saveLocalProject();
 
         saveBuilderState();
 
