@@ -20,7 +20,7 @@ body{
     line-height:1.7;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 header{
     position:sticky;
@@ -74,7 +74,7 @@ header{
     background:#059669 !important;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 main{
     width:100%;
@@ -83,7 +83,7 @@ main{
     padding:25px 16px 60px;
 }
 
-/* TOP CARD */
+/* ================= TOP CARD ================= */
 
 .top-card{
     background:white;
@@ -130,7 +130,7 @@ main{
     font-weight:600;
 }
 
-/* PROGRESS */
+/* ================= PROGRESS ================= */
 
 .progress-area{
     margin-top:22px;
@@ -157,7 +157,7 @@ main{
     transition:.4s;
 }
 
-/* DOCUMENT */
+/* ================= DOCUMENT ================= */
 
 .document{
     background:white;
@@ -165,7 +165,7 @@ main{
     box-shadow:0 6px 25px rgba(15,23,42,.08);
 }
 
-/* COVER */
+/* ================= COVER ================= */
 
 .cover{
     min-height:900px;
@@ -201,7 +201,7 @@ main{
     font-weight:700;
 }
 
-/* DOCUMENT CONTENT */
+/* ================= DOCUMENT CONTENT ================= */
 
 .document-section{
     padding:55px 70px;
@@ -255,17 +255,38 @@ main{
     color:#334155;
 }
 
-/* TOC */
+/* ================= TABLE OF CONTENTS ================= */
 
 .toc-item{
     display:flex;
     justify-content:space-between;
+    align-items:flex-start;
     gap:15px;
-    padding:8px 0;
+    padding:9px 0;
     border-bottom:1px dotted #cbd5e1;
 }
 
-/* LOADING */
+.toc-chapter{
+    font-weight:800;
+    color:#111827;
+    margin-top:12px;
+}
+
+.toc-section{
+    padding-left:28px;
+    font-size:14px;
+    color:#334155;
+}
+
+.toc-section span:first-child{
+    flex:1;
+}
+
+.toc-number{
+    min-width:28px;
+}
+
+/* ================= LOADING ================= */
 
 #loading{
     position:fixed;
@@ -280,7 +301,7 @@ main{
     font-size:18px;
 }
 
-/* ERROR */
+/* ================= ERROR ================= */
 
 #error{
     display:none;
@@ -293,7 +314,7 @@ main{
     text-align:center;
 }
 
-/* PRINT */
+/* ================= PRINT ================= */
 
 @media print{
 
@@ -330,9 +351,14 @@ main{
     .chapter{
         page-break-inside:avoid;
     }
+
+    .toc-chapter{
+        font-weight:800;
+    }
+
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:700px){
 
@@ -393,15 +419,26 @@ main{
     .document-section h3{
         font-size:18px;
     }
+
+    .toc-section{
+        padding-left:18px;
+        font-size:13px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
+<!-- ================= LOADING ================= -->
+
 <div id="loading">
     Loading Academic Project...
 </div>
+
+
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -411,15 +448,26 @@ main{
 
     <div class="header-actions">
 
-        <button onclick="goReview()">
+        <button
+            type="button"
+            onclick="goReview()"
+        >
             ← Review
         </button>
 
-        <button class="edit-btn" onclick="editProject()">
+        <button
+            type="button"
+            class="edit-btn"
+            onclick="editProject()"
+        >
             ✏️ Edit
         </button>
 
-        <button class="print-btn" onclick="printDocument()">
+        <button
+            type="button"
+            class="print-btn"
+            onclick="printDocument()"
+        >
             🖨️ PDF / Print
         </button>
 
@@ -427,9 +475,17 @@ main{
 
 </header>
 
+
+<!-- ================= ERROR ================= -->
+
 <div id="error"></div>
 
+
+<!-- ================= MAIN ================= -->
+
 <main>
+
+    <!-- ================= TOP PROJECT CARD ================= -->
 
     <section class="top-card">
 
@@ -437,53 +493,120 @@ main{
             Academic Project
         </h1>
 
-        <div class="project-type" id="projectType">
+        <div
+            class="project-type"
+            id="projectType"
+        >
             Loading...
         </div>
+
 
         <div class="meta-grid">
 
             <div class="meta-item">
-                <strong>Author</strong>
-                <span id="author">—</span>
+
+                <strong>
+                    Author
+                </strong>
+
+                <span id="author">
+                    —
+                </span>
+
             </div>
 
-            <div class="meta-item">
-                <strong>University / Institution</strong>
-                <span id="university">—</span>
-            </div>
 
             <div class="meta-item">
-                <strong>Faculty</strong>
-                <span id="faculty">—</span>
+
+                <strong>
+                    University / Institution
+                </strong>
+
+                <span id="university">
+                    —
+                </span>
+
             </div>
 
-            <div class="meta-item">
-                <strong>Department / Program</strong>
-                <span id="department">—</span>
-            </div>
 
             <div class="meta-item">
-                <strong>Supervisor</strong>
-                <span id="supervisor">—</span>
+
+                <strong>
+                    Faculty
+                </strong>
+
+                <span id="faculty">
+                    —
+                </span>
+
             </div>
 
+
             <div class="meta-item">
-                <strong>Academic Year</strong>
-                <span id="academicYear">—</span>
+
+                <strong>
+                    Department / Program
+                </strong>
+
+                <span id="department">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <strong>
+                    Supervisor
+                </strong>
+
+                <span id="supervisor">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="meta-item">
+
+                <strong>
+                    Academic Year
+                </strong>
+
+                <span id="academicYear">
+                    —
+                </span>
+
             </div>
 
         </div>
 
+
+        <!-- PROGRESS -->
+
         <div class="progress-area">
 
             <div class="progress-top">
-                <span>Project Progress</span>
-                <span id="progressText">0%</span>
+
+                <span>
+                    Project Progress
+                </span>
+
+                <span id="progressText">
+                    0%
+                </span>
+
             </div>
 
+
             <div class="progress">
-                <div class="progress-bar" id="progressBar"></div>
+
+                <div
+                    class="progress-bar"
+                    id="progressBar"
+                ></div>
+
             </div>
 
         </div>
@@ -491,13 +614,19 @@ main{
     </section>
 
 
-    <article class="document" id="document">
+    <!-- ================= DOCUMENT ================= -->
 
-        <!-- COVER -->
+    <article
+        class="document"
+        id="document"
+    >
+
+        <!-- ================= COVER ================= -->
 
         <section class="cover">
 
             <div>
+
                 <h2 id="coverInstitution">
                     UNIVERSITY / INSTITUTION
                 </h2>
@@ -514,27 +643,48 @@ main{
                     PROJECT TITLE
                 </h1>
 
+
                 <div class="cover-info">
 
                     <p>
-                        <strong>Author:</strong>
-                        <span id="coverAuthor">—</span>
+                        <strong>
+                            Author:
+                        </strong>
+
+                        <span id="coverAuthor">
+                            —
+                        </span>
                     </p>
 
-                    <p>
-                        <strong>Supervisor:</strong>
-                        <span id="coverSupervisor">—</span>
-                    </p>
 
                     <p>
-                        <strong>Academic Year:</strong>
-                        <span id="coverYear">—</span>
+                        <strong>
+                            Supervisor:
+                        </strong>
+
+                        <span id="coverSupervisor">
+                            —
+                        </span>
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            Academic Year:
+                        </strong>
+
+                        <span id="coverYear">
+                            —
+                        </span>
                     </p>
 
                 </div>
 
+
                 <div class="cover-footer">
+
                     BH Skills Hub Academic Book Builder
+
                 </div>
 
             </div>
@@ -542,71 +692,133 @@ main{
         </section>
 
 
-        <!-- PROJECT INFORMATION -->
+        <!-- ================= PROJECT INFORMATION ================= -->
 
         <section class="document-section">
 
-            <h2>Project Information</h2>
+            <h2>
+                Project Information
+            </h2>
+
 
             <p>
-                <strong>Project Type:</strong>
-                <span id="docType">—</span>
+                <strong>
+                    Project Type:
+                </strong>
+
+                <span id="docType">
+                    —
+                </span>
             </p>
 
-            <p>
-                <strong>Title:</strong>
-                <span id="docTitle">—</span>
-            </p>
 
             <p>
-                <strong>Author:</strong>
-                <span id="docAuthor">—</span>
+                <strong>
+                    Title:
+                </strong>
+
+                <span id="docTitle">
+                    —
+                </span>
             </p>
 
-            <p>
-                <strong>Institution:</strong>
-                <span id="docUniversity">—</span>
-            </p>
 
             <p>
-                <strong>Faculty:</strong>
-                <span id="docFaculty">—</span>
+                <strong>
+                    Author:
+                </strong>
+
+                <span id="docAuthor">
+                    —
+                </span>
             </p>
 
-            <p>
-                <strong>Department / Program:</strong>
-                <span id="docDepartment">—</span>
-            </p>
 
             <p>
-                <strong>Supervisor:</strong>
-                <span id="docSupervisor">—</span>
+                <strong>
+                    Institution:
+                </strong>
+
+                <span id="docUniversity">
+                    —
+                </span>
             </p>
 
+
             <p>
-                <strong>Academic Year:</strong>
-                <span id="docYear">—</span>
+                <strong>
+                    Faculty:
+                </strong>
+
+                <span id="docFaculty">
+                    —
+                </span>
+            </p>
+
+
+            <p>
+                <strong>
+                    Department / Program:
+                </strong>
+
+                <span id="docDepartment">
+                    —
+                </span>
+            </p>
+
+
+            <p>
+                <strong>
+                    Supervisor:
+                </strong>
+
+                <span id="docSupervisor">
+                    —
+                </span>
+            </p>
+
+
+            <p>
+                <strong>
+                    Academic Year:
+                </strong>
+
+                <span id="docYear">
+                    —
+                </span>
             </p>
 
         </section>
 
 
-        <!-- TABLE OF CONTENTS -->
+        <!-- ================= TABLE OF CONTENTS ================= -->
 
         <section class="document-section">
 
-            <h2>Table of Contents</h2>
+            <h2>
+                Table of Contents
+            </h2>
 
-            <div id="toc"></div>
+
+            <div id="toc">
+
+                <p class="empty">
+                    Loading table of contents...
+                </p>
+
+            </div>
 
         </section>
 
 
-        <!-- CONTENT -->
+        <!-- ================= ACADEMIC CONTENT ================= -->
 
         <section class="document-section">
 
-            <h2>Academic Content</h2>
+            <h2>
+                Academic Content
+            </h2>
+
 
             <div id="chaptersContainer"></div>
 
@@ -617,22 +829,26 @@ main{
 </main>
 
 
+<!-- ================= FIREBASE ================= -->
+
 <script type="module">
 
-/* =========================
-   FIREBASE
-========================= */
+/* =====================================================
+   FIREBASE IMPORTS
+===================================================== */
 
 import {
     initializeApp
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
+
 import {
     getAuth,
     onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
 
 import {
     getFirestore,
@@ -641,6 +857,10 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
@@ -665,24 +885,33 @@ const firebaseConfig = {
 };
 
 
+/* =====================================================
+   INITIALIZE FIREBASE
+===================================================== */
+
 const app =
-    initializeApp(firebaseConfig);
+    initializeApp(
+        firebaseConfig
+    );
+
 
 const auth =
     getAuth(app);
+
 
 const db =
     getFirestore(app);
 
 
-/* =========================
+/* =====================================================
    PROJECT ID
-========================= */
+===================================================== */
 
 const params =
     new URLSearchParams(
         window.location.search
     );
+
 
 const urlProjectId =
     params.get("id");
@@ -691,41 +920,77 @@ const urlProjectId =
 let projectId =
     urlProjectId;
 
-let project = null;
+
+let project =
+    null;
 
 
-/* =========================
+/* =====================================================
    HELPERS
-========================= */
+===================================================== */
 
 function escapeHTML(value){
 
-    if(value === null ||
-       value === undefined){
+    if(
+        value === null ||
+        value === undefined
+    ){
 
         return "";
 
     }
 
+
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
-function getValue(obj, keys){
+/* =====================================================
+   GET VALUE
+===================================================== */
 
-    for(const key of keys){
+function getValue(
+    obj,
+    keys
+){
+
+    for(
+        const key of keys
+    ){
 
         if(
             obj &&
             obj[key] !== undefined &&
             obj[key] !== null &&
-            String(obj[key]).trim() !== ""
+            String(
+                obj[key]
+            ).trim() !== ""
         ){
 
             return obj[key];
@@ -734,14 +999,15 @@ function getValue(obj, keys){
 
     }
 
+
     return "";
 
 }
 
 
-/* =========================
-   LOCAL FALLBACK
-========================= */
+/* =====================================================
+   LOCAL PROJECT
+===================================================== */
 
 function getLocalProject(){
 
@@ -752,7 +1018,13 @@ function getLocalProject(){
                 "bhAcademicProject"
             );
 
-        if(!raw) return null;
+
+        if(!raw){
+
+            return null;
+
+        }
+
 
         return JSON.parse(raw);
 
@@ -765,9 +1037,46 @@ function getLocalProject(){
 }
 
 
-/* =========================
+/* =====================================================
+   BUILDER STATE
+===================================================== */
+
+function getBuilderState(){
+
+    try{
+
+        const key =
+            "bhAcademicBuilderState_" +
+            projectId;
+
+
+        const raw =
+            localStorage.getItem(
+                key
+            );
+
+
+        if(!raw){
+
+            return {};
+
+        }
+
+
+        return JSON.parse(raw);
+
+    }catch{
+
+        return {};
+
+    }
+
+}
+
+
+/* =====================================================
    AUTH
-========================= */
+===================================================== */
 
 onAuthStateChanged(
     auth,
@@ -782,15 +1091,23 @@ onAuthStateChanged(
 
         }
 
+
         try{
+
+            /* =========================================
+               GET PROJECT ID
+            ========================================= */
 
             if(!projectId){
 
                 const localProject =
                     getLocalProject();
 
-                if(localProject &&
-                   localProject.id){
+
+                if(
+                    localProject &&
+                    localProject.id
+                ){
 
                     projectId =
                         localProject.id;
@@ -811,11 +1128,21 @@ onAuthStateChanged(
             }
 
 
-            await loadProject(user.uid);
+            /* =========================================
+               LOAD PROJECT
+            ========================================= */
+
+            await loadProject(
+                user.uid
+            );
 
         }catch(error){
 
-            console.error(error);
+            console.error(
+                "Academic Preview Error:",
+                error
+            );
+
 
             showError(
                 "Unable to load this academic project."
@@ -827,9 +1154,9 @@ onAuthStateChanged(
 );
 
 
-/* =========================
+/* =====================================================
    LOAD PROJECT
-========================= */
+===================================================== */
 
 async function loadProject(uid){
 
@@ -844,7 +1171,9 @@ async function loadProject(uid){
 
 
     const snap =
-        await getDoc(projectRef);
+        await getDoc(
+            projectRef
+        );
 
 
     if(!snap.exists()){
@@ -860,20 +1189,32 @@ async function loadProject(uid){
 
     project = {
 
-        id:snap.id,
+        id:
+            snap.id,
 
         ...snap.data()
 
     };
 
 
+    /* =========================================
+       SAVE LOCAL COPY
+    ========================================= */
+
     localStorage.setItem(
         "bhAcademicProject",
-        JSON.stringify(project)
+        JSON.stringify(
+            project
+        )
     );
 
 
+    /* =========================================
+       RENDER
+    ========================================= */
+
     renderProject();
+
 
     document.getElementById(
         "loading"
@@ -883,16 +1224,20 @@ async function loadProject(uid){
 }
 
 
-/* =========================
+/* =====================================================
    RENDER PROJECT
-========================= */
+===================================================== */
 
 function renderProject(){
 
     const title =
         getValue(
             project,
-            ["title","projectTitle","name"]
+            [
+                "title",
+                "projectTitle",
+                "name"
+            ]
         ) ||
         "Untitled Academic Project";
 
@@ -900,7 +1245,10 @@ function renderProject(){
     const type =
         getValue(
             project,
-            ["type","projectType"]
+            [
+                "type",
+                "projectType"
+            ]
         ) ||
         "Academic Project";
 
@@ -908,7 +1256,11 @@ function renderProject(){
     const author =
         getValue(
             project,
-            ["authorName","author","name"]
+            [
+                "authorName",
+                "author",
+                "name"
+            ]
         ) ||
         "—";
 
@@ -928,7 +1280,9 @@ function renderProject(){
     const faculty =
         getValue(
             project,
-            ["faculty"]
+            [
+                "faculty"
+            ]
         ) ||
         "—";
 
@@ -948,7 +1302,9 @@ function renderProject(){
     const supervisor =
         getValue(
             project,
-            ["supervisor"]
+            [
+                "supervisor"
+            ]
         ) ||
         "—";
 
@@ -964,42 +1320,51 @@ function renderProject(){
         "—";
 
 
-    /* TOP */
+    /* =================================================
+       TOP CARD
+    ================================================= */
 
     setText(
         "projectTitle",
         title
     );
 
+
     setText(
         "projectType",
         type
     );
+
 
     setText(
         "author",
         author
     );
 
+
     setText(
         "university",
         university
     );
+
 
     setText(
         "faculty",
         faculty
     );
 
+
     setText(
         "department",
         department
     );
 
+
     setText(
         "supervisor",
         supervisor
     );
+
 
     setText(
         "academicYear",
@@ -1007,37 +1372,45 @@ function renderProject(){
     );
 
 
-    /* COVER */
+    /* =================================================
+       COVER
+    ================================================= */
 
     setText(
         "coverInstitution",
         university
     );
 
+
     setText(
         "coverFaculty",
         faculty
     );
+
 
     setText(
         "coverDepartment",
         department
     );
 
+
     setText(
         "coverTitle",
         title
     );
+
 
     setText(
         "coverAuthor",
         author
     );
 
+
     setText(
         "coverSupervisor",
         supervisor
     );
+
 
     setText(
         "coverYear",
@@ -1045,48 +1418,61 @@ function renderProject(){
     );
 
 
-    /* DOCUMENT INFO */
+    /* =================================================
+       PROJECT INFORMATION
+    ================================================= */
 
     setText(
         "docType",
         type
     );
 
+
     setText(
         "docTitle",
         title
     );
+
 
     setText(
         "docAuthor",
         author
     );
 
+
     setText(
         "docUniversity",
         university
     );
+
 
     setText(
         "docFaculty",
         faculty
     );
 
+
     setText(
         "docDepartment",
         department
     );
+
 
     setText(
         "docSupervisor",
         supervisor
     );
 
+
     setText(
         "docYear",
         year
     );
 
+
+    /* =================================================
+       RENDER EVERYTHING
+    ================================================= */
 
     renderTOC();
 
@@ -1097,10 +1483,20 @@ function renderProject(){
 }
 
 
-function setText(id,value){
+/* =====================================================
+   SET TEXT
+===================================================== */
+
+function setText(
+    id,
+    value
+){
 
     const element =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
+
 
     if(element){
 
@@ -1112,104 +1508,18 @@ function setText(id,value){
 }
 
 
-/* =========================
-   CONTENT STATE
-========================= */
-
-function getBuilderState(){
-
-    try{
-
-        const key =
-            "bhAcademicBuilderState_" +
-            projectId;
-
-        const raw =
-            localStorage.getItem(key);
-
-        if(!raw) return {};
-
-        return JSON.parse(raw);
-
-    }catch{
-
-        return {};
-
-    }
-
-}
-
-
-/* =========================
-   RENDER TOC
-========================= */
-
-function renderTOC(){
-
-    const toc =
-        document.getElementById("toc");
-
-    toc.innerHTML = "";
-
-    const state =
-        getBuilderState();
-
-
-    const chapters =
-        getChapters(state);
-
-
-    if(chapters.length === 0){
-
-        toc.innerHTML =
-            `<p class="empty">
-                No chapters have been added yet.
-            </p>`;
-
-        return;
-
-    }
-
-
-    chapters.forEach(
-        (chapter,index)=>{
-
-            const row =
-                document.createElement("div");
-
-            row.className =
-                "toc-item";
-
-            row.innerHTML = `
-                <span>
-                    Chapter ${index + 1} —
-                    ${escapeHTML(
-                        chapter.title ||
-                        "Untitled Chapter"
-                    )}
-                </span>
-
-                <span>
-                    ${chapter.completed ? "✓" : "—"}
-                </span>
-            `;
-
-            toc.appendChild(row);
-
-        }
-    );
-
-}
-
-
-/* =========================
-   CHAPTER DATA
-========================= */
+/* =====================================================
+   GET CHAPTERS
+===================================================== */
 
 function getChapters(state){
 
     let chapters = [];
 
+
+    /*
+     * Firestore project chapters have priority.
+     */
 
     if(
         Array.isArray(
@@ -1223,9 +1533,16 @@ function getChapters(state){
     }
 
 
+    /*
+     * If Firestore does not contain chapters,
+     * use the local Chapter Builder state.
+     */
+
     if(
         chapters.length === 0 &&
-        Array.isArray(state.chapters)
+        Array.isArray(
+            state.chapters
+        )
     ){
 
         chapters =
@@ -1239,18 +1556,20 @@ function getChapters(state){
 }
 
 
-/* =========================
-   RENDER CHAPTERS
-========================= */
+/* =====================================================
+   RENDER TABLE OF CONTENTS
+===================================================== */
 
-function renderChapters(){
+function renderTOC(){
 
-    const container =
+    const toc =
         document.getElementById(
-            "chaptersContainer"
+            "toc"
         );
 
-    container.innerHTML = "";
+
+    toc.innerHTML =
+        "";
 
 
     const state =
@@ -1258,15 +1577,22 @@ function renderChapters(){
 
 
     const chapters =
-        getChapters(state);
+        getChapters(
+            state
+        );
 
 
-    if(chapters.length === 0){
+    /* =========================================
+       NO CHAPTERS
+    ========================================= */
 
-        container.innerHTML = `
+    if(
+        chapters.length === 0
+    ){
+
+        toc.innerHTML = `
             <p class="empty">
-                No chapter content has been added yet.
-                Return to Chapter Builder and add your content.
+                No chapters have been added yet.
             </p>
         `;
 
@@ -1275,13 +1601,212 @@ function renderChapters(){
     }
 
 
+    /* =========================================
+       RENDER CHAPTERS
+    ========================================= */
+
     chapters.forEach(
-        (chapter,index)=>{
+        function(
+            chapter,
+            index
+        ){
+
+            const chapterNumber =
+                index + 1;
+
+
+            const chapterTitle =
+                chapter.title ||
+                `Chapter ${chapterNumber}`;
+
+
+            /* =====================================
+               CHAPTER ROW
+            ===================================== */
+
+            const chapterRow =
+                document.createElement(
+                    "div"
+                );
+
+
+            chapterRow.className =
+                "toc-item toc-chapter";
+
+
+            chapterRow.innerHTML = `
+
+                <span>
+
+                    CHAPTER
+                    ${chapterNumber}:
+
+                    ${escapeHTML(
+                        chapterTitle
+                    )}
+
+                </span>
+
+
+                <span>
+
+                    ${
+                        chapter.completed
+                        ? "✓"
+                        : ""
+                    }
+
+                </span>
+
+            `;
+
+
+            toc.appendChild(
+                chapterRow
+            );
+
+
+            /* =====================================
+               SECTIONS
+            ===================================== */
+
+            const sections =
+                Array.isArray(
+                    chapter.sections
+                )
+                ? chapter.sections
+                : [];
+
+
+            sections.forEach(
+                function(
+                    section,
+                    sectionIndex
+                ){
+
+                    const sectionNumber =
+                        `${chapterNumber}.${sectionIndex + 1}`;
+
+
+                    const sectionTitle =
+                        section.title ||
+                        "Untitled Section";
+
+
+                    const sectionRow =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    sectionRow.className =
+                        "toc-item toc-section";
+
+
+                    sectionRow.innerHTML = `
+
+                        <span>
+
+                            ${sectionNumber}
+
+                            &nbsp;
+
+                            ${escapeHTML(
+                                sectionTitle
+                            )}
+
+                        </span>
+
+
+                        <span>
+
+                            ${
+                                section.completed
+                                ? "✓"
+                                : ""
+                            }
+
+                        </span>
+
+                    `;
+
+
+                    toc.appendChild(
+                        sectionRow
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RENDER CHAPTER CONTENT
+===================================================== */
+
+function renderChapters(){
+
+    const container =
+        document.getElementById(
+            "chaptersContainer"
+        );
+
+
+    container.innerHTML =
+        "";
+
+
+    const state =
+        getBuilderState();
+
+
+    const chapters =
+        getChapters(
+            state
+        );
+
+
+    if(
+        chapters.length === 0
+    ){
+
+        container.innerHTML = `
+
+            <p class="empty">
+
+                No chapter content has been added yet.
+
+                Return to Chapter Builder and add
+                your content.
+
+            </p>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* =========================================
+       CHAPTER LOOP
+    ========================================= */
+
+    chapters.forEach(
+        function(
+            chapter,
+            index
+        ){
 
             const wrapper =
                 document.createElement(
                     "div"
                 );
+
 
             wrapper.className =
                 "chapter";
@@ -1293,14 +1818,28 @@ function renderChapters(){
 
 
             let html = `
+
                 <div class="chapter-title">
+
                     <h2>
-                        Chapter ${index + 1}:
-                        ${escapeHTML(chapterTitle)}
+
+                        Chapter
+                        ${index + 1}:
+
+                        ${escapeHTML(
+                            chapterTitle
+                        )}
+
                     </h2>
+
                 </div>
+
             `;
 
+
+            /* =====================================
+               SECTION LOOP
+            ===================================== */
 
             const sections =
                 Array.isArray(
@@ -1310,52 +1849,93 @@ function renderChapters(){
                 : [];
 
 
-            if(sections.length){
+            if(
+                sections.length
+            ){
 
                 sections.forEach(
-                    section=>{
+                    function(
+                        section,
+                        sectionIndex
+                    ){
+
+                        const sectionNumber =
+                            `${index + 1}.${sectionIndex + 1}`;
+
 
                         html += `
+
                             <div class="subchapter">
 
                                 <h4>
+
+                                    ${sectionNumber}
+
+                                    &nbsp;
+
                                     ${escapeHTML(
                                         section.title ||
                                         "Section"
                                     )}
+
                                 </h4>
 
+
                                 <p>
+
                                     ${escapeHTML(
                                         section.content ||
                                         ""
                                     )}
+
                                 </p>
 
                             </div>
+
                         `;
 
                     }
                 );
 
-            }else if(
+            }
+
+            /* =====================================
+               CHAPTER DIRECT CONTENT
+            ===================================== */
+
+            else if(
                 chapter.content
             ){
 
                 html += `
+
                     <p>
+
                         ${escapeHTML(
                             chapter.content
                         )}
+
                     </p>
+
                 `;
 
-            }else{
+            }
+
+            /* =====================================
+               EMPTY CHAPTER
+            ===================================== */
+
+            else{
 
                 html += `
+
                     <p class="empty">
-                        No content has been added to this chapter yet.
+
+                        No content has been added
+                        to this chapter yet.
+
                     </p>
+
                 `;
 
             }
@@ -1363,6 +1943,7 @@ function renderChapters(){
 
             wrapper.innerHTML =
                 html;
+
 
             container.appendChild(
                 wrapper
@@ -1374,9 +1955,9 @@ function renderChapters(){
 }
 
 
-/* =========================
+/* =====================================================
    PROGRESS
-========================= */
+===================================================== */
 
 function updateProgress(){
 
@@ -1385,12 +1966,18 @@ function updateProgress(){
 
 
     const chapters =
-        getChapters(state);
+        getChapters(
+            state
+        );
 
 
-    if(!chapters.length){
+    if(
+        !chapters.length
+    ){
 
-        setProgress(0);
+        setProgress(
+            0
+        );
 
         return;
 
@@ -1399,8 +1986,13 @@ function updateProgress(){
 
     const completed =
         chapters.filter(
-            chapter =>
-                chapter.completed === true
+            function(chapter){
+
+                return (
+                    chapter.completed === true
+                );
+
+            }
         ).length;
 
 
@@ -1413,33 +2005,59 @@ function updateProgress(){
         );
 
 
-    setProgress(progress);
+    setProgress(
+        progress
+    );
 
 }
 
 
-function setProgress(progress){
+/* =====================================================
+   SET PROGRESS
+===================================================== */
 
-    document.getElementById(
-        "progressBar"
-    ).style.width =
+function setProgress(
+    progress
+){
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+
+    progressBar.style.width =
         progress + "%";
 
 
-    document.getElementById(
-        "progressText"
-    ).textContent =
+    progressText.textContent =
         progress + "%";
 
 }
 
 
-/* =========================
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
 window.goReview =
 function(){
+
+    if(!projectId){
+
+        window.location.href =
+            "review.html";
+
+        return;
+
+    }
+
 
     window.location.href =
         "review.html?id=" +
@@ -1452,6 +2070,16 @@ function(){
 
 window.editProject =
 function(){
+
+    if(!projectId){
+
+        window.location.href =
+            "chapter-builder.html";
+
+        return;
+
+    }
+
 
     window.location.href =
         "chapter-builder.html?id=" +
@@ -1470,15 +2098,21 @@ function(){
 };
 
 
-/* =========================
+/* =====================================================
    ERROR
-========================= */
+===================================================== */
 
-function showError(message){
+function showError(
+    message
+){
 
-    document.getElementById(
-        "loading"
-    ).style.display =
+    const loading =
+        document.getElementById(
+            "loading"
+        );
+
+
+    loading.style.display =
         "none";
 
 
@@ -1493,10 +2127,24 @@ function showError(message){
 
 
     error.innerHTML = `
-        <h2>Project Error</h2>
-        <p>${escapeHTML(message)}</p>
+
+        <h2>
+            Project Error
+        </h2>
+
+
+        <p>
+            ${escapeHTML(
+                message
+            )}
+        </p>
+
+
         <br>
+
+
         <button
+            type="button"
             onclick="goProjects()"
             style="
                 border:0;
@@ -1506,13 +2154,21 @@ function showError(message){
                 color:white;
                 font-weight:700;
                 cursor:pointer;
-            ">
+            "
+        >
+
             Back to My Projects
+
         </button>
+
     `;
 
 }
 
+
+/* =====================================================
+   MY PROJECTS
+===================================================== */
 
 window.goProjects =
 function(){
@@ -1525,4 +2181,4 @@ function(){
 </script>
 
 </body>
-</html>
+    </html>
