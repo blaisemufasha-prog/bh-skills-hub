@@ -592,6 +592,19 @@ header{
     color:white;
 }
 
+footer{
+    background:#111827;
+    color:#cbd5e1;
+    text-align:center;
+    padding:26px 15px;
+    margin-top:30px;
+    font-size:14px;
+}
+
+footer strong{
+    color:white;
+}
+
 @media(max-width:950px){
 
     .builder{
@@ -689,7 +702,6 @@ header{
 
 </div>
 
-
 <header>
 
     <div class="logo">
@@ -721,7 +733,6 @@ header{
     </div>
 
 </header>
-
 
 <div class="page">
 
@@ -759,7 +770,6 @@ header{
 
 </section>
 
-
 <div class="mode-bar">
 
     <button
@@ -776,9 +786,7 @@ header{
 
 </div>
 
-
 <div id="message"></div>
-
 
 <div class="builder">
 
@@ -809,7 +817,6 @@ header{
 
     </div>
 
-
     <h2>Sections</h2>
 
     <div
@@ -818,7 +825,6 @@ header{
     </div>
 
 </aside>
-
 
 <main class="editor-area">
 
@@ -836,7 +842,6 @@ header{
     </p>
 
 </div>
-
 
 <div
     id="guidedBox"
@@ -858,7 +863,6 @@ header{
     <p id="lessonMistakes"></p>
 
 </div>
-
 
 <div
     id="professionalBox"
@@ -882,7 +886,6 @@ header{
     </p>
 
 </div>
-
 
 <div class="toolbar">
 
@@ -968,14 +971,12 @@ header{
 
 </div>
 
-
 <div
     id="editor"
     class="editor"
     contenteditable="true"
     spellcheck="true">
 </div>
-
 
 <div class="actions">
 
@@ -1018,7 +1019,6 @@ header{
 </div>
 
 </div>
-
 
 <div id="tableModal" class="modal">
 
@@ -1093,7 +1093,6 @@ header{
 
 </div>
 
-
 <div id="figureModal" class="modal">
 
 <div class="modal-content">
@@ -1152,7 +1151,6 @@ header{
 
 </div>
 
-
 <footer>
 
     <strong>
@@ -1168,7 +1166,6 @@ header{
     Made by Blaise Hadari
 
 </footer>
-
 
 <script type="module">
 
@@ -1199,6 +1196,10 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
 
+
+/* =========================================
+   FIREBASE
+========================================= */
 
 const firebaseConfig = {
 
@@ -1236,6 +1237,10 @@ const storage =
     getStorage(app);
 
 
+/* =========================================
+   VARIABLES
+========================================= */
+
 let currentUser = null;
 let project = null;
 let projectRef = null;
@@ -1246,12 +1251,18 @@ let currentMode = "beginner";
 
 let autoSaveTimer = null;
 
+let isSaving = false;
+let saveAgain = false;
+
+
+/* =========================================
+   URL
+========================================= */
 
 const params =
     new URLSearchParams(
         window.location.search
     );
-
 
 const urlProjectId =
     params.get("id");
@@ -1303,17 +1314,14 @@ function getProjectId(){
         ? String(urlProjectId).trim()
         : "";
 
-
     if(cleanUrlId){
 
         return cleanUrlId;
 
     }
 
-
     const local =
         getLocalProject();
-
 
     if(
         local &&
@@ -1325,7 +1333,6 @@ function getProjectId(){
         ).trim();
 
     }
-
 
     return null;
 
@@ -1346,7 +1353,6 @@ function projectUrl(page){
         return page;
 
     }
-
 
     return (
         page +
@@ -1779,7 +1785,6 @@ how:"Organize chapters logically from basic concepts toward advanced ideas.",
 contain:"Sections, explanations, examples, figures and references.",
 example:"A networking book could progress from fundamentals to routing and security.",
 mistakes:"Avoid mixing unrelated topics."
-}
 
 };
 
@@ -1813,6 +1818,77 @@ function getLesson(title){
 
 
 /* =========================================
+   SAFE FIRESTORE CLEANER
+========================================= */
+
+function cleanFirestoreData(value){
+
+    if(value === undefined){
+
+        return undefined;
+
+    }
+
+    if(value === null){
+
+        return null;
+
+    }
+
+    if(
+        Array.isArray(value)
+    ){
+
+        return value
+            .map(
+                item =>
+                cleanFirestoreData(item)
+            )
+            .filter(
+                item =>
+                item !== undefined
+            );
+
+    }
+
+    if(
+        typeof value === "object" &&
+        !(value instanceof Date)
+    ){
+
+        const result = {};
+
+        Object.entries(value)
+            .forEach(
+                ([key,val])=>{
+
+                    const cleaned =
+                        cleanFirestoreData(
+                            val
+                        );
+
+                    if(
+                        cleaned !== undefined
+                    ){
+
+                        result[key] =
+                            cleaned;
+
+                    }
+
+                }
+            );
+
+        return result;
+
+    }
+
+    return value;
+
+}
+
+
+/* =========================================
    NORMALIZE SECTIONS
 ========================================= */
 
@@ -1822,7 +1898,75 @@ function normalizeSections(rawSections){
         Array.isArray(rawSections)
     ){
 
-        return rawSections;
+        return rawSections
+            .filter(
+                item =>
+                item !== null &&
+                item !== undefined
+            )
+            .map(
+                (item,index)=>{
+
+                    if(
+                        typeof item === "string"
+                    ){
+
+                        return {
+
+                            id:
+                            "section_" + index,
+
+                            title:
+                            item,
+
+                            key:
+                            item,
+
+                            content:"",
+
+                            completed:false
+
+                        };
+
+                    }
+
+                    return {
+
+                        id:
+                        String(
+                            item.id ||
+                            "section_" + index
+                        ),
+
+                        title:
+                        String(
+                            item.title ||
+                            item.key ||
+                            "Section " +
+                            (index + 1)
+                        ),
+
+                        key:
+                        String(
+                            item.key ||
+                            item.title ||
+                            "Section " +
+                            (index + 1)
+                        ),
+
+                        content:
+                        typeof item.content ===
+                        "string"
+                        ? item.content
+                        : "",
+
+                        completed:
+                        item.completed === true
+
+                    };
+
+                }
+            );
 
     }
 
@@ -1839,7 +1983,6 @@ function normalizeSections(rawSections){
 
                 const item =
                     rawSections[key];
-
 
                 if(
                     typeof item === "string"
@@ -1862,21 +2005,47 @@ function normalizeSections(rawSections){
 
                 }
 
+                if(
+                    !item ||
+                    typeof item !== "object"
+                ){
+
+                    return {
+
+                        id:key,
+
+                        title:key,
+
+                        key:key,
+
+                        content:"",
+
+                        completed:false
+
+                    };
+
+                }
 
                 return {
 
                     id:
-                    item.id ||
-                    key,
+                    String(
+                        item.id ||
+                        key
+                    ),
 
                     title:
-                    item.title ||
-                    key,
+                    String(
+                        item.title ||
+                        key
+                    ),
 
                     key:
-                    item.key ||
-                    item.title ||
-                    key,
+                    String(
+                        item.key ||
+                        item.title ||
+                        key
+                    ),
 
                     content:
                     typeof item.content ===
@@ -1910,17 +2079,14 @@ function buildSections(){
         project.type ||
         "University Thesis";
 
-
     const structure =
         structures[type] ||
         structures["University Thesis"];
-
 
     const existing =
         normalizeSections(
             project.sections
         );
-
 
     sections =
         structure.map(
@@ -1929,7 +2095,7 @@ function buildSections(){
                 const saved =
                     existing.find(
                         item =>
-                        item.id ===
+                        String(item.id) ===
                         "section_" + index
                     ) ||
                     existing.find(
@@ -1940,7 +2106,6 @@ function buildSections(){
                         item =>
                         item.key === title
                     );
-
 
                 return {
 
@@ -1982,13 +2147,11 @@ function renderProjectInfo(){
         project.title ||
         "Untitled Academic Project";
 
-
     document.getElementById(
         "projectType"
     ).textContent =
         project.type ||
         "Academic Project";
-
 
     document.getElementById(
         "projectAuthor"
@@ -1999,14 +2162,12 @@ function renderProjectInfo(){
         currentUser.email ||
         "-";
 
-
     document.getElementById(
         "projectInstitution"
     ).textContent =
         project.university ||
         project.institution ||
         "-";
-
 
     document.getElementById(
         "projectDepartment"
@@ -2015,14 +2176,12 @@ function renderProjectInfo(){
         project.program ||
         "-";
 
-
     document.getElementById(
         "projectYear"
     ).textContent =
         project.academicYear ||
         project.year ||
         "-";
-
 
     document.getElementById(
         "reviewLink"
@@ -2045,9 +2204,7 @@ function renderSidebar(){
             "sectionList"
         );
 
-
     list.innerHTML = "";
-
 
     sections.forEach(
         (section,index)=>{
@@ -2057,10 +2214,8 @@ function renderSidebar(){
                     "div"
                 );
 
-
             item.className =
                 "section-item";
-
 
             if(
                 index === currentIndex
@@ -2072,7 +2227,6 @@ function renderSidebar(){
 
             }
 
-
             if(
                 section.completed
             ){
@@ -2083,11 +2237,9 @@ function renderSidebar(){
 
             }
 
-
             item.innerHTML =
                 `${section.completed ? "✅" : "📘"}
                  ${escapeHTML(section.title)}`;
-
 
             item.addEventListener(
                 "click",
@@ -2104,7 +2256,6 @@ function renderSidebar(){
 
                 }
             );
-
 
             list.appendChild(item);
 
@@ -2126,7 +2277,6 @@ function renderCurrentSection(){
 
     }
 
-
     if(
         currentIndex < 0 ||
         currentIndex >= sections.length
@@ -2136,22 +2286,18 @@ function renderCurrentSection(){
 
     }
 
-
     const section =
         sections[currentIndex];
-
 
     document.getElementById(
         "sectionTitle"
     ).textContent =
         section.title;
 
-
     document.getElementById(
         "editor"
     ).innerHTML =
         section.content || "";
-
 
     updateLesson();
 
@@ -2160,6 +2306,8 @@ function renderCurrentSection(){
     updateNavigation();
 
     renderSidebar();
+
+    updateCompleteButton();
 
 }
 
@@ -2173,36 +2321,36 @@ function updateLesson(){
     const section =
         sections[currentIndex];
 
+    if(!section){
+
+        return;
+
+    }
 
     const lesson =
         getLesson(
             section.key
         );
 
-
     document.getElementById(
         "lessonWhat"
     ).textContent =
         lesson.what;
-
 
     document.getElementById(
         "lessonHow"
     ).textContent =
         lesson.how;
 
-
     document.getElementById(
         "lessonContain"
     ).textContent =
         lesson.contain;
 
-
     document.getElementById(
         "lessonExample"
     ).textContent =
         lesson.example;
-
 
     document.getElementById(
         "lessonMistakes"
@@ -2219,44 +2367,41 @@ function updateLesson(){
 function setMode(mode){
 
     currentMode =
-        mode;
-
+        mode === "professional"
+        ? "professional"
+        : "beginner";
 
     document.getElementById(
         "beginnerBtn"
     ).classList.toggle(
         "active",
-        mode === "beginner"
+        currentMode === "beginner"
     );
-
 
     document.getElementById(
         "professionalBtn"
     ).classList.toggle(
         "active",
-        mode === "professional"
+        currentMode === "professional"
     );
-
 
     document.getElementById(
         "guidedBox"
     ).style.display =
-        mode === "beginner"
+        currentMode === "beginner"
         ? "block"
         : "none";
-
 
     document.getElementById(
         "professionalBox"
     ).style.display =
-        mode === "professional"
+        currentMode === "professional"
         ? "block"
         : "none";
 
-
     localStorage.setItem(
         "bhAcademicBuilderMode",
-        mode
+        currentMode
     );
 
 }
@@ -2274,9 +2419,7 @@ function(command,value=null){
             "editor"
         );
 
-
     editor.focus();
-
 
     document.execCommand(
         command,
@@ -2300,15 +2443,12 @@ function(tag){
 
     }
 
-
     const editor =
         document.getElementById(
             "editor"
         );
 
-
     editor.focus();
-
 
     document.execCommand(
         "formatBlock",
@@ -2331,9 +2471,7 @@ function(){
             "editor"
         );
 
-
     editor.focus();
-
 
     document.execCommand(
         "removeFormat",
@@ -2350,17 +2488,28 @@ function(){
 
 async function saveCurrentToMemory(){
 
-    if(!sections.length){
+    if(
+        !sections.length ||
+        !sections[currentIndex]
+    ){
 
         return;
 
     }
 
-
-    sections[currentIndex].content =
+    const editor =
         document.getElementById(
             "editor"
-        ).innerHTML;
+        );
+
+    if(!editor){
+
+        return;
+
+    }
+
+    sections[currentIndex].content =
+        editor.innerHTML;
 
 }
 
@@ -2380,7 +2529,6 @@ function builderStateKey(){
 
     }
 
-
     return (
         "bhAcademicBuilderState_" +
         project.id
@@ -2394,28 +2542,37 @@ function saveBuilderState(){
     const key =
         builderStateKey();
 
-
     if(!key){
 
         return;
 
     }
 
+    try{
 
-    localStorage.setItem(
-        key,
-        JSON.stringify({
+        localStorage.setItem(
+            key,
+            JSON.stringify({
 
-            currentIndex,
+                currentIndex,
 
-            mode:
-            currentMode,
+                mode:
+                currentMode,
 
-            updatedAt:
-            new Date().toISOString()
+                updatedAt:
+                new Date().toISOString()
 
-        })
-    );
+            })
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Builder state save failed:",
+            error
+        );
+
+    }
 
 }
 
@@ -2425,13 +2582,11 @@ function loadBuilderState(){
     const key =
         builderStateKey();
 
-
     if(!key){
 
         return null;
 
     }
-
 
     try{
 
@@ -2439,7 +2594,6 @@ function loadBuilderState(){
             localStorage.getItem(
                 key
             );
-
 
         return saved
             ? JSON.parse(saved)
@@ -2518,9 +2672,7 @@ function makeLocalProject(data){
         "",
 
         sections:
-        Array.isArray(data.sections)
-        ? data.sections
-        : normalizeSections(
+        normalizeSections(
             data.sections
         ),
 
@@ -2530,7 +2682,9 @@ function makeLocalProject(data){
         : [],
 
         progress:
-        data.progress || 0
+        Number(
+            data.progress || 0
+        )
 
     };
 
@@ -2548,7 +2702,6 @@ function saveLocalProject(){
         return;
 
     }
-
 
     try{
 
@@ -2574,12 +2727,187 @@ function saveLocalProject(){
 
 
 /* =========================================
+   CREATE CLEAN FIRESTORE PROJECT
+========================================= */
+
+function createFirestoreProject(){
+
+    const safeSections =
+        sections.map(
+            (section,index)=>({
+
+                id:
+                String(
+                    section?.id ||
+                    "section_" + index
+                ),
+
+                title:
+                String(
+                    section?.title ||
+                    "Section " +
+                    (index + 1)
+                ),
+
+                key:
+                String(
+                    section?.key ||
+                    section?.title ||
+                    "Section " +
+                    (index + 1)
+                ),
+
+                content:
+                typeof section?.content ===
+                "string"
+                ? section.content
+                : "",
+
+                completed:
+                section?.completed === true
+
+            })
+        );
+
+    const data = {
+
+        id:
+        String(
+            project?.id || ""
+        ),
+
+        title:
+        String(
+            project?.title || ""
+        ),
+
+        type:
+        String(
+            project?.type || ""
+        ),
+
+        authorName:
+        String(
+            project?.authorName ||
+            project?.author ||
+            ""
+        ),
+
+        author:
+        String(
+            project?.author ||
+            project?.authorName ||
+            ""
+        ),
+
+        university:
+        String(
+            project?.university ||
+            project?.institution ||
+            ""
+        ),
+
+        institution:
+        String(
+            project?.institution ||
+            project?.university ||
+            ""
+        ),
+
+        faculty:
+        String(
+            project?.faculty || ""
+        ),
+
+        department:
+        String(
+            project?.department || ""
+        ),
+
+        program:
+        String(
+            project?.program || ""
+        ),
+
+        supervisor:
+        String(
+            project?.supervisor || ""
+        ),
+
+        academicYear:
+        String(
+            project?.academicYear ||
+            project?.year ||
+            ""
+        ),
+
+        year:
+        String(
+            project?.year ||
+            project?.academicYear ||
+            ""
+        ),
+
+        ownerId:
+        String(
+            project?.ownerId ||
+            currentUser?.uid ||
+            ""
+        ),
+
+        sections:
+        safeSections,
+
+        currentSection:
+        Number.isInteger(currentIndex)
+        ? currentIndex
+        : 0,
+
+        currentLesson:
+        Number.isInteger(currentIndex)
+        ? currentIndex
+        : 0,
+
+        builderMode:
+        currentMode === "professional"
+        ? "professional"
+        : "beginner",
+
+        progress:
+        calculateProgress(),
+
+        lastUpdated:
+        new Date().toISOString()
+
+    };
+
+    return cleanFirestoreData(
+        data
+    );
+
+}
+
+
+/* =========================================
    SAVE PROJECT
 ========================================= */
 
 async function saveProject(
     showMessage = true
 ){
+
+    if(
+        !currentUser
+    ){
+
+        showMessageBox(
+            "You are not logged in. Please login again.",
+            "error"
+        );
+
+        return false;
+
+    }
 
     if(
         !project ||
@@ -2595,8 +2923,31 @@ async function saveProject(
 
     }
 
+    if(!sections.length){
+
+        showMessageBox(
+            "No project sections are available.",
+            "error"
+        );
+
+        return false;
+
+    }
+
 
     await saveCurrentToMemory();
+
+
+    if(isSaving){
+
+        saveAgain = true;
+
+        return false;
+
+    }
+
+
+    isSaving = true;
 
 
     const saveBtn =
@@ -2613,42 +2964,46 @@ async function saveProject(
 
     try{
 
-        project.sections =
-            sections;
+        const firestoreProject =
+            createFirestoreProject();
 
 
-        project.currentSection =
-            currentIndex;
+        if(
+            !firestoreProject ||
+            typeof firestoreProject !==
+            "object"
+        ){
 
+            throw new Error(
+                "Could not prepare project data."
+            );
 
-        project.currentLesson =
-            currentIndex;
-
-
-        project.builderMode =
-            currentMode;
-
-
-        project.progress =
-            calculateProgress();
-
-
-        project.lastUpdated =
-            new Date().toISOString();
+        }
 
 
         await setDoc(
             projectRef,
-            project,
+            firestoreProject,
             {
                 merge:true
             }
         );
 
 
+        project = {
+
+            ...project,
+
+            ...firestoreProject
+
+        };
+
+
         saveLocalProject();
 
         saveBuilderState();
+
+        updateProgress();
 
 
         if(showMessage){
@@ -2661,9 +3016,8 @@ async function saveProject(
         }
 
 
-        updateProgress();
-
         return true;
+
 
     }catch(error){
 
@@ -2674,21 +3028,41 @@ async function saveProject(
 
 
         showMessageBox(
-            "Could not save the project: " +
-            error.message,
+            "Save failed: " +
+            (
+                error?.message ||
+                "Unknown Firebase error."
+            ),
             "error"
         );
 
 
         return false;
 
+
     }finally{
+
+        isSaving = false;
 
         saveBtn.disabled =
             false;
 
         saveBtn.textContent =
             "💾 Save Section";
+
+
+        if(saveAgain){
+
+            saveAgain = false;
+
+            setTimeout(
+                ()=>{
+                    saveProject(false);
+                },
+                100
+            );
+
+        }
 
     }
 
@@ -2701,34 +3075,176 @@ async function saveProject(
 
 async function markComplete(){
 
-    if(!sections.length){
+    if(!currentUser){
+
+        showMessageBox(
+            "You are not logged in. Please login again.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if(
+        !project ||
+        !projectRef
+    ){
+
+        showMessageBox(
+            "Project is not loaded.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if(
+        !sections.length ||
+        !sections[currentIndex]
+    ){
+
+        showMessageBox(
+            "This section is not available.",
+            "error"
+        );
 
         return;
 
     }
 
 
-    await saveCurrentToMemory();
-
-
-    sections[currentIndex].completed =
-        true;
-
-
-    const saved =
-        await saveProject(
-            false
+    const completeBtn =
+        document.getElementById(
+            "completeBtn"
         );
 
 
-    if(saved){
+    completeBtn.disabled = true;
+
+    completeBtn.textContent =
+        "Saving...";
+
+
+    try{
+
+        await saveCurrentToMemory();
+
+
+        sections[currentIndex].completed =
+            true;
+
+
+        const saved =
+            await saveProject(false);
+
+
+        if(!saved){
+
+            sections[currentIndex].completed =
+                false;
+
+            return;
+
+        }
+
 
         showMessageBox(
             "Section marked as complete.",
             "success"
         );
 
+
         renderCurrentSection();
+
+
+        setTimeout(
+            ()=>{
+
+                if(
+                    currentIndex <
+                    sections.length - 1
+                ){
+
+                    showMessageBox(
+                        "Great! You can now continue to the next section.",
+                        "info"
+                    );
+
+                }
+
+            },
+            600
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Mark complete error:",
+            error
+        );
+
+
+        sections[currentIndex].completed =
+            false;
+
+
+        showMessageBox(
+            "Could not mark section complete: " +
+            (
+                error?.message ||
+                "Unknown error."
+            ),
+            "error"
+        );
+
+
+    }finally{
+
+        completeBtn.disabled =
+            false;
+
+        completeBtn.textContent =
+            "✅ Mark Complete";
+
+    }
+
+}
+
+
+/* =========================================
+   COMPLETE BUTTON STATE
+========================================= */
+
+function updateCompleteButton(){
+
+    const button =
+        document.getElementById(
+            "completeBtn"
+        );
+
+    if(
+        !button ||
+        !sections[currentIndex]
+    ){
+
+        return;
+
+    }
+
+    if(
+        sections[currentIndex].completed
+    ){
+
+        button.textContent =
+            "✅ Section Completed";
+
+    }else{
+
+        button.textContent =
+            "✅ Mark Complete";
 
     }
 
@@ -2747,13 +3263,12 @@ function calculateProgress(){
 
     }
 
-
     const completed =
         sections.filter(
             section =>
+            section &&
             section.completed === true
         ).length;
-
 
     return Math.round(
         (
@@ -2770,18 +3285,15 @@ function updateProgress(){
     const progress =
         calculateProgress();
 
-
     document.getElementById(
         "progressBar"
     ).style.width =
         progress + "%";
 
-
     document.getElementById(
         "progressText"
     ).textContent =
         progress + "%";
-
 
     if(project){
 
@@ -2804,7 +3316,6 @@ function updateNavigation(){
     ).disabled =
         currentIndex === 0;
 
-
     document.getElementById(
         "nextBtn"
     ).disabled =
@@ -2816,60 +3327,94 @@ function updateNavigation(){
 
 async function nextSection(){
 
-    await saveCurrentToMemory();
-
-    await saveProject(false);
-
-
     if(
-        currentIndex <
+        currentIndex >=
         sections.length - 1
     ){
-
-        currentIndex++;
-
-        saveBuilderState();
-
-        renderCurrentSection();
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-    }else{
 
         showMessageBox(
             "You are on the final section of this project.",
             "info"
         );
 
+        return;
+
     }
+
+
+    await saveCurrentToMemory();
+
+
+    const saved =
+        await saveProject(false);
+
+
+    if(!saved){
+
+        showMessageBox(
+            "The current section could not be saved. Please try again.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    currentIndex++;
+
+    saveBuilderState();
+
+    renderCurrentSection();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
 
 async function previousSection(){
 
-    await saveCurrentToMemory();
+    if(
+        currentIndex <= 0
+    ){
 
-    await saveProject(false);
-
-
-    if(currentIndex > 0){
-
-        currentIndex--;
-
-        saveBuilderState();
-
-        renderCurrentSection();
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
+        return;
 
     }
+
+
+    await saveCurrentToMemory();
+
+
+    const saved =
+        await saveProject(false);
+
+
+    if(!saved){
+
+        showMessageBox(
+            "The current section could not be saved. Please try again.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    currentIndex--;
+
+    saveBuilderState();
+
+    renderCurrentSection();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
@@ -2889,7 +3434,11 @@ document.getElementById(
 ).addEventListener(
     "click",
     ()=>{
-        tableModal.classList.add("show");
+
+        tableModal.classList.add(
+            "show"
+        );
+
     }
 );
 
@@ -3053,7 +3602,9 @@ document.getElementById(
 ).addEventListener(
     "click",
     ()=>{
-        figureModal.classList.add("show");
+        figureModal.classList.add(
+            "show"
+        );
     }
 );
 
@@ -3097,6 +3648,11 @@ async function uploadFigure(){
         !currentUser ||
         !project
     ){
+
+        showMessageBox(
+            "Project is not loaded.",
+            "error"
+        );
 
         return;
 
@@ -3239,7 +3795,20 @@ async function uploadFigure(){
         );
 
 
-        await saveProject(false);
+        await saveCurrentToMemory();
+
+
+        const saved =
+            await saveProject(false);
+
+
+        if(!saved){
+
+            throw new Error(
+                "The figure uploaded, but the project content could not be saved."
+            );
+
+        }
 
 
         closeFigure();
@@ -3271,7 +3840,10 @@ async function uploadFigure(){
 
         showMessageBox(
             "Figure upload failed: " +
-            error.message,
+            (
+                error?.message ||
+                "Unknown error."
+            ),
             "error"
         );
 
@@ -3298,9 +3870,7 @@ function insertHTMLAtCursor(html){
             "editor"
         );
 
-
     editor.focus();
-
 
     document.execCommand(
         "insertHTML",
@@ -3367,6 +3937,11 @@ document.getElementById(
     ()=>{
 
         if(!project){
+
+            showMessageBox(
+                "Project is not loaded.",
+                "error"
+            );
 
             return;
 
@@ -3483,7 +4058,9 @@ function startAutoSave(){
                 if(
                     currentUser &&
                     project &&
-                    projectRef
+                    projectRef &&
+                    sections.length &&
+                    !isSaving
                 ){
 
                     await saveCurrentToMemory();
@@ -3513,7 +4090,6 @@ function escapeHTML(value){
         return "";
 
     }
-
 
     return String(value)
         .replace(/&/g,"&amp;")
@@ -3596,8 +4172,10 @@ function showMessageBox(
     message.hideTimer =
         setTimeout(
             ()=>{
+
                 message.style.display =
                     "none";
+
             },
             5000
         );
@@ -3646,12 +4224,6 @@ async function loadProject(){
 
     try{
 
-        /*
-         * IMPORTANT:
-         * Always use the authenticated user's UID
-         * and the exact ID from the URL.
-         */
-
         projectRef =
             doc(
                 db,
@@ -3682,12 +4254,6 @@ async function loadProject(){
 
         }else{
 
-            /*
-             * FALLBACK:
-             * Check local project only when its ID
-             * is exactly the same as the URL ID.
-             */
-
             const local =
                 getLocalProject();
 
@@ -3707,16 +4273,19 @@ async function loadProject(){
                 };
 
 
-                /*
-                 * Try to restore the missing Firestore
-                 * document from the local project.
-                 */
-
                 try{
+
+                    const restoreData =
+                        cleanFirestoreData(
+                            makeLocalProject(
+                                project
+                            )
+                        );
+
 
                     await setDoc(
                         projectRef,
-                        project,
+                        restoreData,
                         {
                             merge:true
                         }
@@ -3756,33 +4325,17 @@ async function loadProject(){
         }
 
 
-        /*
-         * Normalize project ID.
-         */
-
         project.id =
             String(
                 project.id
             ).trim();
 
 
-        /*
-         * Save latest project locally.
-         */
-
         saveLocalProject();
 
 
-        /*
-         * Build sections.
-         */
-
         buildSections();
 
-
-        /*
-         * Current section.
-         */
 
         if(
             Number.isInteger(
@@ -3829,10 +4382,6 @@ async function loadProject(){
         }
 
 
-        /*
-         * Mode.
-         */
-
         if(
             project.builderMode ===
             "professional"
@@ -3878,7 +4427,10 @@ async function loadProject(){
 
         showMessageBox(
             "Could not load project: " +
-            error.message,
+            (
+                error?.message ||
+                "Unknown error."
+            ),
             "error"
         );
 
@@ -3994,4 +4546,4 @@ window.addEventListener(
 </script>
 
 </body>
-</html>
+    </html>
