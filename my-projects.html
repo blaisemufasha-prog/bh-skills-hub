@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Projects - BH Skills Hub</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#1f2937;
+    min-height:100vh;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background:#0f172a;
+    color:white;
+    padding:16px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.header-btn{
+    text-decoration:none;
+    color:white;
+    background:#1e293b;
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:14px;
+    border:1px solid #334155;
+    transition:.2s;
+}
+
+.header-btn:hover{
+    background:#334155;
+}
+
+.logout-btn{
+    background:#dc2626;
+    border:none;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    transition:.2s;
+}
+
+.logout-btn:hover{
+    background:#b91c1c;
+}
+
+.logout-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:35px auto;
+}
+
+.page-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.page-top h1{
+    font-size:32px;
+    color:#0f172a;
+}
+
+.page-top p{
+    color:#64748b;
+    margin-top:7px;
+}
+
+.create-btn{
+    background:#2563eb;
+    color:white;
+    text-decoration:none;
+    padding:13px 20px;
+    border-radius:9px;
+    font-weight:bold;
+    display:inline-block;
+    transition:.2s;
+}
+
+.create-btn:hover{
+    background:#1d4ed8;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    margin-bottom:25px;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    background:white;
+}
+
+.search-box input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.10);
+}
+
+/* ================= STATUS ================= */
+
+.status{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    display:none;
+    border-left:5px solid #2563eb;
+}
+
+.status.error{
+    border-left-color:#dc2626;
+    color:#dc2626;
+}
+
+.status.success{
+    border-left-color:#16a34a;
+    color:#15803d;
+}
+
+/* ================= PROJECT GRID ================= */
+
+.projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:20px;
+}
+
+/* ================= PROJECT CARD ================= */
+
+.project-card{
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(15,23,42,0.08);
+    border:1px solid #e2e8f0;
+    transition:.2s;
+}
+
+.project-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(15,23,42,0.12);
+}
+
+.project-icon{
+    width:55px;
+    height:55px;
+    border-radius:12px;
+    background:#eff6ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.project-type{
+    display:inline-block;
+    background:#e0f2fe;
+    color:#0369a1;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.project-card h2{
+    font-size:20px;
+    color:#0f172a;
+    margin-bottom:12px;
+    line-height:1.35;
+    word-break:break-word;
+}
+
+.project-info{
+    color:#64748b;
+    font-size:14px;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+.project-info strong{
+    color:#334155;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-area{
+    margin:15px 0;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.progress-bar{
+    height:9px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:#2563eb;
+    border-radius:20px;
+    transition:width .3s;
+}
+
+/* ================= ACTIONS ================= */
+
+.project-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:18px;
+}
+
+.action-btn{
+    border:none;
+    text-decoration:none;
+    padding:11px 8px;
+    border-radius:8px;
+    text-align:center;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.preview-btn{
+    background:#0f766e;
+    color:white;
+}
+
+.delete-btn{
+    background:#fee2e2;
+    color:#b91c1c;
+    grid-column:1 / -1;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}
+
+.preview-btn:hover{
+    background:#115e59;
+}
+
+.delete-btn:hover{
+    background:#fecaca;
+}
+
+.action-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    background:white;
+    border-radius:15px;
+    padding:50px 20px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(15,23,42,0.06);
+}
+
+.empty-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.empty h2{
+    margin-bottom:10px;
+    color:#0f172a;
+}
+
+.empty p{
+    color:#64748b;
+    margin-bottom:20px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    text-align:center;
+    padding:50px;
+    color:#64748b;
+}
+
+/* ================= DELETE MODAL ================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:9999;
+}
+
+.delete-modal{
+    background:white;
+    width:100%;
+    max-width:420px;
+    border-radius:16px;
+    padding:28px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    animation:modalIn .2s ease;
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:scale(.92);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+.delete-icon{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#fee2e2;
+    margin:0 auto 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+}
+
+.delete-modal h2{
+    color:#111827;
+    margin-bottom:10px;
+}
+
+.delete-modal p{
+    color:#64748b;
+    line-height:1.5;
+    margin-bottom:10px;
+}
+
+.delete-project-name{
+    background:#f8fafc;
+    padding:10px;
+    border-radius:8px;
+    margin:15px 0 22px;
+    color:#111827;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+}
+
+.modal-btn{
+    flex:1;
+    border:none;
+    padding:13px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.no-btn{
+    background:#e2e8f0;
+    color:#334155;
+}
+
+.yes-btn{
+    background:#dc2626;
+    color:white;
+}
+
+.no-btn:hover{
+    background:#cbd5e1;
+}
+
+.yes-btn:hover{
+    background:#b91c1c;
+}
+
+.modal-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    header{
+        padding:15px 4%;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .container{
+        width:92%;
+        margin:25px auto;
+    }
+
+    .page-top h1{
+        font-size:27px;
+    }
+
+    .create-btn{
+        width:100%;
+        text-align:center;
+    }
+
+    .project-actions{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .header-actions{
+        width:100%;
+    }
+
+    .header-btn,
+    .logout-btn{
+        flex:1;
+        text-align:center;
+    }
+
+}
+
+@media(max-width:400px){
+
+    .project-actions{
+        grid-template-columns:1fr;
+    }
+
+    .delete-btn{
+        grid-column:auto;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        BH <span>Skills Hub</span>
+    </div>
+
+    <div class="header-actions">
+
+        <a
+            href="student-dashboard.html"
+            class="header-btn"
+        >
+            🏠 Dashboard
+        </a>
+
+        <a
+            href="book-builder.html"
+            class="header-btn"
+        >
+            ➕ New Project
+        </a>
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-top">
+
+        <div>
+
+            <h1>
+                My Projects
+            </h1>
+
+            <p>
+                Manage your academic projects and continue building them.
+            </p>
+
+        </div>
+
+
+        <a
+            href="book-builder.html"
+            class="create-btn"
+        >
+            ➕ Create New Project
+        </a>
+
+    </div>
+
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search project by title, type, author, university..."
+            autocomplete="off"
+        >
+
+    </div>
+
+
+    <div
+        id="status"
+        class="status"
+    ></div>
+
+
+    <div id="projectsContainer">
+
+        <div class="loading">
+            Loading your projects...
+        </div>
+
+    </div>
+
+</main>
+
+
+<script type="module">
+
+/* =========================================
+   FIREBASE IMPORTS
+========================================= */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    deleteDoc
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+/* =========================================
+   INITIALIZE FIREBASE
+========================================= */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentUser = null;
+
+let projects = [];
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const projectsContainer =
+    document.getElementById(
+        "projectsContainer"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
+
+const logoutBtn =
+    document.getElementById(
+        "logoutBtn"
+    );
+
+
+/* =========================================
+   STATUS MESSAGE
+========================================= */
+
+let statusTimer = null;
+
+function showStatus(
+    message,
+    type = ""
+){
+
+    clearTimeout(statusTimer);
+
+
+    statusBox.textContent =
+        message;
+
+
+    statusBox.className =
+        "status";
+
+
+    if(type){
+
+        statusBox.classList.add(
+            type
+        );
+
+    }
+
+
+    statusBox.style.display =
+        "block";
+
+
+    statusTimer =
+        setTimeout(
+            () => {
+
+                statusBox.style.display =
+                    "none";
+
+            },
+            4000
+        );
+
+}
+
+
+/* =========================================
+   PROJECT ICON
+========================================= */
+
+function getProjectIcon(type){
+
+    if(
+        type ===
+        "University Thesis"
+    ){
+
+        return "🎓";
+
+    }
+
+
+    if(
+        type ===
+        "Final Year Project"
+    ){
+
+        return "💻";
+
+    }
+
+
+    if(
+        type ===
+        "Research Proposal"
+    ){
+
+        return "🔬";
+
+    }
+
+
+    if(
+        type ===
+        "Academic Book"
+    ){
+
+        return "📖";
+
+    }
+
+
+    return "📁";
+
+}
+
+
+/* =========================================
+   PROJECT STRUCTURE
+========================================= */
+
+function getStructure(type){
+
+    const thesis = [
+
+        "Cover Page",
+        "Declaration",
+        "Approval",
+        "Dedication",
+        "Acknowledgement",
+        "Table of Contents",
+        "List of Figures",
+        "List of Tables",
+        "Abbreviations",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+        "Background of the Study",
+        "Problem Statement",
+        "Objectives",
+        "Research Questions",
+        "Significance of the Study",
+        "Scope of the Study",
+        "Definition of Key Terms",
+
+        "Chapter 2 — Literature Review",
+        "Theoretical Review",
+        "Conceptual Framework",
+        "Empirical Review",
+        "Research Gap",
+
+        "Chapter 3 — Methodology",
+        "Research Design",
+        "Study Population",
+        "Sample Size and Sampling",
+        "Data Collection Methods",
+        "Data Analysis",
+        "Ethical Considerations",
+        "Limitations",
+
+        "Chapter 4 — Results / Findings",
+        "Data Presentation",
+        "Findings",
+        "Discussion",
+
+        "Chapter 5 — Conclusion",
+        "Summary of Findings",
+        "Conclusion",
+        "Recommendations",
+        "Suggestions for Further Research",
+
+        "References",
+        "Appendices"
+
+    ];
+
+
+    const finalProject = [
+
+        "Project Information",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+
+        "Chapter 2 — Literature Review",
+
+        "Chapter 3 — System Analysis & Design",
+
+        "Chapter 4 — Implementation",
+
+        "Chapter 5 — Testing & Evaluation",
+
+        "Conclusion & Recommendations",
+
+        "References",
+        "Appendices"
+
+    ];
+
+
+    const proposal = [
+
+        "Project Information",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+
+        "Chapter 2 — Literature Review",
+
+        "Chapter 3 — Research Methodology",
+
+        "Work Plan / Timeline",
+
+        "Budget",
+
+        "References",
+        "Appendices"
+
+    ];
+
+
+    const book = [
+
+        "Project Information",
+        "Preface",
+        "Acknowledgement",
+        "Table of Contents",
+        "Introduction",
+        "Book Chapters",
+        "Conclusion",
+        "References",
+        "Appendices"
+
+    ];
+
+
+    if(
+        type ===
+        "University Thesis"
+    ){
+
+        return thesis;
+
+    }
+
+
+    if(
+        type ===
+        "Final Year Project"
+    ){
+
+        return finalProject;
+
+    }
+
+
+    if(
+        type ===
+        "Research Proposal"
+    ){
+
+        return proposal;
+
+    }
+
+
+    if(
+        type ===
+        "Academic Book"
+    ){
+
+        return book;
+
+    }
+
+
+    return thesis;
+
+}
+
+
+/* =========================================
+   CALCULATE PROGRESS
+========================================= */
+
+function calculateProgress(project){
+
+    const structure =
+        getStructure(
+            project.type
+        );
+
+
+    const sections =
+        project.sections || {};
+
+
+    if(
+        structure.length === 0
+    ){
+
+        return 0;
+
+    }
+
+
+    let completed = 0;
+
+
+    structure.forEach(
+        section => {
+
+            const content =
+                sections[section];
+
+
+            if(
+                content &&
+                String(content)
+                    .replace(
+                        /<[^>]*>/g,
+                        ""
+                    )
+                    .trim()
+                    .length > 0
+            ){
+
+                completed++;
+
+            }
+
+        }
+    );
+
+
+    return Math.round(
+        (
+            completed /
+            structure.length
+        ) * 100
+    );
+
+}
+
+
+/* =========================================
+   MAKE LOCAL PROJECT
+========================================= */
+
+function makeLocalProject(
+    project
+){
+
+    return {
+
+        id:
+            project.id,
+
+        type:
+            project.type || "",
+
+        title:
+            project.title || "",
+
+        author:
+            project.author || "",
+
+        university:
+            project.university || "",
+
+        faculty:
+            project.faculty || "",
+
+        department:
+            project.department || "",
+
+        supervisor:
+            project.supervisor || "",
+
+        year:
+            project.year || "",
+
+        ownerId:
+            project.ownerId ||
+            currentUser.uid,
+
+        sections:
+            project.sections || {},
+
+        references:
+            Array.isArray(
+                project.references
+            )
+                ? project.references
+                : []
+
+    };
+
+}
+
+
+/* =========================================
+   SAVE ACTIVE LOCAL PROJECT
+========================================= */
+
+function saveActiveLocalProject(
+    project
+){
+
+    try{
+
+        localStorage.setItem(
+            "bhAcademicProject",
+            JSON.stringify(
+                makeLocalProject(project)
+            )
+        );
+
+    }catch(error){
+
+        console.error(
+            "Local storage error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   LOAD PROJECTS
+========================================= */
+
+async function loadProjects(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    projectsContainer.innerHTML = `
+
+        <div class="loading">
+            Loading your projects...
+        </div>
+
+    `;
+
+
+    try{
+
+        const projectsRef =
+            collection(
+                db,
+                "users",
+                currentUser.uid,
+                "projects"
+            );
+
+
+        const snapshot =
+            await getDocs(
+                projectsRef
+            );
+
+
+        projects = [];
+
+
+        snapshot.forEach(
+            item => {
+
+                projects.push({
+
+                    id:
+                        item.id,
+
+                    ...item.data()
+
+                });
+
+            }
+        );
+
+
+        /* =====================================
+           NEWEST FIRST
+        ===================================== */
+
+        projects.sort(
+            (a,b) => {
+
+                const dateA =
+                    getDateValue(
+                        a.createdAt
+                    );
+
+
+                const dateB =
+                    getDateValue(
+                        b.createdAt
+                    );
+
+
+                return dateB - dateA;
+
+            }
+        );
+
+
+        renderProjects(
+            projects
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Load projects error:",
+            error
+        );
+
+
+        projectsContainer.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Could Not Load Projects
+                </h2>
+
+                <p>
+                    ${escapeHTML(
+                        error.message
+                    )}
+                </p>
+
+                <button
+                    class="create-btn"
+                    id="retryBtn"
+                    type="button"
+                >
+                    🔄 Try Again
+                </button>
+
+            </div>
+
+        `;
+
+
+        const retryBtn =
+            document.getElementById(
+                "retryBtn"
+            );
+
+
+        if(retryBtn){
+
+            retryBtn.onclick =
+                loadProjects;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================
+   DATE VALUE
+========================================= */
+
+function getDateValue(
+    value
+){
+
+    if(!value){
+
+        return 0;
+
+    }
+
+
+    try{
+
+        if(
+            typeof value.toMillis ===
+            "function"
+        ){
+
+            return value.toMillis();
+
+        }
+
+
+        if(
+            value instanceof Date
+        ){
+
+            return value.getTime();
+
+        }
+
+
+        if(
+            typeof value === "string"
+        ){
+
+            const time =
+                new Date(
+                    value
+                ).getTime();
+
+
+            return Number.isNaN(
+                time
+            )
+                ? 0
+                : time;
+
+        }
+
+
+        if(
+            typeof value === "number"
+        ){
+
+            return value;
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Date conversion error:",
+            error
+        );
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =========================================
+   RENDER PROJECTS
+========================================= */
+
+function renderProjects(
+    list
+){
+
+    if(
+        !list ||
+        list.length === 0
+    ){
+
+        projectsContainer.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📂
+                </div>
+
+                <h2>
+                    No Projects Found
+                </h2>
+
+                <p>
+                    You haven't created an academic project yet.
+                </p>
+
+                <a
+                    href="book-builder.html"
+                    class="create-btn"
+                >
+                    ➕ Create Your First Project
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const grid =
+        document.createElement(
+            "div"
+        );
+
+
+    grid.className =
+        "projects-grid";
+
+
+    list.forEach(
+        project => {
+
+            const progress =
+                calculateProgress(
+                    project
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "project-card";
+
+
+            const icon =
+                getProjectIcon(
+                    project.type
+                );
+
+
+            card.innerHTML = `
+
+                <div class="project-icon">
+                    ${icon}
+                </div>
+
+
+                <div class="project-type">
+                    ${escapeHTML(
+                        project.type ||
+                        "Academic Project"
+                    )}
+                </div>
+
+
+                <h2>
+                    ${escapeHTML(
+                        project.title ||
+                        "Untitled Project"
+                    )}
+                </h2>
+
+
+                <div class="project-info">
+
+                    <div>
+                        👤
+                        <strong>Author:</strong>
+                        ${escapeHTML(
+                            project.author ||
+                            "Not specified"
+                        )}
+                    </div>
+
+                    <div>
+                        🏫
+                        <strong>University:</strong>
+                        ${escapeHTML(
+                            project.university ||
+                            "Not specified"
+                        )}
+                    </div>
+
+                    <div>
+                        🎓
+                        <strong>Faculty:</strong>
+                        ${escapeHTML(
+                            project.faculty ||
+                            "Not specified"
+                        )}
+                    </div>
+
+                    <div>
+                        📚
+                        <strong>Department:</strong>
+                        ${escapeHTML(
+                            project.department ||
+                            "Not specified"
+                        )}
+                    </div>
+
+                    <div>
+                        📅
+                        <strong>Year:</strong>
+                        ${escapeHTML(
+                            project.year ||
+                            "Not specified"
+                        )}
+                    </div>
+
+                </div>
+
+
+                <div class="progress-area">
+
+                    <div class="progress-header">
+
+                        <span>
+                            Project Progress
+                        </span>
+
+                        <span>
+                            ${progress}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:${progress}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-actions">
+
+                    <a
+                        href="chapter-builder.html?id=${encodeURIComponent(project.id)}"
+                        class="action-btn edit-btn"
+                        data-project-id="${escapeHTML(project.id)}"
+                    >
+                        ✏️ Continue Editing
+                    </a>
+
+
+                    <button
+                        class="action-btn preview-btn"
+                        type="button"
+                        data-preview-id="${escapeHTML(project.id)}"
+                    >
+                        👁️ Preview
+                    </button>
+
+
+                    <button
+                        class="action-btn delete-btn"
+                        type="button"
+                        data-delete-id="${escapeHTML(project.id)}"
+                    >
+                        🗑️ Delete Project
+                    </button>
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    projectsContainer.innerHTML = "";
+
+    projectsContainer.appendChild(
+        grid
+    );
+
+
+    /* =====================================
+       EDIT BUTTONS
+    ===================================== */
+
+    document
+        .querySelectorAll(
+            "[data-project-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        const projectId =
+                            this.getAttribute(
+                                "data-project-id"
+                            );
+
+
+                        const project =
+                            projects.find(
+                                item =>
+                                    item.id ===
+                                    projectId
+                            );
+
+
+                        if(project){
+
+                            saveActiveLocalProject(
+                                project
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================
+       PREVIEW BUTTONS
+    ===================================== */
+
+    document
+        .querySelectorAll(
+            "[data-preview-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        const projectId =
+                            this.getAttribute(
+                                "data-preview-id"
+                            );
+
+
+                        const project =
+                            projects.find(
+                                item =>
+                                    item.id ===
+                                    projectId
+                            );
+
+
+                        if(!project){
+
+                            showStatus(
+                                "Project could not be found.",
+                                "error"
+                            );
+
+                            return;
+
+                        }
+
+
+                        saveActiveLocalProject(
+                            project
+                        );
+
+
+                        localStorage.setItem(
+                            "bhPreviewProject",
+                            JSON.stringify(
+                                makeLocalProject(
+                                    project
+                                )
+                            )
+                        );
+
+
+                        window.location.href =
+                            `preview.html?id=${encodeURIComponent(
+                                project.id
+                            )}`;
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =====================================
+       DELETE BUTTONS
+    ===================================== */
+
+    document
+        .querySelectorAll(
+            "[data-delete-id]"
+        )
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    function(){
+
+                        const projectId =
+                            this.getAttribute(
+                                "data-delete-id"
+                            );
+
+
+                        const project =
+                            projects.find(
+                                item =>
+                                    item.id ===
+                                    projectId
+                            );
+
+
+                        if(project){
+
+                            deleteProject(
+                                project
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================================
+   DELETE PROJECT
+========================================= */
+
+function deleteProject(
+    project
+){
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+
+    overlay.className =
+        "modal-overlay";
+
+
+    overlay.innerHTML = `
+
+        <div
+            class="delete-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteTitle"
+        >
+
+            <div class="delete-icon">
+                🗑️
+            </div>
+
+
+            <h2 id="deleteTitle">
+                Delete Project?
+            </h2>
+
+
+            <p>
+                Are you sure you want to delete this file?
+            </p>
+
+
+            <div class="delete-project-name">
+                ${escapeHTML(
+                    project.title ||
+                    "Untitled Project"
+                )}
+            </div>
+
+
+            <p>
+                This action cannot be undone.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="modal-btn no-btn"
+                    id="cancelDelete"
+                    type="button"
+                >
+                    NO
+                </button>
+
+
+                <button
+                    class="modal-btn yes-btn"
+                    id="confirmDelete"
+                    type="button"
+                >
+                    YES
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const cancelBtn =
+        overlay.querySelector(
+            "#cancelDelete"
+        );
+
+
+    const confirmBtn =
+        overlay.querySelector(
+            "#confirmDelete"
+        );
+
+
+    /* =====================================
+       NO
+    ===================================== */
+
+    cancelBtn.onclick =
+        function(){
+
+            overlay.remove();
+
+        };
+
+
+    /* =====================================
+       YES
+    ===================================== */
+
+    confirmBtn.onclick =
+        async function(){
+
+            if(!currentUser){
+
+                overlay.remove();
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            try{
+
+                cancelBtn.disabled =
+                    true;
+
+                confirmBtn.disabled =
+                    true;
+
+                confirmBtn.textContent =
+                    "Deleting...";
+
+
+                const projectRef =
+                    doc(
+                        db,
+                        "users",
+                        currentUser.uid,
+                        "projects",
+                        project.id
+                    );
+
+
+                /* DELETE FROM FIRESTORE */
+
+                await deleteDoc(
+                    projectRef
+                );
+
+
+                /* REMOVE FROM ARRAY */
+
+                projects =
+                    projects.filter(
+                        item =>
+                            item.id !==
+                            project.id
+                    );
+
+
+                /* =====================================
+                   REMOVE ACTIVE LOCAL PROJECT
+                ===================================== */
+
+                const academicProject =
+                    localStorage.getItem(
+                        "bhAcademicProject"
+                    );
+
+
+                if(academicProject){
+
+                    try{
+
+                        const localProject =
+                            JSON.parse(
+                                academicProject
+                            );
+
+
+                        if(
+                            localProject.id ===
+                            project.id
+                        ){
+
+                            localStorage.removeItem(
+                                "bhAcademicProject"
+                            );
+
+                        }
+
+                    }catch(error){
+
+                        console.error(
+                            "Local project error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                /* =====================================
+                   REMOVE PREVIEW PROJECT
+                ===================================== */
+
+                const previewProject =
+                    localStorage.getItem(
+                        "bhPreviewProject"
+                    );
+
+
+                if(previewProject){
+
+                    try{
+
+                        const localPreview =
+                            JSON.parse(
+                                previewProject
+                            );
+
+
+                        if(
+                            localPreview.id ===
+                            project.id
+                        ){
+
+                            localStorage.removeItem(
+                                "bhPreviewProject"
+                            );
+
+                        }
+
+                    }catch(error){
+
+                        console.error(
+                            "Local preview error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                /* =====================================
+                   REMOVE PROJECT-SPECIFIC BUILDER STATE
+                ===================================== */
+
+                localStorage.removeItem(
+                    `bhAcademicBuilderState_${project.id}`
+                );
+
+
+                /* CLOSE MODAL */
+
+                overlay.remove();
+
+
+                /* REFRESH */
+
+                renderProjects(
+                    getFilteredProjects()
+                );
+
+
+                showStatus(
+                    "Project deleted successfully.",
+                    "success"
+                );
+
+
+            }catch(error){
+
+                console.error(
+                    "Delete project error:",
+                    error
+                );
+
+
+                cancelBtn.disabled =
+                    false;
+
+                confirmBtn.disabled =
+                    false;
+
+                confirmBtn.textContent =
+                    "YES";
+
+
+                showStatus(
+                    "Failed to delete project: " +
+                    error.message,
+                    "error"
+                );
+
+            }
+
+        };
+
+
+    /* =====================================
+       CLOSE OUTSIDE
+    ===================================== */
+
+    overlay.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                overlay
+            ){
+
+                overlay.remove();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================
+       ESC KEY
+    ===================================== */
+
+    function escapeModal(event){
+
+        if(
+            event.key ===
+            "Escape"
+        ){
+
+            overlay.remove();
+
+            document.removeEventListener(
+                "keydown",
+                escapeModal
+            );
+
+        }
+
+    }
+
+
+    document.addEventListener(
+        "keydown",
+        escapeModal
+    );
+
+}
+
+
+/* =========================================
+   FILTER PROJECTS
+========================================= */
+
+function getFilteredProjects(){
+
+    const search =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+
+    if(!search){
+
+        return projects;
+
+    }
+
+
+    return projects.filter(
+        project => {
+
+            const text = `
+
+                ${project.title || ""}
+
+                ${project.type || ""}
+
+                ${project.author || ""}
+
+                ${project.university || ""}
+
+                ${project.faculty || ""}
+
+                ${project.department || ""}
+
+                ${project.year || ""}
+
+                ${project.supervisor || ""}
+
+            `.toLowerCase();
+
+
+            return text.includes(
+                search
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        renderProjects(
+            getFilteredProjects()
+        );
+
+    }
+);
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(
+    value
+){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+logoutBtn.addEventListener(
+    "click",
+    async function(){
+
+        try{
+
+            logoutBtn.disabled =
+                true;
+
+            logoutBtn.textContent =
+                "Logging out...";
+
+
+            await signOut(
+                auth
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+
+            logoutBtn.disabled =
+                false;
+
+            logoutBtn.textContent =
+                "Logout";
+
+
+            showStatus(
+                "Logout failed: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+onAuthStateChanged(
+    auth,
+    async function(user){
+
+        if(!user){
+
+            window.location.replace(
+                "login.html"
+            );
+
+            return;
+
+        }
+
+
+        currentUser =
+            user;
+
+
+        await loadProjects();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Review Project - BH Skills Hub</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+header{
+    background:#0b1f3a;
+    color:white;
+    padding:18px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+header a{
+    color:white;
+    text-decoration:none;
+    background:#1d4ed8;
+    padding:10px 16px;
+    border-radius:8px;
+}
+
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    margin-bottom:25px;
+}
+
+.hero h1{
+    margin-bottom:10px;
+    color:#0b1f3a;
+}
+
+.hero p{
+    color:#64748b;
+    line-height:1.6;
+}
+
+.project-name{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.progress-card{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    margin-bottom:25px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.progress-number{
+    font-size:28px;
+    font-weight:bold;
+    color:#1d4ed8;
+}
+
+.progress-bar{
+    width:100%;
+    height:18px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#2563eb;
+    border-radius:20px;
+    transition:.5s;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+}
+
+.stat-icon{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.stat-number{
+    font-size:27px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.stat-label{
+    color:#64748b;
+}
+
+.section-card{
+    background:white;
+    border-radius:16px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    margin-bottom:25px;
+}
+
+.section-card h2{
+    margin-bottom:18px;
+}
+
+.section-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px;
+    border-bottom:1px solid #eee;
+    gap:15px;
+}
+
+.section-item:last-child{
+    border-bottom:none;
+}
+
+.section-name{
+    flex:1;
+    font-weight:500;
+}
+
+.completed{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.missing{
+    color:#dc2626;
+    font-weight:bold;
+}
+
+.status{
+    min-width:90px;
+    text-align:center;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.btn{
+    border:none;
+    text-decoration:none;
+    padding:14px 20px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+}
+
+.primary{
+    background:#2563eb;
+    color:white;
+}
+
+.secondary{
+    background:#0f172a;
+    color:white;
+}
+
+.light{
+    background:#e2e8f0;
+    color:#172033;
+}
+
+.message{
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+    padding:15px;
+    margin-top:20px;
+    border-radius:8px;
+    display:none;
+}
+
+.loading{
+    text-align:center;
+    padding:40px;
+    color:#64748b;
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:15px;
+    }
+
+    .container{
+        width:94%;
+        margin:20px auto;
+    }
+
+    .hero{
+        padding:22px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .section-item{
+        align-items:flex-start;
+    }
+
+    .status{
+        min-width:auto;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .btn{
+        text-align:center;
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">BH Skills Hub</div>
+
+    <a href="dashboard.html">
+        Dashboard
+    </a>
+</header>
+
+<div class="container">
+
+    <div id="loading" class="loading">
+        Loading your project...
+    </div>
+
+    <div id="content" style="display:none;">
+
+        <div class="hero">
+
+            <h1>📋 Review Your Project</h1>
+
+            <p>
+                Review your academic project before moving to
+                preview and export. Make sure all required sections
+                are completed.
+            </p>
+
+            <div class="project-name" id="projectName">
+                Project
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-card">
+
+            <div class="progress-top">
+
+                <div>
+                    <strong>Overall Completion</strong>
+                </div>
+
+                <div class="progress-number" id="progressNumber">
+                    0%
+                </div>
+
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-icon">📚</div>
+
+                <div
+                    class="stat-number"
+                    id="referenceCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    References
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">📊</div>
+
+                <div
+                    class="stat-number"
+                    id="tableCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Tables
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">🖼️</div>
+
+                <div
+                    class="stat-number"
+                    id="figureCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Figures
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SECTIONS -->
+
+        <div class="section-card">
+
+            <h2>📑 Project Sections</h2>
+
+            <div id="sectionsList"></div>
+
+            <div
+                id="reviewMessage"
+                class="message">
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <a
+                href="chapter-builder.html"
+                class="btn primary">
+                ✏️ Continue Editing
+            </a>
+
+            <button
+                class="btn secondary"
+                onclick="openPreview()">
+                👁️ Preview Project
+            </button>
+
+            <a
+                href="references.html"
+                class="btn light">
+                📚 Manage References
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+};
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================
+   PROJECT STRUCTURES
+========================= */
+
+const structures = {
+
+    "University Thesis":[
+
+        "Cover Page",
+        "Declaration",
+        "Approval",
+        "Dedication",
+        "Acknowledgement",
+        "Table of Contents",
+        "List of Figures",
+        "List of Tables",
+        "Abbreviations",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+        "Background of the Study",
+        "Problem Statement",
+        "Objectives",
+        "Research Questions",
+        "Significance of the Study",
+        "Scope of the Study",
+        "Definition of Key Terms",
+
+        "Chapter 2 — Literature Review",
+        "Theoretical Review",
+        "Conceptual Framework",
+        "Empirical Review",
+        "Research Gap",
+
+        "Chapter 3 — Methodology",
+        "Research Design",
+        "Study Population",
+        "Sample Size and Sampling",
+        "Data Collection Methods",
+        "Data Analysis",
+        "Ethical Considerations",
+        "Limitations",
+
+        "Chapter 4 — Results / Findings",
+        "Data Presentation",
+        "Findings",
+        "Discussion",
+
+        "Chapter 5 — Conclusion",
+        "Summary of Findings",
+        "Conclusion",
+        "Recommendations",
+        "Suggestions for Further Research",
+
+        "References",
+        "Appendices"
+    ],
+
+
+    "Final Year Project":[
+
+        "Project Information",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+
+        "Chapter 2 — Literature Review",
+
+        "Chapter 3 — System Analysis & Design",
+
+        "Chapter 4 — Implementation",
+
+        "Chapter 5 — Testing & Evaluation",
+
+        "Conclusion & Recommendations",
+
+        "References",
+        "Appendices"
+    ],
+
+
+    "Research Proposal":[
+
+        "Project Information",
+        "Abstract",
+
+        "Chapter 1 — Introduction",
+
+        "Chapter 2 — Literature Review",
+
+        "Chapter 3 — Research Methodology",
+
+        "Work Plan / Timeline",
+        "Budget",
+
+        "References",
+        "Appendices"
+    ],
+
+
+    "Academic Book":[
+
+        "Project Information",
+        "Preface",
+        "Acknowledgement",
+        "Table of Contents",
+        "Introduction",
+        "Book Chapters",
+        "Conclusion",
+        "References",
+        "Appendices"
+    ]
+
+};
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let project = null;
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(auth, async (user) => {
+
+    if(!user){
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+    await loadProject(user);
+
+});
+
+
+/* =========================
+   LOAD PROJECT
+========================= */
+
+async function loadProject(user){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "bhAcademicProject"
+            );
+
+        if(!saved){
+
+            window.location.href =
+                "book-builder.html";
+
+            return;
+        }
+
+        const localProject =
+            JSON.parse(saved);
+
+
+        const projectRef = doc(
+            db,
+            "users",
+            user.uid,
+            "projects",
+            localProject.id
+        );
+
+
+        const snap =
+            await getDoc(projectRef);
+
+
+        if(snap.exists()){
+
+            project = {
+                ...localProject,
+                ...snap.data()
+            };
+
+        }else{
+
+            project = localProject;
+
+        }
+
+
+        renderProject();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to load your project."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   RENDER PROJECT
+========================= */
+
+function renderProject(){
+
+    document.getElementById(
+        "loading"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "content"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "projectName"
+    ).textContent =
+        project.title ||
+        "Untitled Project";
+
+
+    const sections =
+        project.sections || {};
+
+
+    const structure =
+        structures[project.type] ||
+        [];
+
+
+    renderSections(
+        structure,
+        sections
+    );
+
+
+    calculateProgress(
+        structure,
+        sections
+    );
+
+
+    countReferences();
+
+    countTables();
+
+    countFigures();
+
+}
+
+
+/* =========================
+   RENDER SECTIONS
+========================= */
+
+function renderSections(
+    structure,
+    sections
+){
+
+    const container =
+        document.getElementById(
+            "sectionsList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if(structure.length === 0){
+
+        container.innerHTML =
+            "<p>No structure found.</p>";
+
+        return;
+    }
+
+
+    structure.forEach(
+        (section) => {
+
+            const content =
+                sections[section];
+
+
+            const completed =
+                content &&
+                content.trim &&
+                content.trim().length > 0;
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "section-item";
+
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+            name.className =
+                "section-name";
+
+            name.textContent =
+                section;
+
+
+            const status =
+                document.createElement(
+                    "div"
+                );
+
+            status.className =
+                "status " +
+                (completed
+                    ? "completed"
+                    : "missing");
+
+
+            status.textContent =
+                completed
+                    ? "✓ Done"
+                    : "⚠ Missing";
+
+
+            item.appendChild(name);
+
+            item.appendChild(status);
+
+            container.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function calculateProgress(
+    structure,
+    sections
+){
+
+    if(structure.length === 0){
+
+        updateProgress(0);
+
+        return;
+    }
+
+
+    let completed = 0;
+
+
+    structure.forEach(
+        section => {
+
+            const content =
+                sections[section];
+
+
+            if(
+                content &&
+                content.trim &&
+                content.trim().length > 0
+            ){
+
+                completed++;
+
+            }
+
+        }
+    );
+
+
+    const percent =
+        Math.round(
+            (completed /
+            structure.length) *
+            100
+        );
+
+
+    updateProgress(
+        percent
+    );
+
+
+    const message =
+        document.getElementById(
+            "reviewMessage"
+        );
+
+
+    if(percent === 100){
+
+        message.style.display =
+            "block";
+
+        message.style.background =
+            "#ecfdf5";
+
+        message.style.borderLeftColor =
+            "#16a34a";
+
+        message.textContent =
+            "🎉 Excellent! All required sections are completed.";
+
+    }else{
+
+        message.style.display =
+            "block";
+
+        message.textContent =
+            `You have completed ${completed} of ${structure.length} sections. Complete the missing sections before exporting your final project.`;
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE PROGRESS
+========================= */
+
+function updateProgress(percent){
+
+    document.getElementById(
+        "progressNumber"
+    ).textContent =
+        percent + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percent + "%";
+
+}
+
+
+/* =========================
+   REFERENCES
+========================= */
+
+function countReferences(){
+
+    const references =
+        Array.isArray(project.references)
+            ? project.references
+            : [];
+
+
+    document.getElementById(
+        "referenceCount"
+    ).textContent =
+        references.length;
+
+}
+
+
+/* =========================
+   TABLES
+========================= */
+
+function countTables(){
+
+    const sections =
+        project.sections || {};
+
+
+    let count = 0;
+
+
+    Object.values(sections)
+        .forEach(content => {
+
+            if(!content) return;
+
+
+            const matches =
+                content.match(
+                    /<table\b/gi
+                );
+
+
+            if(matches){
+
+                count += matches.length;
+
+            }
+
+        });
+
+
+    document.getElementById(
+        "tableCount"
+    ).textContent =
+        count;
+
+}
+
+
+/* =========================
+   FIGURES
+========================= */
+
+function countFigures(){
+
+    const sections =
+        project.sections || {};
+
+
+    let count = 0;
+
+
+    Object.values(sections)
+        .forEach(content => {
+
+            if(!content) return;
+
+
+            const matches =
+                content.match(
+                    /<img\b/gi
+                );
+
+
+            if(matches){
+
+                count += matches.length;
+
+            }
+
+        });
+
+
+    document.getElementById(
+        "figureCount"
+    ).textContent =
+        count;
+
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+window.openPreview = function(){
+
+    localStorage.setItem(
+        "bhPreviewProject",
+        JSON.stringify(project)
+    );
+
+
+    window.location.href =
+        "preview.html";
+
+};
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digital Skills Course | BH Skills Hub</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f4f6;
+    color:#1f2937;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    height:64px;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.menu-btn,
+.back-btn{
+    border:none;
+    background:#1f2937;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.menu-btn:hover,
+.back-btn:hover{
+    background:#374151;
+}
+
+/* ================= OVERLAY ================= */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:1500;
+    display:none;
+}
+
+.overlay.show{
+    display:block;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-320px;
+    width:300px;
+    height:100vh;
+    background:#ffffff;
+    z-index:2000;
+    box-shadow:4px 0 15px rgba(0,0,0,.2);
+    transition:.3s ease;
+    overflow-y:auto;
+}
+
+.sidebar.open{
+    left:0;
+}
+
+.sidebar-header{
+    background:#111827;
+    color:white;
+    padding:18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.sidebar-header h2{
+    font-size:18px;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.progress-box{
+    margin:15px;
+    padding:15px;
+    background:#f3f4f6;
+    border-radius:12px;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.progress-bar{
+    width:100%;
+    height:10px;
+    background:#d1d5db;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    width:0%;
+    background:#2563eb;
+    transition:.3s;
+}
+
+.chapter-list{
+    padding:10px 15px 30px;
+}
+
+.chapter-btn{
+    width:100%;
+    border:none;
+    background:#f9fafb;
+    text-align:left;
+    padding:13px;
+    margin-bottom:7px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    color:#374151;
+    transition:.2s;
+}
+
+.chapter-btn:hover{
+    background:#e5e7eb;
+}
+
+.chapter-btn.active{
+    background:#2563eb;
+    color:white;
+}
+
+.chapter-btn.completed{
+    border-left:4px solid #16a34a;
+}
+
+/* ================= MAIN ================= */
+
+.content{
+    max-width:1000px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+/* ================= COURSE HERO ================= */
+
+.course-title{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:35px 25px;
+    border-radius:18px;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(37,99,235,.2);
+}
+
+.course-title h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.course-title p{
+    line-height:1.7;
+    max-width:800px;
+}
+
+/* ================= LESSON ================= */
+
+.lesson{
+    display:none;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.lesson.active{
+    display:block;
+}
+
+.lesson h2{
+    font-size:26px;
+    color:#111827;
+    margin-bottom:15px;
+}
+
+.lesson h3{
+    margin:22px 0 10px;
+    color:#2563eb;
+}
+
+.lesson p{
+    line-height:1.8;
+    margin-bottom:12px;
+}
+
+.lesson ul,
+.lesson ol{
+    margin:10px 0 15px 25px;
+}
+
+.lesson li{
+    margin-bottom:8px;
+    line-height:1.6;
+}
+
+/* ================= IMAGES ================= */
+
+.lesson-image{
+    width:100%;
+    max-height:360px;
+    object-fit:cover;
+    border-radius:14px;
+    margin:5px 0 22px;
+    display:block;
+}
+
+/* ================= INFO BOX ================= */
+
+.info-box{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:15px;
+    margin:18px 0;
+    border-radius:8px;
+}
+
+.warning-box{
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+    padding:15px;
+    margin:18px 0;
+    border-radius:8px;
+}
+
+.success-box{
+    background:#f0fdf4;
+    border-left:5px solid #16a34a;
+    padding:15px;
+    margin:18px 0;
+    border-radius:8px;
+}
+
+/* ================= CODE ================= */
+
+pre{
+    background:#111827;
+    color:#e5e7eb;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    margin:15px 0;
+}
+
+code{
+    font-family:Consolas,monospace;
+}
+
+/* ================= QUIZ ================= */
+
+.quiz{
+    margin-top:25px;
+    padding:20px;
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+}
+
+.quiz h3{
+    margin-top:0;
+}
+
+.quiz label{
+    display:block;
+    padding:9px;
+    margin:5px 0;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.quiz label:hover{
+    background:#e5e7eb;
+}
+
+.quiz button,
+.final-submit{
+    margin-top:12px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:11px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.quiz-result{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+/* ================= FINAL QUIZ ================= */
+
+.final-quiz{
+    margin-top:25px;
+    padding:22px;
+    background:#eef2ff;
+    border:2px solid #6366f1;
+    border-radius:14px;
+}
+
+.final-question{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin:15px 0;
+}
+
+.final-question p{
+    font-weight:bold;
+}
+
+.final-question label{
+    display:block;
+    margin:8px 0;
+    cursor:pointer;
+}
+
+.final-result{
+    margin-top:15px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+/* ================= NAVIGATION ================= */
+
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:25px;
+}
+
+.navigation button{
+    flex:1;
+    border:none;
+    padding:13px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.prev-btn{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.next-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.complete-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.navigation button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    text-align:center;
+    padding:30px 15px;
+    color:#6b7280;
+    font-size:14px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:800px){
+
+    header{
+        padding:0 12px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .back-btn{
+        padding:9px 10px;
+    }
+
+    .menu-btn{
+        padding:9px 10px;
+    }
+
+    .content{
+        padding:18px 12px 40px;
+    }
+
+    .course-title{
+        padding:25px 18px;
+    }
+
+    .course-title h1{
+        font-size:27px;
+    }
+
+    .lesson{
+        padding:18px;
+    }
+
+    .lesson h2{
+        font-size:23px;
+    }
+
+    .navigation{
+        flex-direction:column;
+    }
+
+    .navigation button{
+        width:100%;
+    }
+}
+
+@media(min-width:801px){
+
+    .menu-btn{
+        font-size:15px;
+    }
+
+    .lesson{
+        min-height:500px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        BH Skills Hub
+    </div>
+
+    <div class="header-actions">
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            ☰ Chapters
+        </button>
+
+        <button class="back-btn" onclick="goBack()">
+            ← Courses
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================= OVERLAY ================= -->
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+        <h2>Digital Skills Course</h2>
+
+        <button class="close-btn" onclick="closeMenu()">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="progress-box">
+
+        <div class="progress-label">
+            <span>Course Progress</span>
+            <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+    </div>
+
+
+    <div class="chapter-list">
+
+        <button class="chapter-btn" onclick="showLesson(0)">
+            1. Introduction to Digital Skills
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(1)">
+            2. Computer Basics
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(2)">
+            3. Internet Basics
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(3)">
+            4. Email & Online Communication
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(4)">
+            5. Digital Information & Research
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(5)">
+            6. Microsoft Office & Productivity
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(6)">
+            7. Cloud Computing
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(7)">
+            8. Social Media Skills
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(8)">
+            9. Digital Security
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(9)">
+            10. Online Banking & Digital Services
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(10)">
+            11. Digital Skills for Work & Business
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(11)">
+            12. Digital Skills Final Project
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="content">
+
+
+    <section class="course-title">
+
+        <h1>Digital Skills</h1>
+
+        <p>
+            Build essential digital skills for studying, working,
+            communicating, researching, creating content, protecting
+            your information and using modern digital services.
+        </p>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 1 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>1. Introduction to Digital Skills</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
+            alt="Digital technology"
+        >
+
+        <p>
+            Digital skills are the abilities required to use digital
+            devices, applications, networks and online services
+            effectively and safely.
+        </p>
+
+        <h3>Why Digital Skills Matter</h3>
+
+        <ul>
+            <li>Education and online learning</li>
+            <li>Communication</li>
+            <li>Employment</li>
+            <li>Business</li>
+            <li>Research</li>
+            <li>Entertainment</li>
+            <li>Access to digital government services</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Key idea:</strong>
+            Digital skills are not only about knowing how to use a
+            computer. They also include communication, information
+            management, security and problem solving.
+        </div>
+
+        <h3>Examples of Digital Skills</h3>
+
+        <ul>
+            <li>Typing and document creation</li>
+            <li>Using email</li>
+            <li>Searching the Internet</li>
+            <li>Using spreadsheets</li>
+            <li>Managing files</li>
+            <li>Using cloud services</li>
+            <li>Protecting online accounts</li>
+        </ul>
+
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What is the main purpose of digital skills?
+            </p>
+
+            <label>
+                <input type="radio" name="q1" value="a">
+                To use digital technologies effectively and safely
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="b">
+                To play games only
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="c">
+                To avoid computers
+            </label>
+
+            <button onclick="checkQuiz('q1','a','r1')">
+                Check Answer
+            </button>
+
+            <div id="r1" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 2 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>2. Computer Basics</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=80"
+            alt="Computer laptop"
+        >
+
+        <p>
+            A computer is an electronic device that receives data,
+            processes it, stores it and produces information.
+        </p>
+
+        <h3>Main Computer Components</h3>
+
+        <ul>
+            <li><strong>CPU:</strong> Processes instructions.</li>
+            <li><strong>RAM:</strong> Temporary working memory.</li>
+            <li><strong>Storage:</strong> Keeps files and applications.</li>
+            <li><strong>Motherboard:</strong> Connects major components.</li>
+            <li><strong>Input devices:</strong> Keyboard, mouse and scanner.</li>
+            <li><strong>Output devices:</strong> Monitor, printer and speakers.</li>
+        </ul>
+
+        <h3>Operating System</h3>
+
+        <p>
+            An operating system manages computer hardware and
+            provides an environment where applications can run.
+        </p>
+
+        <p>
+            Examples include Windows, Linux, macOS, Android and iOS.
+        </p>
+
+        <div class="info-box">
+            <strong>Remember:</strong>
+            Hardware is the physical part of a computer while
+            software consists of programs and instructions.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                Which component temporarily stores data being used?
+            </p>
+
+            <label>
+                <input type="radio" name="q2" value="a">
+                RAM
+            </label>
+
+            <label>
+                <input type="radio" name="q2" value="b">
+                Keyboard
+            </label>
+
+            <label>
+                <input type="radio" name="q2" value="c">
+                Printer
+            </label>
+
+            <button onclick="checkQuiz('q2','a','r2')">
+                Check Answer
+            </button>
+
+            <div id="r2" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 3 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>3. Internet Basics</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80"
+            alt="Internet technology"
+        >
+
+        <p>
+            The Internet is a worldwide network of interconnected
+            computer networks that communicate using standard
+            protocols.
+        </p>
+
+        <h3>Important Internet Terms</h3>
+
+        <ul>
+            <li><strong>Website:</strong> A collection of web pages.</li>
+            <li><strong>Browser:</strong> Software used to access websites.</li>
+            <li><strong>URL:</strong> Address of a web resource.</li>
+            <li><strong>IP Address:</strong> Identifies a device on a network.</li>
+            <li><strong>DNS:</strong> Converts domain names into IP addresses.</li>
+            <li><strong>ISP:</strong> Provides Internet access.</li>
+        </ul>
+
+        <h3>Web Browsers</h3>
+
+        <p>
+            Popular browsers include Chrome, Firefox, Edge, Safari
+            and Opera.
+        </p>
+
+        <pre><code>https://www.example.com</code></pre>
+
+        <p>
+            HTTPS indicates that communication between the browser
+            and website is protected using encryption.
+        </p>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What does DNS mainly do?
+            </p>
+
+            <label>
+                <input type="radio" name="q3" value="a">
+                Converts domain names to IP addresses
+            </label>
+
+            <label>
+                <input type="radio" name="q3" value="b">
+                Creates computer hardware
+            </label>
+
+            <label>
+                <input type="radio" name="q3" value="c">
+                Prints documents
+            </label>
+
+            <button onclick="checkQuiz('q3','a','r3')">
+                Check Answer
+            </button>
+
+            <div id="r3" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 4 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>4. Email & Online Communication</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1200&q=80"
+            alt="Email communication"
+        >
+
+        <p>
+            Email is one of the most important digital communication
+            tools used by students, professionals and businesses.
+        </p>
+
+        <h3>Parts of an Email</h3>
+
+        <ul>
+            <li>Recipient</li>
+            <li>Subject</li>
+            <li>Message body</li>
+            <li>Attachment</li>
+            <li>Signature</li>
+        </ul>
+
+        <h3>Email Best Practices</h3>
+
+        <ol>
+            <li>Use a clear subject.</li>
+            <li>Use professional language.</li>
+            <li>Check the recipient before sending.</li>
+            <li>Do not open suspicious attachments.</li>
+            <li>Review your message before sending.</li>
+        </ol>
+
+        <div class="warning-box">
+            Never share passwords, verification codes or sensitive
+            information through suspicious emails.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What should an email subject contain?
+            </p>
+
+            <label>
+                <input type="radio" name="q4" value="a">
+                A clear description of the email
+            </label>
+
+            <label>
+                <input type="radio" name="q4" value="b">
+                Your password
+            </label>
+
+            <label>
+                <input type="radio" name="q4" value="c">
+                Random characters
+            </label>
+
+            <button onclick="checkQuiz('q4','a','r4')">
+                Check Answer
+            </button>
+
+            <div id="r4" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 5 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>5. Digital Information & Research</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=1200&q=80"
+            alt="Digital research"
+        >
+
+        <p>
+            The Internet contains a huge amount of information.
+            Digital literacy requires the ability to find,
+            evaluate and use information responsibly.
+        </p>
+
+        <h3>Effective Search</h3>
+
+        <ul>
+            <li>Use specific keywords.</li>
+            <li>Use quotation marks for exact phrases.</li>
+            <li>Compare multiple sources.</li>
+            <li>Check the publication date.</li>
+            <li>Look for trustworthy authors and organizations.</li>
+        </ul>
+
+        <h3>Evaluating Information</h3>
+
+        <p>Ask yourself:</p>
+
+        <ul>
+            <li>Who created the information?</li>
+            <li>When was it published?</li>
+            <li>What evidence supports it?</li>
+            <li>Is another reliable source saying the same thing?</li>
+        </ul>
+
+        <div class="success-box">
+            Good digital researchers do not believe everything they
+            see online. They verify information.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What is an important step when evaluating online information?
+            </p>
+
+            <label>
+                <input type="radio" name="q5" value="a">
+                Verify the information using reliable sources
+            </label>
+
+            <label>
+                <input type="radio" name="q5" value="b">
+                Believe every post
+            </label>
+
+            <label>
+                <input type="radio" name="q5" value="c">
+                Ignore the author
+            </label>
+
+            <button onclick="checkQuiz('q5','a','r5')">
+                Check Answer
+            </button>
+
+            <div id="r5" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 6 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>6. Microsoft Office & Productivity</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
+            alt="Office productivity"
+        >
+
+        <p>
+            Productivity applications help users create documents,
+            analyze data, prepare presentations and organize work.
+        </p>
+
+        <h3>Microsoft Word</h3>
+
+        <p>
+            Word is commonly used for reports, letters,
+            assignments and professional documents.
+        </p>
+
+        <h3>Microsoft Excel</h3>
+
+        <p>
+            Excel is used for calculations, data analysis,
+            tables and charts.
+        </p>
+
+        <pre><code>=SUM(A1:A10)</code></pre>
+
+        <h3>Microsoft PowerPoint</h3>
+
+        <p>
+            PowerPoint is used to create presentations using slides,
+            text, images, charts and multimedia.
+        </p>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                Which application is mainly used for spreadsheets?
+            </p>
+
+            <label>
+                <input type="radio" name="q6" value="a">
+                Microsoft Excel
+            </label>
+
+            <label>
+                <input type="radio" name="q6" value="b">
+                Microsoft Paint
+            </label>
+
+            <label>
+                <input type="radio" name="q6" value="c">
+                Calculator only
+            </label>
+
+            <button onclick="checkQuiz('q6','a','r6')">
+                Check Answer
+            </button>
+
+            <div id="r6" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 7 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>7. Cloud Computing</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80"
+            alt="Cloud computing"
+        >
+
+        <p>
+            Cloud computing allows users to access computing
+            resources and data through the Internet.
+        </p>
+
+        <h3>Examples of Cloud Services</h3>
+
+        <ul>
+            <li>Google Drive</li>
+            <li>Microsoft OneDrive</li>
+            <li>Dropbox</li>
+            <li>Google Docs</li>
+            <li>Cloud databases</li>
+        </ul>
+
+        <h3>Advantages</h3>
+
+        <ul>
+            <li>Access files from different devices.</li>
+            <li>Easy collaboration.</li>
+            <li>Backup and storage.</li>
+            <li>Scalability.</li>
+        </ul>
+
+        <div class="info-box">
+            Cloud storage does not mean your files are physically
+            inside the Internet. They are stored on remote servers
+            operated by service providers.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What is one advantage of cloud computing?
+            </p>
+
+            <label>
+                <input type="radio" name="q7" value="a">
+                Accessing files from multiple devices
+            </label>
+
+            <label>
+                <input type="radio" name="q7" value="b">
+                Removing the Internet
+            </label>
+
+            <label>
+                <input type="radio" name="q7" value="c">
+                Making computers unnecessary
+            </label>
+
+            <button onclick="checkQuiz('q7','a','r7')">
+                Check Answer
+            </button>
+
+            <div id="r7" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 8 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>8. Social Media Skills</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80"
+            alt="Social media"
+        >
+
+        <p>
+            Social media platforms allow people and organizations
+            to communicate, share information and build communities.
+        </p>
+
+        <h3>Popular Uses</h3>
+
+        <ul>
+            <li>Communication</li>
+            <li>Marketing</li>
+            <li>Education</li>
+            <li>Personal branding</li>
+            <li>Entertainment</li>
+            <li>Business promotion</li>
+        </ul>
+
+        <h3>Responsible Social Media Use</h3>
+
+        <ul>
+            <li>Think before posting.</li>
+            <li>Protect personal information.</li>
+            <li>Respect other people.</li>
+            <li>Verify information before sharing.</li>
+            <li>Avoid harmful or misleading content.</li>
+        </ul>
+
+        <div class="warning-box">
+            Remember that online posts can remain accessible for a
+            long time. Your digital reputation matters.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What is an important social media skill?
+            </p>
+
+            <label>
+                <input type="radio" name="q8" value="a">
+                Responsible communication
+            </label>
+
+            <label>
+                <input type="radio" name="q8" value="b">
+                Sharing every rumor
+            </label>
+
+            <label>
+                <input type="radio" name="q8" value="c">
+                Sharing passwords
+            </label>
+
+            <button onclick="checkQuiz('q8','a','r8')">
+                Check Answer
+            </button>
+
+            <div id="r8" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 9 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>9. Digital Security</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80"
+            alt="Cyber security"
+        >
+
+        <p>
+            Digital security protects devices, accounts, data and
+            online identities from unauthorized access and attacks.
+        </p>
+
+        <h3>Strong Passwords</h3>
+
+        <ul>
+            <li>Use long passwords.</li>
+            <li>Avoid predictable information.</li>
+            <li>Use different passwords for important accounts.</li>
+            <li>Use a password manager where appropriate.</li>
+        </ul>
+
+        <h3>Multi-Factor Authentication</h3>
+
+        <p>
+            MFA adds another verification factor in addition to a
+            password.
+        </p>
+
+        <h3>Common Threats</h3>
+
+        <ul>
+            <li>Phishing</li>
+            <li>Malware</li>
+            <li>Identity theft</li>
+            <li>Password attacks</li>
+            <li>Social engineering</li>
+        </ul>
+
+        <div class="warning-box">
+            Never give your password or verification code to someone
+            simply because they claim to be from a company.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                What does MFA provide?
+            </p>
+
+            <label>
+                <input type="radio" name="q9" value="a">
+                An additional authentication factor
+            </label>
+
+            <label>
+                <input type="radio" name="q9" value="b">
+                Free Internet
+            </label>
+
+            <label>
+                <input type="radio" name="q9" value="c">
+                A faster processor
+            </label>
+
+            <button onclick="checkQuiz('q9','a','r9')">
+                Check Answer
+            </button>
+
+            <div id="r9" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 10 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>10. Online Banking & Digital Services</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80"
+            alt="Digital payment"
+        >
+
+        <p>
+            Digital services allow people to perform financial,
+            government and business activities using computers
+            and mobile devices.
+        </p>
+
+        <h3>Examples</h3>
+
+        <ul>
+            <li>Mobile banking</li>
+            <li>Online banking</li>
+            <li>Mobile money</li>
+            <li>Online shopping</li>
+            <li>Digital government services</li>
+            <li>Electronic payments</li>
+        </ul>
+
+        <h3>Safety Tips</h3>
+
+        <ul>
+            <li>Use official applications and websites.</li>
+            <li>Check the website address carefully.</li>
+            <li>Never share your PIN.</li>
+            <li>Never share OTP or verification codes.</li>
+            <li>Avoid financial transactions on suspicious networks.</li>
+        </ul>
+
+        <div class="warning-box">
+            Banks and legitimate service providers should not require
+            you to reveal confidential passwords or PINs.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                Which information should you keep secret?
+            </p>
+
+            <label>
+                <input type="radio" name="q10" value="a">
+                PIN and OTP
+            </label>
+
+            <label>
+                <input type="radio" name="q10" value="b">
+                Public website address
+            </label>
+
+            <label>
+                <input type="radio" name="q10" value="c">
+                Your course title
+            </label>
+
+            <button onclick="checkQuiz('q10','a','r10')">
+                Check Answer
+            </button>
+
+            <div id="r10" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 11 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>11. Digital Skills for Work & Business</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"
+            alt="Digital business"
+        >
+
+        <p>
+            Digital skills are increasingly important in modern
+            workplaces and businesses.
+        </p>
+
+        <h3>Important Workplace Skills</h3>
+
+        <ul>
+            <li>Professional email communication</li>
+            <li>Document creation</li>
+            <li>Spreadsheet management</li>
+            <li>Online meetings</li>
+            <li>Digital research</li>
+            <li>File management</li>
+            <li>Cybersecurity awareness</li>
+            <li>Social media management</li>
+        </ul>
+
+        <h3>Digital Business</h3>
+
+        <p>
+            Businesses can use websites, social media, email,
+            online advertising, e-commerce and digital payment
+            systems to reach customers.
+        </p>
+
+        <div class="success-box">
+            Digital skills can increase productivity and create new
+            opportunities for employment and entrepreneurship.
+        </div>
+
+        <div class="quiz">
+
+            <h3>Quick Quiz</h3>
+
+            <p>
+                Which is useful in a modern digital workplace?
+            </p>
+
+            <label>
+                <input type="radio" name="q11" value="a">
+                Digital communication and productivity tools
+            </label>
+
+            <label>
+                <input type="radio" name="q11" value="b">
+                Avoiding technology completely
+            </label>
+
+            <label>
+                <input type="radio" name="q11" value="c">
+                Sharing confidential information publicly
+            </label>
+
+            <button onclick="checkQuiz('q11','a','r11')">
+                Check Answer
+            </button>
+
+            <div id="r11" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================== -->
+    <!-- LESSON 12 -->
+    <!-- ===================================================== -->
+
+    <section class="lesson">
+
+        <h2>12. Digital Skills Final Project</h2>
+
+        <img
+            class="lesson-image"
+            src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80"
+            alt="Digital project"
+        >
+
+        <p>
+            The final project combines the skills learned throughout
+            the Digital Skills course.
+        </p>
+
+        <h3>Final Project Challenge</h3>
+
+        <p>
+            Create a small digital project that demonstrates your
+            ability to use modern digital tools effectively.
+        </p>
+
+        <h3>Suggested Project</h3>
+
+        <ol>
+            <li>Create a professional document.</li>
+            <li>Create a spreadsheet containing useful data.</li>
+            <li>Create a short presentation.</li>
+            <li>Research a topic online using reliable sources.</li>
+            <li>Demonstrate safe digital practices.</li>
+            <li>Explain how the project could help a business or student.</li>
+        </ol>
+
+        <div class="success-box">
+            Completing the final quiz successfully and completing
+            all chapters will unlock your course certificate.
+        </div>
+
+
+        <!-- ================= FINAL QUIZ ================= -->
+
+        <div class="final-quiz">
+
+            <h3>🎓 Digital Skills Final Quiz</h3>
+
+            <p>
+                Answer all 10 questions. You need at least
+                <strong>70%</strong> to pass.
+            </p>
+
+
+            <!-- Q1 -->
+
+            <div class="final-question">
+
+                <p>1. What are digital skills?</p>
+
+                <label>
+                    <input type="radio" name="f1" value="a">
+                    Skills for using digital technologies effectively
+                </label>
+
+                <label>
+                    <input type="radio" name="f1" value="b">
+                    Skills for avoiding technology
+                </label>
+
+                <label>
+                    <input type="radio" name="f1" value="c">
+                    Skills for repairing every computer
+                </label>
+
+                <label>
+                    <input type="radio" name="f1" value="d">
+                    Skills for playing games
+                </label>
+
+            </div>
+
+
+            <!-- Q2 -->
+
+            <div class="final-question">
+
+                <p>2. Which component is temporary memory?</p>
+
+                <label>
+                    <input type="radio" name="f2" value="a">
+                    RAM
+                </label>
+
+                <label>
+                    <input type="radio" name="f2" value="b">
+                    Hard disk
+                </label>
+
+                <label>
+                    <input type="radio" name="f2" value="c">
+                    Keyboard
+                </label>
+
+                <label>
+                    <input type="radio" name="f2" value="d">
+                    Monitor
+                </label>
+
+            </div>
+
+
+            <!-- Q3 -->
+
+            <div class="final-question">
+
+                <p>3. What does DNS do?</p>
+
+                <label>
+                    <input type="radio" name="f3" value="a">
+                    Creates passwords
+                </label>
+
+                <label>
+                    <input type="radio" name="f3" value="b">
+                    Converts domain names into IP addresses
+                </label>
+
+                <label>
+                    <input type="radio" name="f3" value="c">
+                    Prints documents
+                </label>
+
+                <label>
+                    <input type="radio" name="f3" value="d">
+                    Creates presentations
+                </label>
+
+            </div>
+
+
+            <!-- Q4 -->
+
+            <div class="final-question">
+
+                <p>4. Which is good email practice?</p>
+
+                <label>
+                    <input type="radio" name="f4" value="a">
+                    Sharing your password
+                </label>
+
+                <label>
+                    <input type="radio" name="f4" value="b">
+                    Using a clear subject
+                </label>
+
+                <label>
+                    <input type="radio" name="f4" value="c">
+                    Opening every attachment
+                </label>
+
+                <label>
+                    <input type="radio" name="f4" value="d">
+                    Sending without checking
+                </label>
+
+            </div>
+
+
+            <!-- Q5 -->
+
+            <div class="final-question">
+
+                <p>5. How should online information be evaluated?</p>
+
+                <label>
+                    <input type="radio" name="f5" value="a">
+                    Believe everything
+                </label>
+
+                <label>
+                    <input type="radio" name="f5" value="b">
+                    Ignore the source
+                </label>
+
+                <label>
+                    <input type="radio" name="f5" value="c">
+                    Verify reliable sources
+                </label>
+
+                <label>
+                    <input type="radio" name="f5" value="d">
+                    Share immediately
+                </label>
+
+            </div>
+
+
+            <!-- Q6 -->
+
+            <div class="final-question">
+
+                <p>6. Which tool is mainly used for spreadsheets?</p>
+
+                <label>
+                    <input type="radio" name="f6" value="a">
+                    PowerPoint
+                </label>
+
+                <label>
+                    <input type="radio" name="f6" value="b">
+                    Word
+                </label>
+
+                <label>
+                    <input type="radio" name="f6" value="c">
+                    Excel
+                </label>
+
+                <label>
+                    <input type="radio" name="f6" value="d">
+                    Paint
+                </label>
+
+            </div>
+
+
+            <!-- Q7 -->
+
+            <div class="final-question">
+
+                <p>7. What is one benefit of cloud computing?</p>
+
+                <label>
+                    <input type="radio" name="f7" value="a">
+                    It removes all security risks
+                </label>
+
+                <label>
+                    <input type="radio" name="f7" value="b">
+                    It allows access to files from different devices
+                </label>
+
+                <label>
+                    <input type="radio" name="f7" value="c">
+                    It removes the need for accounts
+                </label>
+
+                <label>
+                    <input type="radio" name="f7" value="d">
+                    It makes Internet unnecessary
+                </label>
+
+            </div>
+
+
+            <!-- Q8 -->
+
+            <div class="final-question">
+
+                <p>8. Which is responsible social media behavior?</p>
+
+                <label>
+                    <input type="radio" name="f8" value="a">
+                    Sharing rumors
+                </label>
+
+                <label>
+                    <input type="radio" name="f8" value="b">
+                    Sharing passwords
+                </label>
+
+                <label>
+                    <input type="radio" name="f8" value="c">
+                    Thinking before posting
+                </label>
+
+                <label>
+                    <input type="radio" name="f8" value="d">
+                    Harassing people
+                </label>
+
+            </div>
+
+
+            <!-- Q9 -->
+
+            <div class="final-question">
+
+                <p>9. What does MFA provide?</p>
+
+                <label>
+                    <input type="radio" name="f9" value="a">
+                    Additional authentication protection
+                </label>
+
+                <label>
+                    <input type="radio" name="f9" value="b">
+                    Free mobile data
+                </label>
+
+                <label>
+                    <input type="radio" name="f9" value="c">
+                    Faster Internet
+                </label>
+
+                <label>
+                    <input type="radio" name="f9" value="d">
+                    More storage
+                </label>
+
+            </div>
+
+
+            <!-- Q10 -->
+
+            <div class="final-question">
+
+                <p>10. Which information should never be shared?</p>
+
+                <label>
+                    <input type="radio" name="f10" value="a">
+                    Your course title
+                </label>
+
+                <label>
+                    <input type="radio" name="f10" value="b">
+                    Your public username
+                </label>
+
+                <label>
+                    <input type="radio" name="f10" value="c">
+                    Your PIN or OTP
+                </label>
+
+                <label>
+                    <input type="radio" name="f10" value="d">
+                    A public website
+                </label>
+
+            </div>
+
+
+            <button class="final-submit" onclick="submitFinalQuiz()">
+                Submit Final Quiz
+            </button>
+
+            <div id="finalResult" class="final-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <div class="navigation">
+
+        <button
+            class="prev-btn"
+            id="prevBtn"
+            onclick="previousLesson()"
+        >
+            ← Previous
+        </button>
+
+        <button
+            class="next-btn"
+            id="nextBtn"
+            onclick="nextLesson()"
+        >
+            Next →
+        </button>
+
+        <button
+            class="complete-btn"
+            id="completeBtn"
+            onclick="finishCourse()"
+        >
+            Complete Course
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 BH Skills Hub — All Rights Reserved.
+    </p>
+
+    <p>
+        Made by Blaise Hadari
+    </p>
+
+</footer>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+    authDomain: "bh-skills-hub.firebaseapp.com",
+    projectId: "bh-skills-hub",
+    storageBucket: "bh-skills-hub.firebasestorage.app",
+    messagingSenderId: "503359590632",
+    appId: "1:503359590632:web:5b81f57e402addaf2bb95d6"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* ================= COURSE CONFIG ================= */
+
+const COURSE_CONFIG = {
+    id: "digital-skills",
+    name: "Digital Skills",
+    code: "DS",
+    totalLessons: 12
+};
+
+
+/* ================= STATE ================= */
+
+let currentLesson =
+    Number(localStorage.getItem("digitalSkillsCurrentLesson")) || 0;
+
+let completedLessons =
+    JSON.parse(
+        localStorage.getItem("digitalSkillsCompletedLessons") || "[]"
+    );
+
+let quizResults =
+    JSON.parse(
+        localStorage.getItem("digitalSkillsQuizResults") || "{}"
+    );
+
+let finalQuizPassed =
+    localStorage.getItem("digitalSkillsFinalQuizPassed") === "true";
+
+let currentUser = null;
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(auth, async (user) => {
+
+    if(!user){
+
+        sessionStorage.setItem(
+            "redirectAfterLogin",
+            "digital-skills.html"
+        );
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+    currentUser = user;
+
+    await loadFirebaseProgress();
+
+    showLesson(currentLesson);
+
+});
+
+
+/* ================= LOAD FIREBASE ================= */
+
+async function loadFirebaseProgress(){
+
+    if(!currentUser) return;
+
+    try{
+
+        const ref = doc(
+            db,
+            "courseProgress",
+            currentUser.uid
+        );
+
+        const snap = await getDoc(ref);
+
+        if(snap.exists()){
+
+            const data = snap.data();
+
+            if(data.digitalSkills){
+
+                const p = data.digitalSkills;
+
+                if(
+                    typeof p.currentLesson === "number"
+                ){
+                    currentLesson = p.currentLesson;
+                }
+
+                if(
+                    Array.isArray(p.completedLessons)
+                ){
+                    completedLessons =
+                        p.completedLessons;
+                }
+
+                if(p.quizResults){
+                    quizResults =
+                        p.quizResults;
+                }
+
+                if(
+                    typeof p.finalQuizPassed === "boolean"
+                ){
+                    finalQuizPassed =
+                        p.finalQuizPassed;
+                }
+
+                saveLocalProgress();
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Firebase progress error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ================= SAVE FIREBASE ================= */
+
+async function saveFirebaseProgress(){
+
+    if(!currentUser) return;
+
+    try{
+
+        const ref = doc(
+            db,
+            "courseProgress",
+            currentUser.uid
+        );
+
+        await setDoc(
+            ref,
+            {
+
+                digitalSkills: {
+
+                    currentLesson:
+                        currentLesson,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:
+                        calculateProgress(),
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:
+                        finalQuizPassed,
+
+                    lastUpdated:
+                        new Date()
+
+                }
+
+            },
+            {
+                merge:true
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Could not save progress:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ================= LOCAL SAVE ================= */
+
+function saveLocalProgress(){
+
+    localStorage.setItem(
+        "digitalSkillsCurrentLesson",
+        currentLesson
+    );
+
+    localStorage.setItem(
+        "digitalSkillsCompletedLessons",
+        JSON.stringify(completedLessons)
+    );
+
+    localStorage.setItem(
+        "digitalSkillsQuizResults",
+        JSON.stringify(quizResults)
+    );
+
+    localStorage.setItem(
+        "digitalSkillsFinalQuizPassed",
+        finalQuizPassed
+    );
+
+}
+
+
+/* ================= PROGRESS ================= */
+
+function calculateProgress(){
+
+    return Math.round(
+        (completedLessons.length /
+        COURSE_CONFIG.totalLessons) * 100
+    );
+
+}
+
+
+function updateProgress(){
+
+    const progress =
+        calculateProgress();
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        progress + "%";
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        progress + "%";
+
+
+    document
+        .querySelectorAll(".chapter-btn")
+        .forEach((button,index)=>{
+
+            button.classList.remove(
+                "active",
+                "completed"
+            );
+
+            if(index === currentLesson){
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+            if(
+                completedLessons.includes(index)
+            ){
+
+                button.classList.add(
+                    "completed"
+                );
+
+            }
+
+        });
+
+}
+
+
+/* ================= SHOW LESSON ================= */
+
+window.showLesson = async function(index){
+
+    const lessons =
+        document.querySelectorAll(".lesson");
+
+    if(index < 0 ||
+       index >= lessons.length){
+
+        return;
+    }
+
+
+    lessons.forEach(
+        lesson =>
+        lesson.classList.remove("active")
+    );
+
+
+    lessons[index].classList.add("active");
+
+
+    currentLesson = index;
+
+
+    updateProgress();
+
+    updateNavigation();
+
+    saveLocalProgress();
+
+    await saveFirebaseProgress();
+
+    closeMenu();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
+
+
+/* ================= NEXT ================= */
+
+window.nextLesson = async function(){
+
+    if(
+        !completedLessons.includes(
+            currentLesson
+        )
+    ){
+
+        completedLessons.push(
+            currentLesson
+        );
+
+    }
+
+
+    completedLessons =
+        [...new Set(completedLessons)];
+
+
+    saveLocalProgress();
+
+    await saveFirebaseProgress();
+
+
+    if(
+        currentLesson <
+        COURSE_CONFIG.totalLessons - 1
+    ){
+
+        currentLesson++;
+
+        showLesson(currentLesson);
+
+    }else{
+
+        alert(
+            "You are already on the final chapter."
+        );
+
+        updateNavigation();
+
+    }
+
+};
+
+
+/* ================= PREVIOUS ================= */
+
+window.previousLesson = function(){
+
+    if(currentLesson > 0){
+
+        currentLesson--;
+
+        showLesson(currentLesson);
+
+    }
+
+};
+
+
+/* ================= NAVIGATION ================= */
+
+function updateNavigation(){
+
+    const prevBtn =
+        document.getElementById(
+            "prevBtn"
+        );
+
+    const nextBtn =
+        document.getElementById(
+            "nextBtn"
+        );
+
+    const completeBtn =
+        document.getElementById(
+            "completeBtn"
+        );
+
+
+    prevBtn.disabled =
+        currentLesson === 0;
+
+
+    nextBtn.disabled =
+        currentLesson ===
+        COURSE_CONFIG.totalLessons - 1;
+
+
+    if(currentLesson ===
+       COURSE_CONFIG.totalLessons - 1){
+
+        nextBtn.textContent =
+            "Final Chapter";
+
+    }else{
+
+        nextBtn.textContent =
+            "Next →";
+
+    }
+
+
+    if(
+        completedLessons.length ===
+        COURSE_CONFIG.totalLessons &&
+        finalQuizPassed
+    ){
+
+        completeBtn.disabled = false;
+
+    }else{
+
+        completeBtn.disabled = true;
+
+    }
+
+}
+
+
+/* ================= QUICK QUIZ ================= */
+
+window.checkQuiz = function(
+    questionName,
+    correctAnswer,
+    resultId
+){
+
+    const selected =
+        document.querySelector(
+            `input[name="${questionName}"]:checked`
+        );
+
+    const result =
+        document.getElementById(
+            resultId
+        );
+
+
+    if(!selected){
+
+        result.textContent =
+            "Please select an answer.";
+
+        result.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    if(
+        selected.value ===
+        correctAnswer
+    ){
+
+        result.textContent =
+            "✓ Correct answer!";
+
+        result.style.color =
+            "#16a34a";
+
+        quizResults[
+            questionName
+        ] = true;
+
+    }else{
+
+        result.textContent =
+            "✗ Incorrect. Try again.";
+
+        result.style.color =
+            "#dc2626";
+
+        quizResults[
+            questionName
+        ] = false;
+
+    }
+
+
+    saveLocalProgress();
+
+    saveFirebaseProgress();
+
+};
+
+
+/* ================= FINAL QUIZ ================= */
+
+window.submitFinalQuiz = async function(){
+
+    const answers = {
+
+        f1:"a",
+        f2:"a",
+        f3:"b",
+        f4:"b",
+        f5:"c",
+        f6:"c",
+        f7:"b",
+        f8:"c",
+        f9:"a",
+        f10:"c"
+
+    };
+
+
+    let score = 0;
+
+    let unanswered = 0;
+
+
+    for(
+        const question in answers
+    ){
+
+        const selected =
+            document.querySelector(
+                `input[name="${question}"]:checked`
+            );
+
+
+        if(!selected){
+
+            unanswered++;
+
+            continue;
+
+        }
+
+
+        if(
+            selected.value ===
+            answers[question]
+        ){
+
+            score++;
+
+        }
+
+    }
+
+
+    const result =
+        document.getElementById(
+            "finalResult"
+        );
+
+
+    if(unanswered > 0){
+
+        result.textContent =
+            `Please answer all 10 questions. ${unanswered} question(s) unanswered.`;
+
+        result.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    const percentage =
+        Math.round(
+            (score / 10) * 100
+        );
+
+
+    const passed =
+        percentage >= 70;
+
+
+    quizResults.finalQuiz = {
+
+        score:score,
+
+        total:10,
+
+        percentage:percentage,
+
+        passed:passed,
+
+        attempts:
+            (quizResults.finalQuiz?.attempts || 0) + 1,
+
+        lastAttempt:
+            new Date().toISOString()
+
+    };
+
+
+    finalQuizPassed = passed;
+
+
+    if(passed){
+
+        result.innerHTML =
+            `🎉 <strong>Congratulations!</strong><br>
+             You scored ${score}/10 (${percentage}%).<br>
+             <span style="color:#16a34a">
+             You passed the final quiz.
+             </span>`;
+
+    }else{
+
+        result.innerHTML =
+            `You scored ${score}/10 (${percentage}%).<br>
+             <span style="color:#dc2626">
+             You need at least 70% to pass. Try again.
+             </span>`;
+
+    }
+
+
+    saveLocalProgress();
+
+    await saveFirebaseProgress();
+
+    updateNavigation();
+
+};
+
+
+/* ================= COMPLETE COURSE ================= */
+
+window.finishCourse = async function(){
+
+    if(
+        completedLessons.length !==
+        COURSE_CONFIG.totalLessons
+    ){
+
+        alert(
+            "Please complete all 12 chapters first."
+        );
+
+        return;
+
+    }
+
+
+    if(!finalQuizPassed){
+
+        alert(
+            "You must pass the final quiz with at least 70%."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please log in again."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const year =
+            new Date().getFullYear();
+
+
+        const random =
+            Math.random()
+                .toString(36)
+                .substring(2,8)
+                .toUpperCase();
+
+
+        const certificateId =
+            `BH-DS-${year}-${random}`;
+
+
+        const finalScore =
+            quizResults.finalQuiz?.score || 0;
+
+
+        const finalPercentage =
+            quizResults.finalQuiz?.percentage || 0;
+
+
+        const studentName =
+            currentUser.displayName ||
+            currentUser.email
+                .split("@")[0];
+
+
+        const certificate = {
+
+            certificateId:
+                certificateId,
+
+            studentName:
+                studentName,
+
+            studentEmail:
+                currentUser.email,
+
+            courseId:
+                COURSE_CONFIG.id,
+
+            courseName:
+                COURSE_CONFIG.name,
+
+            courseCode:
+                COURSE_CONFIG.code,
+
+            uid:
+                currentUser.uid,
+
+            completionDate:
+                new Date()
+                    .toISOString(),
+
+            issuedBy:
+                "BH Skills Hub",
+
+            finalQuizScore:
+                finalScore,
+
+            finalQuizPercentage:
+                finalPercentage,
+
+            status:
+                "valid"
+
+        };
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "certificates",
+                certificateId
+            ),
+
+            certificate
+
+        );
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            ),
+
+            {
+
+                digitalSkills: {
+
+                    currentLesson:
+                        currentLesson,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:100,
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:true,
+
+                    certificateId:
+                        certificateId,
+
+                    completed:
+                        true,
+
+                    lastUpdated:
+                        new Date()
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        window.location.href =
+            `certificate.html?course=digital-skills&name=${encodeURIComponent(studentName)}&id=${encodeURIComponent(certificateId)}`;
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Could not create certificate. Please try again."
+        );
+
+    }
+
+};
+
+
+/* ================= MENU ================= */
+
+window.toggleMenu = function(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+    document
+        .getElementById("overlay")
+        .classList.toggle("show");
+
+};
+
+
+window.closeMenu = function(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+};
+
+
+/* ================= BACK ================= */
+
+window.goBack = function(){
+
+    window.location.href =
+        "courses.html";
+
+};
+
+
+/* ================= INITIAL ================= */
+
+updateProgress();
+
+updateNavigation();
+
+</script>
+
+</body>
+</html>

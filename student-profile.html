@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Profile | BH Skills Hub</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+
+header{
+  height:70px;
+  background:#111827;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 3px 15px rgba(0,0,0,.15);
+}
+
+.logo{
+  font-size:23px;
+  font-weight:800;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.header-btn{
+  border:none;
+  padding:10px 15px;
+  border-radius:9px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.header-btn:hover{
+  background:#1d4ed8;
+}
+
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#111827;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+  text-align:center;
+}
+
+.loader{
+  width:45px;
+  height:45px;
+  border:4px solid rgba(255,255,255,.25);
+  border-top-color:white;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 15px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.container{
+  width:92%;
+  max-width:1100px;
+  margin:35px auto 60px;
+}
+
+.profile-card{
+  background:white;
+  border-radius:22px;
+  padding:30px;
+  box-shadow:0 8px 30px rgba(0,0,0,.07);
+  border:1px solid #e5e7eb;
+}
+
+.profile-top{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  padding-bottom:25px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.photo-area{
+  position:relative;
+  width:120px;
+  height:120px;
+  flex-shrink:0;
+}
+
+.profile-photo{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #2563eb;
+  background:#e5e7eb;
+}
+
+.photo-button{
+  position:absolute;
+  right:0;
+  bottom:0;
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:50%;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  font-size:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.photo-button:hover{
+  background:#1d4ed8;
+}
+
+.photo-button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+#photoInput{
+  display:none;
+}
+
+.profile-heading h1{
+  font-size:28px;
+  margin-bottom:7px;
+}
+
+.profile-heading p{
+  color:#64748b;
+  font-size:14px;
+}
+
+.message{
+  display:none;
+  margin:20px 0;
+  padding:13px 15px;
+  border-radius:10px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.message.info{
+  display:block;
+  background:#dbeafe;
+  color:#1e40af;
+}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin:25px 0;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:none;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.edit-btn{
+  background:#2563eb;
+  color:white;
+}
+
+.save-btn{
+  background:#16a34a;
+  color:white;
+  display:none;
+}
+
+.cancel-btn{
+  background:#e5e7eb;
+  color:#374151;
+  display:none;
+}
+
+.logout-btn{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.section-title{
+  font-size:21px;
+  margin:25px 0 18px;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:13px;
+  color:#64748b;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.field input,
+.field textarea{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  padding:13px;
+  font-size:15px;
+  outline:none;
+  background:#f8fafc;
+  color:#172033;
+}
+
+.field textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field textarea:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.1);
+}
+
+.field input:disabled,
+.field textarea:disabled{
+  background:#f8fafc;
+  color:#475569;
+  cursor:not-allowed;
+}
+
+.overview{
+  margin-top:30px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:26px;
+  margin-bottom:5px;
+}
+
+.stat span{
+  color:#64748b;
+  font-size:13px;
+}
+
+footer{
+  text-align:center;
+  margin-top:40px;
+  color:#64748b;
+  font-size:13px;
+}
+
+@media(max-width:700px){
+
+  header{
+    height:62px;
+    padding:0 4%;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .header-btn{
+    padding:9px 11px;
+    font-size:12px;
+  }
+
+  .container{
+    width:94%;
+    margin-top:20px;
+  }
+
+  .profile-card{
+    padding:20px;
+    border-radius:17px;
+  }
+
+  .profile-top{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .profile-heading h1{
+    font-size:23px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .actions .btn{
+    width:100%;
+  }
+
+  .overview{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOADING ================= -->
+
+<div id="loadingScreen">
+  <div>
+    <div class="loader"></div>
+    <p id="loadingText">Loading your profile...</p>
+  </div>
+</div>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+  <div class="logo">
+    BH Skills Hub
+  </div>
+
+  <div class="header-actions">
+
+    <button
+      class="header-btn"
+      id="dashboardBtn"
+      type="button"
+    >
+      Dashboard
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <section class="profile-card">
+
+    <!-- PROFILE TOP -->
+
+    <div class="profile-top">
+
+      <div class="photo-area">
+
+        <img
+          id="profilePhoto"
+          class="profile-photo"
+          src="https://via.placeholder.com/150"
+          alt="Profile Photo"
+        >
+
+        <button
+          class="photo-button"
+          id="photoButton"
+          type="button"
+          title="Change profile photo"
+        >
+          📷
+        </button>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+        >
+
+      </div>
+
+
+      <div class="profile-heading">
+
+        <h1 id="profileName">
+          Student
+        </h1>
+
+        <p id="profileEmail">
+          Loading...
+        </p>
+
+        <p style="margin-top:6px;">
+          Student Profile
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- MESSAGE -->
+
+    <div id="message" class="message"></div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+      <button
+        class="btn edit-btn"
+        id="editBtn"
+        type="button"
+      >
+        ✏️ Edit Profile
+      </button>
+
+      <button
+        class="btn save-btn"
+        id="saveBtn"
+        type="button"
+      >
+        💾 Save Profile
+      </button>
+
+      <button
+        class="btn cancel-btn"
+        id="cancelBtn"
+        type="button"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="btn logout-btn"
+        id="logoutBtn"
+        type="button"
+      >
+        Logout
+      </button>
+
+    </div>
+
+
+    <!-- PERSONAL INFORMATION -->
+
+    <h2 class="section-title">
+      👤 Personal Information
+    </h2>
+
+    <div class="info-grid">
+
+      <div class="field">
+
+        <label>Full Name</label>
+
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Enter your full name"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Email Address</label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Phone</label>
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="Enter your phone number"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Country</label>
+
+        <input
+          type="text"
+          id="country"
+          placeholder="Enter your country"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Institution</label>
+
+        <input
+          type="text"
+          id="institution"
+          placeholder="School / University / Institution"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Occupation / Field</label>
+
+        <input
+          type="text"
+          id="occupation"
+          placeholder="Example: Computer Science"
+          disabled
+        >
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>Bio</label>
+
+        <textarea
+          id="bio"
+          placeholder="Tell us something about yourself..."
+          disabled
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- LEARNING OVERVIEW -->
+
+    <h2 class="section-title">
+      📊 Learning Overview
+    </h2>
+
+    <div class="overview">
+
+      <div class="stat">
+
+        <strong>6</strong>
+
+        <span>
+          Courses
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong id="overallProgress">
+          0%
+        </strong>
+
+        <span>
+          Overall Progress
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong id="completedCourses">
+          0
+        </strong>
+
+        <span>
+          Completed Courses
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    BH Skills Hub © 2026
+  </footer>
+
+</main>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  updateProfile,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
+
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+  authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+  projectId:
+    "bh-skills-hub",
+
+  storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+  messagingSenderId:
+    "503359590632",
+
+  appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d"
+
+};
+
+
+/* =========================================================
+   INITIALIZE FIREBASE
+========================================================= */
+
+const app =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
+
+const storage =
+  getStorage(app);
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let currentUser = null;
+
+let originalData = {};
+
+let selectedPhotoFile = null;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const loadingScreen =
+  document.getElementById("loadingScreen");
+
+const loadingText =
+  document.getElementById("loadingText");
+
+const message =
+  document.getElementById("message");
+
+const profilePhoto =
+  document.getElementById("profilePhoto");
+
+const profileName =
+  document.getElementById("profileName");
+
+const profileEmail =
+  document.getElementById("profileEmail");
+
+const fullName =
+  document.getElementById("fullName");
+
+const email =
+  document.getElementById("email");
+
+const phone =
+  document.getElementById("phone");
+
+const country =
+  document.getElementById("country");
+
+const institution =
+  document.getElementById("institution");
+
+const occupation =
+  document.getElementById("occupation");
+
+const bio =
+  document.getElementById("bio");
+
+const editBtn =
+  document.getElementById("editBtn");
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+const cancelBtn =
+  document.getElementById("cancelBtn");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const photoButton =
+  document.getElementById("photoButton");
+
+const photoInput =
+  document.getElementById("photoInput");
+
+const dashboardBtn =
+  document.getElementById("dashboardBtn");
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(text, type){
+
+  message.textContent = text;
+
+  message.className =
+    "message " + type;
+
+  message.style.display =
+    "block";
+
+}
+
+
+function hideMessage(){
+
+  message.textContent = "";
+
+  message.className =
+    "message";
+
+  message.style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(
+  auth,
+  async (user) => {
+
+    if(!user){
+
+      loadingText.textContent =
+        "Checking your login session...";
+
+      setTimeout(() => {
+
+        if(!auth.currentUser){
+
+          window.location.replace(
+            "login.html"
+          );
+
+        }
+
+      }, 1800);
+
+      return;
+
+    }
+
+
+    currentUser = user;
+
+
+    try{
+
+      await loadProfile();
+
+      await loadProgress();
+
+      loadingScreen.style.display =
+        "none";
+
+    }catch(error){
+
+      console.error(
+        "Initialization error:",
+        error
+      );
+
+      loadingScreen.style.display =
+        "none";
+
+      showMessage(
+        "There was a problem loading your profile: " +
+        error.message,
+        "error"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
+
+async function loadProfile(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  try{
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        currentUser.uid
+      );
+
+
+    const snapshot =
+      await getDoc(userRef);
+
+
+    let data = {};
+
+
+    if(snapshot.exists()){
+
+      data =
+        snapshot.data();
+
+    }
+
+
+    const name =
+      data.name ||
+      currentUser.displayName ||
+      (
+        currentUser.email
+        ? currentUser.email.split("@")[0]
+        : "Student"
+      );
+
+
+    const userEmail =
+      data.email ||
+      currentUser.email ||
+      "";
+
+
+    const photoURL =
+      data.photoURL ||
+      currentUser.photoURL ||
+      "";
+
+
+    fullName.value =
+      name;
+
+    email.value =
+      userEmail;
+
+    phone.value =
+      data.phone || "";
+
+    country.value =
+      data.country || "";
+
+    institution.value =
+      data.institution || "";
+
+    occupation.value =
+      data.occupation || "";
+
+    bio.value =
+      data.bio || "";
+
+
+    profileName.textContent =
+      name;
+
+    profileEmail.textContent =
+      userEmail;
+
+
+    if(photoURL){
+
+      profilePhoto.src =
+        photoURL;
+
+    }
+
+
+    originalData = {
+
+      name:name,
+
+      email:userEmail,
+
+      phone:data.phone || "",
+
+      country:data.country || "",
+
+      institution:data.institution || "",
+
+      occupation:data.occupation || "",
+
+      bio:data.bio || "",
+
+      photoURL:photoURL
+
+    };
+
+
+  }catch(error){
+
+    console.error(
+      "Profile loading error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   EDIT PROFILE
+========================================================= */
+
+function enableEdit(){
+
+  hideMessage();
+
+
+  fullName.disabled =
+    false;
+
+  phone.disabled =
+    false;
+
+  country.disabled =
+    false;
+
+  institution.disabled =
+    false;
+
+  occupation.disabled =
+    false;
+
+  bio.disabled =
+    false;
+
+
+  editBtn.style.display =
+    "none";
+
+  saveBtn.style.display =
+    "inline-block";
+
+  cancelBtn.style.display =
+    "inline-block";
+
+
+  showMessage(
+    "Edit mode enabled. You can now change your information and profile photo.",
+    "info"
+  );
+
+}
+
+
+/* =========================================================
+   CANCEL EDIT
+========================================================= */
+
+function cancelEdit(){
+
+  fullName.value =
+    originalData.name || "";
+
+  phone.value =
+    originalData.phone || "";
+
+  country.value =
+    originalData.country || "";
+
+  institution.value =
+    originalData.institution || "";
+
+  occupation.value =
+    originalData.occupation || "";
+
+  bio.value =
+    originalData.bio || "";
+
+
+  if(originalData.photoURL){
+
+    profilePhoto.src =
+      originalData.photoURL;
+
+  }else{
+
+    profilePhoto.src =
+      "https://via.placeholder.com/150";
+
+  }
+
+
+  selectedPhotoFile =
+    null;
+
+  photoInput.value =
+    "";
+
+
+  disableEditing();
+
+  hideMessage();
+
+}
+
+
+/* =========================================================
+   DISABLE EDITING
+========================================================= */
+
+function disableEditing(){
+
+  fullName.disabled =
+    true;
+
+  email.disabled =
+    true;
+
+  phone.disabled =
+    true;
+
+  country.disabled =
+    true;
+
+  institution.disabled =
+    true;
+
+  occupation.disabled =
+    true;
+
+  bio.disabled =
+    true;
+
+
+  editBtn.style.display =
+    "inline-block";
+
+  saveBtn.style.display =
+    "none";
+
+  cancelBtn.style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   CHANGE PHOTO
+========================================================= */
+
+function choosePhoto(){
+
+  if(!currentUser){
+
+    showMessage(
+      "You are not logged in.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(saveBtn.style.display !== "inline-block"){
+
+    showMessage(
+      "Click Edit Profile first before changing your photo.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  photoInput.click();
+
+}
+
+
+/* =========================================================
+   PHOTO SELECTED
+========================================================= */
+
+photoInput.addEventListener(
+  "change",
+  (event) => {
+
+    const file =
+      event.target.files[0];
+
+
+    if(!file){
+      return;
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+      showMessage(
+        "Please select a valid image file.",
+        "error"
+      );
+
+      photoInput.value =
+        "";
+
+      return;
+
+    }
+
+
+    if(file.size > 5 * 1024 * 1024){
+
+      showMessage(
+        "Image must be smaller than 5MB.",
+        "error"
+      );
+
+      photoInput.value =
+        "";
+
+      return;
+
+    }
+
+
+    selectedPhotoFile =
+      file;
+
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      (e) => {
+
+        profilePhoto.src =
+          e.target.result;
+
+      };
+
+
+    reader.onerror =
+      () => {
+
+        showMessage(
+          "Could not preview this image.",
+          "error"
+        );
+
+      };
+
+
+    reader.readAsDataURL(file);
+
+
+    showMessage(
+      "Photo selected. Click Save Profile to upload it.",
+      "info"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
+
+async function saveProfile(){
+
+  if(!currentUser){
+
+    showMessage(
+      "You are not logged in.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    fullName.value.trim();
+
+  const phoneValue =
+    phone.value.trim();
+
+  const countryValue =
+    country.value.trim();
+
+  const institutionValue =
+    institution.value.trim();
+
+  const occupationValue =
+    occupation.value.trim();
+
+  const bioValue =
+    bio.value.trim();
+
+
+  if(!name){
+
+    showMessage(
+      "Full Name is required.",
+      "error"
+    );
+
+    fullName.focus();
+
+    return;
+
+  }
+
+
+  saveBtn.disabled =
+    true;
+
+  cancelBtn.disabled =
+    true;
+
+  photoButton.disabled =
+    true;
+
+  saveBtn.textContent =
+    "Saving...";
+
+
+  try{
+
+    let photoURL =
+      originalData.photoURL ||
+      currentUser.photoURL ||
+      "";
+
+
+    /* =====================================================
+       UPLOAD PHOTO
+    ===================================================== */
+
+    if(selectedPhotoFile){
+
+      showMessage(
+        "Uploading profile photo... Please wait.",
+        "info"
+      );
+
+
+      /*
+       IMPORTANT:
+       We use a clean Firebase Storage path.
+      */
+
+      const safeFileName =
+        selectedPhotoFile.name
+          .replace(/[^a-zA-Z0-9._-]/g,"_");
+
+
+      const storagePath =
+        "profilePhotos/" +
+        currentUser.uid +
+        "/" +
+        Date.now() +
+        "_" +
+        safeFileName;
+
+
+      const photoRef =
+        ref(
+          storage,
+          storagePath
+        );
+
+
+      console.log(
+        "Starting photo upload:",
+        storagePath
+      );
+
+
+      /*
+       Upload with Firebase Storage.
+      */
+
+      const uploadResult =
+        await uploadBytes(
+          photoRef,
+          selectedPhotoFile,
+          {
+            contentType:
+              selectedPhotoFile.type
+          }
+        );
+
+
+      console.log(
+        "Photo upload complete:",
+        uploadResult
+      );
+
+
+      showMessage(
+        "Photo uploaded. Saving profile information...",
+        "info"
+      );
+
+
+      photoURL =
+        await getDownloadURL(
+          uploadResult.ref
+        );
+
+
+      console.log(
+        "Photo URL:",
+        photoURL
+      );
+
+    }
+
+
+    /* =====================================================
+       UPDATE FIREBASE AUTH
+    ===================================================== */
+
+    await updateProfile(
+      currentUser,
+      {
+
+        displayName:
+          name,
+
+        photoURL:
+          photoURL || null
+
+      }
+    );
+
+
+    /* =====================================================
+       UPDATE FIRESTORE
+    ===================================================== */
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        currentUser.uid
+      );
+
+
+    await setDoc(
+      userRef,
+      {
+
+        uid:
+          currentUser.uid,
+
+        name:
+          name,
+
+        email:
+          currentUser.email || "",
+
+        phone:
+          phoneValue,
+
+        country:
+          countryValue,
+
+        institution:
+          institutionValue,
+
+        occupation:
+          occupationValue,
+
+        bio:
+          bioValue,
+
+        photoURL:
+          photoURL,
+
+        updatedAt:
+          serverTimestamp()
+
+      },
+      {
+        merge:true
+      }
+    );
+
+
+    /* =====================================================
+       UPDATE LOCAL UI
+    ===================================================== */
+
+    profileName.textContent =
+      name;
+
+    profileEmail.textContent =
+      currentUser.email || "";
+
+
+    if(photoURL){
+
+      profilePhoto.src =
+        photoURL;
+
+    }
+
+
+    originalData = {
+
+      name:name,
+
+      email:
+        currentUser.email || "",
+
+      phone:
+        phoneValue,
+
+      country:
+        countryValue,
+
+      institution:
+        institutionValue,
+
+      occupation:
+        occupationValue,
+
+      bio:
+        bioValue,
+
+      photoURL:
+        photoURL
+
+    };
+
+
+    selectedPhotoFile =
+      null;
+
+    photoInput.value =
+      "";
+
+
+    disableEditing();
+
+
+    showMessage(
+      "Profile saved successfully!",
+      "success"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "SAVE PROFILE ERROR:",
+      error
+    );
+
+
+    let errorMessage =
+      "Could not save your profile.";
+
+
+    if(error.code === "storage/unauthorized"){
+
+      errorMessage =
+        "Photo upload blocked: Firebase Storage Rules are denying this user.";
+
+    }
+    else if(error.code === "storage/unknown"){
+
+      errorMessage =
+        "Firebase Storage returned an unknown error. Check your Storage configuration and internet connection.";
+
+    }
+    else if(error.code === "storage/retry-limit-exceeded"){
+
+      errorMessage =
+        "Photo upload timed out. Check your internet connection and try again.";
+
+    }
+    else if(error.code === "storage/canceled"){
+
+      errorMessage =
+        "Photo upload was canceled.";
+
+    }
+    else if(error.code === "permission-denied"){
+
+      errorMessage =
+        "Firestore permission denied. Check your Firestore Rules.";
+
+    }
+    else if(error.code === "auth/network-request-failed"){
+
+      errorMessage =
+        "Network error. Check your internet connection and try again.";
+
+    }
+    else if(error.message){
+
+      errorMessage =
+        error.message;
+
+    }
+
+
+    showMessage(
+      errorMessage,
+      "error"
+    );
+
+  }finally{
+
+    saveBtn.disabled =
+      false;
+
+    cancelBtn.disabled =
+      false;
+
+    photoButton.disabled =
+      false;
+
+    saveBtn.textContent =
+      "💾 Save Profile";
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD PROGRESS
+========================================================= */
+
+async function loadProgress(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  try{
+
+    const progressRef =
+      doc(
+        db,
+        "courseProgress",
+        currentUser.uid
+      );
+
+
+    const snapshot =
+      await getDoc(progressRef);
+
+
+    if(!snapshot.exists()){
+
+      document.getElementById(
+        "overallProgress"
+      ).textContent =
+        "0%";
+
+      document.getElementById(
+        "completedCourses"
+      ).textContent =
+        "0";
+
+      return;
+
+    }
+
+
+    const data =
+      snapshot.data();
+
+
+    const courseKeys = [
+
+      "webDevelopment",
+
+      "networking",
+
+      "cyberSecurity",
+
+      "graphicDesign",
+
+      "digitalSkills",
+
+      "entrepreneurship"
+
+    ];
+
+
+    let total =
+      0;
+
+    let completed =
+      0;
+
+
+    courseKeys.forEach(
+      (key) => {
+
+        const course =
+          data[key] || {};
+
+
+        let progress =
+          Number(
+            course.progress || 0
+          );
+
+
+        if(!Number.isFinite(progress)){
+          progress = 0;
+        }
+
+
+        progress =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              progress
+            )
+          );
+
+
+        total +=
+          progress;
+
+
+        if(progress >= 100){
+
+          completed++;
+
+        }
+
+      }
+    );
+
+
+    const overall =
+      Math.round(
+        total /
+        courseKeys.length
+      );
+
+
+    document.getElementById(
+      "overallProgress"
+    ).textContent =
+      overall + "%";
+
+
+    document.getElementById(
+      "completedCourses"
+    ).textContent =
+      completed;
+
+
+  }catch(error){
+
+    console.error(
+      "Progress loading error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  logoutBtn.disabled =
+    true;
+
+  logoutBtn.textContent =
+    "Logging out...";
+
+
+  try{
+
+    await signOut(auth);
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }catch(error){
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+
+    logoutBtn.disabled =
+      false;
+
+    logoutBtn.textContent =
+      "Logout";
+
+
+    showMessage(
+      "Logout failed: " +
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function goDashboard(){
+
+  window.location.href =
+    "student-dashboard.html";
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+editBtn.addEventListener(
+  "click",
+  enableEdit
+);
+
+saveBtn.addEventListener(
+  "click",
+  saveProfile
+);
+
+cancelBtn.addEventListener(
+  "click",
+  cancelEdit
+);
+
+photoButton.addEventListener(
+  "click",
+  choosePhoto
+);
+
+logoutBtn.addEventListener(
+  "click",
+  logout
+);
+
+dashboardBtn.addEventListener(
+  "click",
+  goDashboard
+);
+
+</script>
+
+</body>
+</html>

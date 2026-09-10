@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BH Skills Hub</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #ffffff;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .menu-btn {
+            font-size: 27px;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 65px;
+            right: 15px;
+            background: white;
+            width: 190px;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+        }
+
+        nav a {
+            display: block;
+            text-decoration: none;
+            color: #172033;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background: #eef4ff;
+        }
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 60px 22px;
+            text-align: center;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: #facc15;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: auto;
+            opacity: 0.95;
+        }
+
+        .buttons {
+            margin-top: 28px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: white;
+            color: #2563eb;
+        }
+
+        .secondary {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+        }
+
+        .secondary:hover {
+            background: white;
+            color: #2563eb;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            padding: 45px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #667085;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #667085;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .card-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .card-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .academic-card {
+            border: 2px solid #dbeafe;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            margin: 20px;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            background: #111827;
+            color: white;
+        }
+
+        .cta h2 {
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            margin-bottom: 22px;
+            color: #d1d5db;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #ffffff;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        footer p {
+            color: #667085;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           COMPUTER
+        ========================= */
+
+        @media (min-width: 700px) {
+
+            .menu-btn {
+                display: none;
+            }
+
+            nav {
+                display: flex;
+                position: static;
+                width: auto;
+                padding: 0;
+                box-shadow: none;
+                gap: 10px;
+                align-items: center;
+            }
+
+            nav a {
+                padding: 8px 12px;
+            }
+
+            .logout-btn {
+                width: auto;
+                margin-top: 0;
+                padding: 8px 14px;
+            }
+
+        }
+
+
+        /* =========================
+           FIREBASE AUTH LOADING
+           ADDED FOR PROTECTION
+        ========================= */
+
+        #authLoading {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            color: #2563eb;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     AUTH LOADING
+     ADDED ONLY FOR PROTECTION
+========================= -->
+
+<div id="authLoading">
+    Checking account...
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+        BH <span>Skills Hub</span>
+    </div>
+
+
+    <button
+        class="menu-btn"
+        onclick="toggleMenu()"
+    >
+        ☰
+    </button>
+
+
+    <nav id="navMenu">
+
+        <a href="index.html">
+            Home
+        </a>
+
+
+        <!-- PROTECTED COURSES LINK -->
+
+        <a
+            href="#"
+            id="coursesNavLink"
+        >
+            Courses
+        </a>
+
+
+        <a href="book-builder.html">
+            Academic Builder
+        </a>
+
+
+        <a
+            href="login.html"
+            id="loginLink"
+        >
+            Login
+        </a>
+
+
+        <a
+            href="signup.html"
+            id="signupLink"
+        >
+            Sign Up
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+            style="display:none;"
+        >
+            🚪 Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+
+<section class="hero">
+
+    <h1>
+        Learn Skills.<br>
+        <span>Build Your Future.</span>
+    </h1>
+
+
+    <p>
+        Welcome to BH Skills Hub — a digital platform
+        designed to help young people learn practical skills,
+        discover opportunities and build a better future.
+    </p>
+
+
+    <div class="buttons">
+
+        <a
+            href="signup.html"
+            class="btn primary"
+        >
+            Get Started
+        </a>
+
+
+        <!-- PROTECTED EXPLORE COURSES -->
+
+        <a
+            href="#"
+            class="btn secondary"
+            id="exploreCourses"
+        >
+            Explore Courses
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            What You Can Do
+        </h2>
+
+        <p>
+            Everything you need to start learning and growing.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- LEARN SKILLS -->
+
+        <div class="card">
+
+            <div class="icon">
+                📚
+            </div>
+
+            <h3>
+                Learn Skills
+            </h3>
+
+            <p>
+                Discover practical skills and educational
+                content designed for today's digital world.
+            </p>
+
+        </div>
+
+
+
+        <!-- BUILD FUTURE -->
+
+        <div class="card">
+
+            <div class="icon">
+                🎯
+            </div>
+
+            <h3>
+                Build Your Future
+            </h3>
+
+            <p>
+                Improve your knowledge and develop skills
+                that can create new opportunities.
+            </p>
+
+        </div>
+
+
+
+        <!-- OPPORTUNITIES -->
+
+        <div class="card">
+
+            <div class="icon">
+                💼
+            </div>
+
+            <h3>
+                Discover Opportunities
+            </h3>
+
+            <p>
+                Find useful opportunities, resources and
+                ideas that can help you move forward.
+            </p>
+
+        </div>
+
+
+
+        <!-- CONNECT -->
+
+        <div class="card">
+
+            <div class="icon">
+                🌍
+            </div>
+
+            <h3>
+                Connect & Grow
+            </h3>
+
+            <p>
+                Join a growing community of young people
+                interested in learning and development.
+            </p>
+
+        </div>
+
+
+
+        <!-- ACADEMIC BUILDER -->
+
+        <div class="card academic-card">
+
+            <div class="icon">
+                📖
+            </div>
+
+            <h3>
+                Academic Book Builder
+            </h3>
+
+            <p>
+                Build your thesis, research proposal,
+                final year project or academic book
+                step by step from start to finish.
+            </p>
+
+            <a
+                href="book-builder.html"
+                class="card-btn"
+            >
+                Start Building
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Start Learning?
+    </h2>
+
+    <p>
+        Create your free account and start exploring
+        BH Skills Hub.
+    </p>
+
+
+    <a
+        href="signup.html"
+        class="btn primary"
+    >
+        Create Account
+    </a>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 BH Skills Hub. All rights reserved.
+    </p>
+
+    <p>
+        Built by Blaise Hadari
+    </p>
+
+</footer>
+
+
+
+<!-- =========================
+     FIREBASE
+========================= -->
+
+<script type="module">
+
+    import {
+        initializeApp
+    }
+    from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    }
+    from
+    "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+
+    /* =========================
+       FIREBASE CONFIG
+    ========================= */
+
+    const firebaseConfig = {
+
+        apiKey:
+        "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+        authDomain:
+        "bh-skills-hub.firebaseapp.com",
+
+        projectId:
+        "bh-skills-hub",
+
+        storageBucket:
+        "bh-skills-hub.firebasestorage.app",
+
+        messagingSenderId:
+        "503359590632",
+
+        appId:
+        "1:503359590632:web:5b81f57e402addaf2bb95d"
+
+    };
+
+
+
+    /* =========================
+       INITIALIZE FIREBASE
+    ========================= */
+
+    const app =
+        initializeApp(firebaseConfig);
+
+
+    const auth =
+        getAuth(app);
+
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const loginLink =
+        document.getElementById("loginLink");
+
+
+    const signupLink =
+        document.getElementById("signupLink");
+
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    const exploreCourses =
+        document.getElementById("exploreCourses");
+
+
+    const coursesNavLink =
+        document.getElementById("coursesNavLink");
+
+
+    const authLoading =
+        document.getElementById("authLoading");
+
+
+
+    /* =========================
+       AUTHENTICATION CHECK
+    ========================= */
+
+    onAuthStateChanged(auth, (user) => {
+
+
+        /* =====================
+           USER IS LOGGED IN
+        ===================== */
+
+        if (user) {
+
+            loginLink.style.display =
+                "none";
+
+
+            signupLink.style.display =
+                "none";
+
+
+            logoutBtn.style.display =
+                "block";
+
+
+            /*
+             * EXPLORE COURSES
+             * Logged in → courses.html
+             */
+
+            exploreCourses.onclick =
+                function(event) {
+
+                    event.preventDefault();
+
+                    window.location.href =
+                        "courses.html";
+
+                };
+
+
+            /*
+             * COURSES NAVIGATION
+             * Logged in → courses.html
+             */
+
+            coursesNavLink.onclick =
+                function(event) {
+
+                    event.preventDefault();
+
+                    window.location.href =
+                        "courses.html";
+
+                };
+
+        }
+
+
+        /* =====================
+           USER NOT LOGGED IN
+        ===================== */
+
+        else {
+
+            loginLink.style.display =
+                "block";
+
+
+            signupLink.style.display =
+                "block";
+
+
+            logoutBtn.style.display =
+                "none";
+
+
+            /*
+             * EXPLORE COURSES
+             * Not logged in → login.html
+             */
+
+            exploreCourses.onclick =
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    /*
+                     * Remember destination
+                     */
+
+                    sessionStorage.setItem(
+                        "redirectAfterLogin",
+                        "courses.html"
+                    );
+
+
+                    /*
+                     * Go to login
+                     */
+
+                    window.location.href =
+                        "login.html";
+
+                };
+
+
+            /*
+             * COURSES NAVIGATION
+             * Not logged in → login.html
+             */
+
+            coursesNavLink.onclick =
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    /*
+                     * Remember destination
+                     */
+
+                    sessionStorage.setItem(
+                        "redirectAfterLogin",
+                        "courses.html"
+                    );
+
+
+                    /*
+                     * Go to login
+                     */
+
+                    window.location.href =
+                        "login.html";
+
+                };
+
+        }
+
+
+        /*
+         * Firebase has finished checking.
+         * Remove loading screen.
+         */
+
+        authLoading.style.display =
+            "none";
+
+    });
+
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    logoutBtn.addEventListener(
+        "click",
+        async function() {
+
+            try {
+
+                logoutBtn.disabled =
+                    true;
+
+
+                logoutBtn.textContent =
+                    "Logging out...";
+
+
+                await signOut(auth);
+
+
+                window.location.href =
+                    "login.html";
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+
+                alert(
+                    "Logout failed. Please try again."
+                );
+
+
+                logoutBtn.disabled =
+                    false;
+
+
+                logoutBtn.textContent =
+                    "🚪 Logout";
+
+            }
+
+        }
+    );
+
+</script>
+
+
+
+<!-- =========================
+     MOBILE MENU
+========================= -->
+
+<script>
+
+    function toggleMenu() {
+
+        const menu =
+            document.getElementById("navMenu");
+
+
+        if (
+            menu.style.display === "block"
+        ) {
+
+            menu.style.display =
+                "none";
+
+        }
+
+        else {
+
+            menu.style.display =
+                "block";
+
+        }
+
+    }
+
+</script>
+
+
+</body>
+</html>

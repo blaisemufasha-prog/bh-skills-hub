@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - BH Skills Hub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+      transition: 0.3s;
+    }
+
+    body.dark {
+      background: #101827;
+      color: #f1f5f9;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: white;
+      padding: 18px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.18);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(900px, 94%);
+      margin: 35px auto;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      font-size: 30px;
+      margin-bottom: 7px;
+    }
+
+    .page-title p {
+      color: #64748b;
+    }
+
+    body.dark .page-title p {
+      color: #94a3b8;
+    }
+
+    .settings-card {
+      background: white;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    }
+
+    body.dark .settings-card {
+      background: #1e293b;
+      box-shadow: none;
+    }
+
+    .settings-card h2 {
+      font-size: 18px;
+      margin-bottom: 17px;
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 17px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    body.dark .setting-row {
+      border-color: #334155;
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info h3 {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .setting-info p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    body.dark .setting-info p {
+      color: #94a3b8;
+    }
+
+    button,
+    select {
+      font-size: 14px;
+    }
+
+    .action-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .action-btn:hover {
+      opacity: 0.9;
+    }
+
+    .danger-btn {
+      background: #dc2626;
+    }
+
+    select {
+      padding: 10px 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      background: white;
+      color: #172033;
+      outline: none;
+    }
+
+    body.dark select {
+      background: #0f172a;
+      color: white;
+      border-color: #475569;
+    }
+
+    .switch {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      display: inline-block;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #cbd5e1;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .slider {
+      background: #2563eb;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .account-email {
+      background: #eff6ff;
+      color: #1d4ed8;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      word-break: break-word;
+    }
+
+    body.dark .account-email {
+      background: #172554;
+      color: #93c5fd;
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    footer {
+      text-align: center;
+      color: #64748b;
+      padding: 25px;
+      font-size: 13px;
+    }
+
+    body.dark footer {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 15px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .container {
+        margin: 25px auto;
+      }
+
+      .page-title h1 {
+        font-size: 25px;
+      }
+
+      .settings-card {
+        padding: 17px;
+      }
+
+      .setting-row {
+        align-items: flex-start;
+      }
+
+      .setting-info {
+        flex: 1;
+      }
+
+      .action-btn {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">BH Skills Hub</div>
+  <button class="back-btn" onclick="location.href='student-dashboard.html'">
+    ← Dashboard
+  </button>
+</header>
+
+<main class="container">
+
+  <div class="page-title">
+    <h1>⚙️ Settings</h1>
+    <p>Manage your BH Skills Hub account and preferences.</p>
+  </div>
+
+  <!-- ACCOUNT -->
+  <section class="settings-card">
+    <h2>👤 Account</h2>
+
+    <div class="account-email" id="accountEmail">
+      Loading account...
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Edit Profile</h3>
+        <p>Update your name, phone, country, institution, occupation and bio.</p>
+      </div>
+
+      <button class="action-btn" onclick="location.href='student-profile.html'">
+        Edit
+      </button>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Change Password</h3>
+        <p>Receive a password reset email for your account.</p>
+      </div>
+
+      <button class="action-btn" id="passwordBtn">
+        Change
+      </button>
+    </div>
+
+    <div id="message" class="message"></div>
+  </section>
+
+  <!-- APPEARANCE -->
+  <section class="settings-card">
+    <h2>🎨 Appearance</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Dark Mode</h3>
+        <p>Use a darker interface that is more comfortable in low light.</p>
+      </div>
+
+      <label class="switch">
+        <input type="checkbox" id="darkMode">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <!-- NOTIFICATIONS -->
+  <section class="settings-card">
+    <h2>🔔 Notifications</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Learning Notifications</h3>
+        <p>Enable reminders and learning-related notifications.</p>
+      </div>
+
+      <label class="switch">
+        <input type="checkbox" id="notifications">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <!-- LANGUAGE -->
+  <section class="settings-card">
+    <h2>🌍 Language</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Interface Language</h3>
+        <p>Select your preferred language.</p>
+      </div>
+
+      <select id="language">
+        <option value="en">English</option>
+        <option value="rw">Kinyarwanda</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="settings-card">
+    <h2>🔒 Privacy & Security</h2>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Account Security</h3>
+        <p>Your authentication is managed securely through Firebase Authentication.</p>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-info">
+        <h3>Sign Out</h3>
+        <p>Sign out from this device.</p>
+      </div>
+
+      <button class="action-btn danger-btn" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 BH Skills Hub. All rights reserved.
+</footer>
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    sendPasswordResetEmail,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+    authDomain: "bh-skills-hub.firebaseapp.com",
+    projectId: "bh-skills-hub",
+    storageBucket: "bh-skills-hub.firebasestorage.app",
+    messagingSenderId: "503359590632",
+    appId: "1:503359590632:web:5b81f57e402addaf2bb95d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const emailBox = document.getElementById("accountEmail");
+  const message = document.getElementById("message");
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+  }
+
+  // DARK MODE
+  const darkMode = document.getElementById("darkMode");
+
+  const savedTheme = localStorage.getItem("bhTheme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+    darkMode.checked = true;
+  }
+
+  darkMode.addEventListener("change", () => {
+
+    if (darkMode.checked) {
+      document.body.classList.add("dark");
+      localStorage.setItem("bhTheme", "dark");
+    } else {
+      document.body.classList.remove("dark");
+      localStorage.setItem("bhTheme", "light");
+    }
+
+  });
+
+  // NOTIFICATIONS
+  const notifications = document.getElementById("notifications");
+
+  notifications.checked =
+    localStorage.getItem("bhNotifications") === "on";
+
+  notifications.addEventListener("change", () => {
+
+    localStorage.setItem(
+      "bhNotifications",
+      notifications.checked ? "on" : "off"
+    );
+
+  });
+
+  // LANGUAGE
+  const language = document.getElementById("language");
+
+  language.value =
+    localStorage.getItem("bhLanguage") || "en";
+
+  language.addEventListener("change", () => {
+
+    localStorage.setItem(
+      "bhLanguage",
+      language.value
+    );
+
+    if (language.value === "rw") {
+      showMessage(
+        "Kinyarwanda interface irategurwa. Ubu Settings ikomeza gukora neza.",
+        "success"
+      );
+    }
+
+  });
+
+  // AUTH
+  onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+      setTimeout(() => {
+        window.location.replace("login.html");
+      }, 1200);
+
+      return;
+    }
+
+    emailBox.textContent =
+      "Signed in as: " + (user.email || "No email");
+  });
+
+  // CHANGE PASSWORD
+  document.getElementById("passwordBtn").addEventListener("click", async () => {
+
+    const user = auth.currentUser;
+
+    if (!user || !user.email) {
+      showMessage(
+        "Your account email could not be found.",
+        "error"
+      );
+      return;
+    }
+
+    const confirmed = confirm(
+      "Send a password reset email to " + user.email + "?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+
+      await sendPasswordResetEmail(auth, user.email);
+
+      showMessage(
+        "Password reset email has been sent to " + user.email + ". Check your inbox.",
+        "success"
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        error.message || "Could not send password reset email.",
+        "error"
+      );
+
+    }
+
+  });
+
+  // LOGOUT
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+
+    const confirmed = confirm("Are you sure you want to logout?");
+
+    if (!confirmed) return;
+
+    try {
+
+      await signOut(auth);
+
+      window.location.replace("login.html");
+
+    } catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Logout failed. Please try again.",
+        "error"
+      );
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>

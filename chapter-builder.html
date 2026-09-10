@@ -1,0 +1,3997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Guided Academic Builder - BH Skills Hub</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+    color:#172033;
+    line-height:1.6;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    min-height:64px;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 22px;
+    box-shadow:0 3px 15px rgba(0,0,0,.20);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+}
+
+.header-btn{
+    border:0;
+    background:#1f2937;
+    color:white;
+    padding:9px 13px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+}
+
+.header-btn:hover{
+    background:#374151;
+}
+
+#authLoading{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:12px;
+    font-size:18px;
+    font-weight:700;
+}
+
+.loader{
+    width:40px;
+    height:40px;
+    border:4px solid #374151;
+    border-top-color:#38bdf8;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.page{
+    max-width:1450px;
+    margin:auto;
+    padding:22px;
+}
+
+.project-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.project-card h1{
+    font-size:26px;
+    color:#111827;
+    margin-bottom:5px;
+    word-break:break-word;
+}
+
+.project-type{
+    display:inline-block;
+    margin-top:7px;
+    padding:5px 10px;
+    background:#eff6ff;
+    color:#1d4ed8;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.project-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:14px;
+    color:#64748b;
+    font-size:14px;
+}
+
+.mode-bar{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.mode-btn{
+    flex:1;
+    border:1px solid #cbd5e1;
+    background:#f8fafc;
+    color:#334155;
+    padding:11px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.mode-btn.active{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+.builder{
+    display:grid;
+    grid-template-columns:290px minmax(0,1fr);
+    gap:20px;
+}
+
+.sidebar{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:18px;
+    height:max-content;
+    position:sticky;
+    top:85px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.sidebar h2{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+.progress-container{
+    margin-bottom:20px;
+}
+
+.progress-header{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.progress{
+    height:10px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#2563eb;
+    transition:.3s;
+}
+
+.section-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:65vh;
+    overflow-y:auto;
+}
+
+.section-item{
+    border:1px solid #e2e8f0;
+    background:#f8fafc;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    color:#334155;
+}
+
+.section-item:hover{
+    background:#eff6ff;
+}
+
+.section-item.active{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+.section-item.completed{
+    border-left:4px solid #16a34a;
+}
+
+.editor-area{
+    min-width:0;
+}
+
+.lesson-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(15,23,42,.06);
+}
+
+.lesson-heading{
+    border-bottom:1px solid #e2e8f0;
+    padding-bottom:17px;
+    margin-bottom:18px;
+}
+
+.lesson-heading h2{
+    font-size:26px;
+    color:#111827;
+    margin-bottom:5px;
+}
+
+.lesson-heading p{
+    color:#64748b;
+    font-size:14px;
+}
+
+.guided-box{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:18px;
+    border-radius:9px;
+    margin-bottom:20px;
+}
+
+.guided-box h3{
+    color:#1d4ed8;
+    margin-bottom:8px;
+    font-size:18px;
+}
+
+.guided-box p{
+    margin-bottom:8px;
+    color:#334155;
+}
+
+.guided-box p:last-child{
+    margin-bottom:0;
+}
+
+.professional-box{
+    display:none;
+    background:#f8fafc;
+    border:1px solid #dbeafe;
+    padding:18px;
+    border-radius:9px;
+    margin-bottom:20px;
+}
+
+.professional-box h3{
+    color:#1d4ed8;
+    margin-bottom:10px;
+}
+
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    background:#f8fafc;
+    border:1px solid #cbd5e1;
+    border-bottom:0;
+    padding:8px;
+    border-radius:9px 9px 0 0;
+}
+
+.toolbar button,
+.toolbar select{
+    border:1px solid #cbd5e1;
+    background:white;
+    color:#334155;
+    padding:7px 9px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.toolbar button:hover,
+.toolbar select:hover{
+    background:#eff6ff;
+}
+
+.editor{
+    min-height:400px;
+    border:1px solid #cbd5e1;
+    border-radius:0 0 9px 9px;
+    padding:20px;
+    background:white;
+    outline:none;
+    overflow-x:auto;
+}
+
+.editor:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 2px rgba(37,99,235,.10);
+}
+
+.editor h1{
+    font-size:28px;
+    margin:15px 0;
+}
+
+.editor h2{
+    font-size:23px;
+    margin:15px 0;
+}
+
+.editor h3{
+    font-size:19px;
+    margin:14px 0;
+}
+
+.editor p{
+    margin-bottom:12px;
+}
+
+.editor ul,
+.editor ol{
+    margin:10px 0 15px 25px;
+}
+
+.editor blockquote{
+    border-left:4px solid #2563eb;
+    padding:10px 15px;
+    margin:15px 0;
+    background:#eff6ff;
+    color:#334155;
+}
+
+.editor table{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+}
+
+.editor th,
+.editor td{
+    border:1px solid #94a3b8;
+    padding:9px;
+    text-align:left;
+}
+
+.editor th{
+    background:#f1f5f9;
+}
+
+.editor figure{
+    margin:20px 0;
+    text-align:center;
+}
+
+.editor figure img{
+    max-width:100%;
+    height:auto;
+    border-radius:8px;
+}
+
+.editor figcaption{
+    color:#64748b;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.actions{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.action-btn{
+    border:0;
+    padding:11px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.previous-btn,
+.next-btn{
+    background:#111827;
+    color:white;
+}
+
+.save-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.complete-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.review-btn{
+    background:#7c3aed;
+    color:white;
+}
+
+.action-btn:hover{
+    opacity:.9;
+}
+
+.action-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+#message{
+    display:none;
+    padding:12px 15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    font-weight:700;
+}
+
+.message-success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.message-error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.message-info{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-content{
+    background:white;
+    width:100%;
+    max-width:550px;
+    max-height:90vh;
+    overflow-y:auto;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 15px 50px rgba(0,0,0,.25);
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.modal-header h2{
+    font-size:21px;
+}
+
+.close-modal{
+    border:0;
+    background:#ef4444;
+    color:white;
+    width:35px;
+    height:35px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:10px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    font-family:inherit;
+}
+
+.modal-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.modal-btn{
+    flex:1;
+    padding:11px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.cancel-btn{
+    background:#e2e8f0;
+    color:#334155;
+}
+
+.primary-btn{
+    background:#2563eb;
+    color:white;
+}
+
+@media(max-width:950px){
+
+    .builder{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:static;
+    }
+
+    .section-list{
+        max-height:260px;
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:10px;
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .header-actions{
+        width:100%;
+        justify-content:flex-start;
+    }
+
+    .header-btn{
+        font-size:12px;
+        padding:8px 10px;
+    }
+
+    .page{
+        padding:12px 9px 30px;
+    }
+
+    .project-card{
+        padding:17px;
+    }
+
+    .project-card h1{
+        font-size:22px;
+    }
+
+    .mode-bar{
+        flex-direction:column;
+    }
+
+    .lesson-card{
+        padding:16px;
+    }
+
+    .lesson-heading h2{
+        font-size:22px;
+    }
+
+    .editor{
+        min-height:350px;
+        padding:14px;
+        font-size:14px;
+    }
+
+    .toolbar{
+        gap:4px;
+    }
+
+    .toolbar button,
+    .toolbar select{
+        font-size:12px;
+        padding:6px;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .action-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="authLoading">
+
+    <div class="loader"></div>
+
+    <div>Loading Academic Builder...</div>
+
+</div>
+
+
+<header>
+
+    <div class="logo">
+        BH <span>Skills Hub</span>
+    </div>
+
+    <div class="header-actions">
+
+        <a
+            id="projectsLink"
+            class="header-btn"
+            href="my-academic-projects.html">
+            ← My Projects
+        </a>
+
+        <a
+            id="reviewLink"
+            class="header-btn"
+            href="#">
+            📋 Review
+        </a>
+
+        <a
+            class="header-btn"
+            href="student-dashboard.html">
+            🏠 Dashboard
+        </a>
+
+    </div>
+
+</header>
+
+
+<div class="page">
+
+<section class="project-card">
+
+    <h1 id="projectTitle">
+        Loading project...
+    </h1>
+
+    <span
+        class="project-type"
+        id="projectType">
+        Academic Project
+    </span>
+
+    <div class="project-meta">
+
+        <span>
+            👤 <strong id="projectAuthor">-</strong>
+        </span>
+
+        <span>
+            🏫 <strong id="projectInstitution">-</strong>
+        </span>
+
+        <span>
+            📚 <strong id="projectDepartment">-</strong>
+        </span>
+
+        <span>
+            📅 <strong id="projectYear">-</strong>
+        </span>
+
+    </div>
+
+</section>
+
+
+<div class="mode-bar">
+
+    <button
+        id="beginnerBtn"
+        class="mode-btn active">
+        🌱 Beginner Mode
+    </button>
+
+    <button
+        id="professionalBtn"
+        class="mode-btn">
+        🎓 Professional Mode
+    </button>
+
+</div>
+
+
+<div id="message"></div>
+
+
+<div class="builder">
+
+<aside class="sidebar">
+
+    <h2>Project Progress</h2>
+
+    <div class="progress-container">
+
+        <div class="progress-header">
+
+            <span>Completion</span>
+
+            <span id="progressText">
+                0%
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <h2>Sections</h2>
+
+    <div
+        id="sectionList"
+        class="section-list">
+    </div>
+
+</aside>
+
+
+<main class="editor-area">
+
+<section class="lesson-card">
+
+<div class="lesson-heading">
+
+    <h2 id="sectionTitle">
+        Loading...
+    </h2>
+
+    <p>
+        Follow the guide, write your content,
+        save the section and mark it complete.
+    </p>
+
+</div>
+
+
+<div
+    id="guidedBox"
+    class="guided-box">
+
+    <h3>What is this section?</h3>
+    <p id="lessonWhat"></p>
+
+    <h3>How should you write it?</h3>
+    <p id="lessonHow"></p>
+
+    <h3>What should it contain?</h3>
+    <p id="lessonContain"></p>
+
+    <h3>Example</h3>
+    <p id="lessonExample"></p>
+
+    <h3>Common mistakes</h3>
+    <p id="lessonMistakes"></p>
+
+</div>
+
+
+<div
+    id="professionalBox"
+    class="professional-box">
+
+    <h3>
+        Professional Writing Guidance
+    </h3>
+
+    <p>
+        Write in a formal academic style. Keep your
+        arguments logical, evidence-based and directly
+        connected to your research objectives.
+    </p>
+
+    <p>
+        Avoid unsupported claims, excessive repetition,
+        informal language and unnecessary explanations.
+        Use citations and references whenever external
+        information is used.
+    </p>
+
+</div>
+
+
+<div class="toolbar">
+
+    <button
+        type="button"
+        onclick="format('bold')">
+        B
+    </button>
+
+    <button
+        type="button"
+        onclick="format('italic')">
+        I
+    </button>
+
+    <button
+        type="button"
+        onclick="format('underline')">
+        U
+    </button>
+
+    <select
+        onchange="formatBlock(this.value)">
+
+        <option value="">
+            Format
+        </option>
+
+        <option value="h1">H1</option>
+        <option value="h2">H2</option>
+        <option value="h3">H3</option>
+        <option value="p">Paragraph</option>
+
+    </select>
+
+    <button
+        type="button"
+        onclick="format('insertUnorderedList')">
+        • List
+    </button>
+
+    <button
+        type="button"
+        onclick="format('insertOrderedList')">
+        1. List
+    </button>
+
+    <button
+        type="button"
+        onclick="format('formatBlock','blockquote')">
+        Quote
+    </button>
+
+    <button
+        type="button"
+        onclick="clearFormatting()">
+        Clear
+    </button>
+
+    <button
+        type="button"
+        id="addTableBtn">
+        📊 Table
+    </button>
+
+    <button
+        type="button"
+        id="addFigureBtn">
+        🖼 Figure
+    </button>
+
+    <button
+        type="button"
+        id="referencesBtn">
+        📚 References
+    </button>
+
+    <button
+        type="button"
+        id="reviewBtn">
+        📋 Review
+    </button>
+
+</div>
+
+
+<div
+    id="editor"
+    class="editor"
+    contenteditable="true"
+    spellcheck="true">
+</div>
+
+
+<div class="actions">
+
+    <button
+        id="previousBtn"
+        class="action-btn previous-btn">
+        ← Previous
+    </button>
+
+    <button
+        id="nextBtn"
+        class="action-btn next-btn">
+        Next →
+    </button>
+
+    <button
+        id="saveBtn"
+        class="action-btn save-btn">
+        💾 Save Section
+    </button>
+
+    <button
+        id="completeBtn"
+        class="action-btn complete-btn">
+        ✅ Mark Complete
+    </button>
+
+    <button
+        id="reviewProjectBtn"
+        class="action-btn review-btn">
+        📋 Review Project
+    </button>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+
+<div id="tableModal" class="modal">
+
+<div class="modal-content">
+
+    <div class="modal-header">
+
+        <h2>Add Table</h2>
+
+        <button
+            class="close-modal"
+            id="closeTableModal">
+            ×
+        </button>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Table Caption</label>
+
+        <input
+            id="tableCaption"
+            type="text"
+            placeholder="Example: Table 1: Research Participants">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Rows</label>
+
+        <input
+            id="tableRows"
+            type="number"
+            min="1"
+            max="30"
+            value="3">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Columns</label>
+
+        <input
+            id="tableColumns"
+            type="number"
+            min="1"
+            max="15"
+            value="3">
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button
+            class="modal-btn cancel-btn"
+            id="cancelTable">
+            Cancel
+        </button>
+
+        <button
+            class="modal-btn primary-btn"
+            id="insertTable">
+            Insert Table
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div id="figureModal" class="modal">
+
+<div class="modal-content">
+
+    <div class="modal-header">
+
+        <h2>Add Figure</h2>
+
+        <button
+            class="close-modal"
+            id="closeFigureModal">
+            ×
+        </button>
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Figure Caption</label>
+
+        <input
+            id="figureCaption"
+            type="text"
+            placeholder="Example: Figure 1: System Architecture">
+
+    </div>
+
+    <div class="form-group">
+
+        <label>Select Image</label>
+
+        <input
+            id="figureFile"
+            type="file"
+            accept="image/*">
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button
+            class="modal-btn cancel-btn"
+            id="cancelFigure">
+            Cancel
+        </button>
+
+        <button
+            class="modal-btn primary-btn"
+            id="uploadFigure">
+            Upload & Insert
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+    <strong>
+        © 2026 BH Skills Hub — All Rights Reserved.
+    </strong>
+
+    <br>
+
+    Guided Academic Builder
+
+    <br>
+
+    Made by Blaise Hadari
+
+</footer>
+
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+const storage =
+    getStorage(app);
+
+
+let currentUser = null;
+let project = null;
+let projectRef = null;
+
+let sections = [];
+let currentIndex = 0;
+let currentMode = "beginner";
+
+let autoSaveTimer = null;
+
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const urlProjectId =
+    params.get("id");
+
+
+/* =========================================
+   GET LOCAL PROJECT
+========================================= */
+
+function getLocalProject(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "bhAcademicProject"
+            );
+
+        if(!saved){
+
+            return null;
+
+        }
+
+        return JSON.parse(saved);
+
+    }catch(error){
+
+        console.error(
+            "Local project error:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================
+   PROJECT ID
+========================================= */
+
+function getProjectId(){
+
+    const cleanUrlId =
+        urlProjectId
+        ? String(urlProjectId).trim()
+        : "";
+
+
+    if(cleanUrlId){
+
+        return cleanUrlId;
+
+    }
+
+
+    const local =
+        getLocalProject();
+
+
+    if(
+        local &&
+        local.id
+    ){
+
+        return String(
+            local.id
+        ).trim();
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================
+   PROJECT URL
+========================================= */
+
+function projectUrl(page){
+
+    if(
+        !project ||
+        !project.id
+    ){
+
+        return page;
+
+    }
+
+
+    return (
+        page +
+        "?id=" +
+        encodeURIComponent(
+            String(project.id)
+        )
+    );
+
+}
+
+
+/* =========================================
+   STRUCTURES
+========================================= */
+
+const structures = {
+
+"University Thesis":[
+
+"📄 Cover Page",
+"📜 Declaration",
+"✅ Approval",
+"❤️ Dedication",
+"🙏 Acknowledgement",
+"📑 Table of Contents",
+"🖼 List of Figures",
+"📊 List of Tables",
+"🔤 Abbreviations",
+"📄 Abstract",
+
+"Chapter 1 — Introduction",
+"Background of the Study",
+"Problem Statement",
+"Objectives",
+"Research Questions",
+"Significance of the Study",
+"Scope of the Study",
+"Definition of Key Terms",
+
+"Chapter 2 — Literature Review",
+"Theoretical Review",
+"Conceptual Framework",
+"Empirical Review",
+"Research Gap",
+
+"Chapter 3 — Methodology",
+"Research Design",
+"Study Population",
+"Sample Size and Sampling",
+"Data Collection Methods",
+"Data Analysis",
+"Ethical Considerations",
+"Limitations",
+
+"Chapter 4 — Results / Findings",
+"Data Presentation",
+"Findings",
+"Discussion",
+
+"Chapter 5 — Conclusion",
+"Conclusion",
+"Recommendations",
+"Suggestions for Further Research",
+
+"📚 References",
+"📎 Appendices"
+
+],
+
+"Final Year Project":[
+
+"📋 Project Information",
+"📄 Abstract",
+"Chapter 1 — Introduction",
+"Chapter 2 — Literature Review",
+"Chapter 3 — System Analysis & Design",
+"Chapter 4 — Implementation",
+"Chapter 5 — Testing & Evaluation",
+"Conclusion & Recommendations",
+"📚 References",
+"📎 Appendices"
+
+],
+
+"Research Proposal":[
+
+"📋 Project Information",
+"📄 Abstract",
+"Chapter 1 — Introduction",
+"Chapter 2 — Literature Review",
+"Chapter 3 — Research Methodology",
+"📅 Work Plan / Timeline",
+"💰 Budget",
+"📚 References",
+"📎 Appendices"
+
+],
+
+"Academic Book":[
+
+"📋 Project Information",
+"📖 Preface",
+"🙏 Acknowledgement",
+"📑 Table of Contents",
+"Introduction",
+"📚 Book Chapters",
+"Conclusion",
+"📚 References",
+"📎 Appendices"
+
+]
+
+};
+
+
+/* =========================================
+   LESSONS
+========================================= */
+
+const lessons = {
+
+"Background of the Study":{
+what:"The Background of the Study introduces the topic and explains the situation or context that led to your research.",
+how:"Start with the general topic, move toward the specific problem, explain what is already happening, and lead the reader toward your research problem.",
+contain:"Context, existing situation, important facts, previous work and the reason the study is necessary.",
+example:"For example, a study about public Wi-Fi could begin by explaining the growing use of internet services, then discuss congestion in crowded public spaces and finally introduce the need for improved Wi-Fi performance.",
+mistakes:"Do not make it only a list of definitions. Avoid unsupported claims, unrelated information and very long paragraphs."
+},
+
+"Problem Statement":{
+what:"The Problem Statement clearly identifies the specific problem that your research intends to address.",
+how:"Explain the current situation, identify what is wrong or missing, describe the consequences and show why research is needed.",
+contain:"The existing problem, evidence or context, consequences and the gap that your study will address.",
+example:"Although public Wi-Fi is increasingly used in crowded areas, users may experience low throughput, high latency and packet loss during peak periods.",
+mistakes:"Avoid presenting the solution as if the research has already been completed."
+},
+
+"Objectives":{
+what:"Objectives state exactly what the research intends to achieve.",
+how:"Create one general objective and several specific objectives. Use clear action verbs such as investigate, analyze, design, develop, evaluate or assess.",
+contain:"A general objective and specific objectives that directly relate to the research problem.",
+example:"General objective: To investigate factors affecting public Wi-Fi performance.",
+mistakes:"Avoid vague verbs such as know or understand."
+},
+
+"Research Questions":{
+what:"Research questions convert the research problem and objectives into questions that the study will answer.",
+how:"Create questions that directly correspond to your specific objectives.",
+contain:"Clear, focused and researchable questions.",
+example:"What factors contribute to congestion in public Wi-Fi networks?",
+mistakes:"Do not create questions that cannot be answered by your chosen methodology."
+},
+
+"Significance of the Study":{
+what:"This section explains who may benefit from the research and how the findings may be useful.",
+how:"Identify the groups that can benefit and explain the practical or academic value of your findings.",
+contain:"Benefits to researchers, organizations, users, institutions or other relevant groups.",
+example:"The findings may help network administrators identify causes of poor Wi-Fi performance.",
+mistakes:"Avoid simply saying this study is important."
+},
+
+"Scope of the Study":{
+what:"The scope defines the boundaries of your research.",
+how:"Explain what the study covers and what it does not cover.",
+contain:"Content scope, geographical scope, population scope and time scope where relevant.",
+example:"The study focuses on Wi-Fi performance in selected public locations.",
+mistakes:"Avoid making the scope too broad."
+},
+
+"Definition of Key Terms":{
+what:"This section defines important technical or specialized terms used in your research.",
+how:"Select terms that may be misunderstood and define them according to how they are used in your study.",
+contain:"Key technical terms and clear academic definitions.",
+example:"Throughput is the amount of data successfully transmitted through a network over a given period.",
+mistakes:"Do not define every ordinary word."
+},
+
+"Abstract":{
+what:"An abstract is a short summary of the entire academic work.",
+how:"Briefly present the problem, objectives, methodology, major findings and conclusion.",
+contain:"Background, objective, methods, major findings and conclusion.",
+example:"This study investigated factors affecting public Wi-Fi performance.",
+mistakes:"Do not introduce information that is not discussed in the main project."
+},
+
+"Theoretical Review":{
+what:"The theoretical review presents theories or models that support your research.",
+how:"Identify relevant theories, explain their main ideas and connect them to your research topic.",
+contain:"Relevant theories, major concepts and their relationship to your study.",
+example:"The study may use queueing theory to explain network resource usage.",
+mistakes:"Do not list theories without explaining their relationship."
+},
+
+"Conceptual Framework":{
+what:"A conceptual framework shows the main concepts or variables in your study and how they relate.",
+how:"Identify independent variables, dependent variables and important relationships.",
+contain:"Key variables, relationships and explanatory text.",
+example:"Network congestion may influence throughput, latency and packet loss.",
+mistakes:"Do not create a diagram without explaining the relationships."
+},
+
+"Empirical Review":{
+what:"An empirical review examines findings from previous studies related to your topic.",
+how:"Find credible previous studies, summarize their methods and findings, then compare them with your own research.",
+contain:"Previous studies, methods, findings, similarities, differences and relevance.",
+example:"Previous studies have reported that high user density can reduce available bandwidth.",
+mistakes:"Do not simply summarize papers one after another."
+},
+
+"Research Gap":{
+what:"The research gap identifies what previous studies have not sufficiently addressed.",
+how:"Compare previous research and identify the missing knowledge, context, method or population.",
+contain:"What is already known, what remains unknown and how your study addresses the gap.",
+example:"Limited research may exist for a specific local context.",
+mistakes:"Do not claim that no research exists unless you have strong evidence."
+},
+
+"Research Design":{
+what:"Research design explains the overall plan used to conduct the study.",
+how:"State whether the study is quantitative, qualitative or mixed-method and explain why.",
+contain:"Research approach, design type and justification.",
+example:"A quantitative descriptive design may be used to measure network performance.",
+mistakes:"Do not select a design without connecting it to your objectives."
+},
+
+"Study Population":{
+what:"The study population is the complete group of people, systems or objects relevant to the research.",
+how:"Describe who or what the study focuses on and explain why this population is appropriate.",
+contain:"Population characteristics, location and relevance.",
+example:"The population may include users and network environments.",
+mistakes:"Do not confuse population with sample."
+},
+
+"Sample Size and Sampling":{
+what:"This section explains how participants or research units are selected from the population.",
+how:"State the sampling method, sample size and reasons for choosing them.",
+contain:"Sampling technique, sample size and selection criteria.",
+example:"A purposive sampling technique may be used to select suitable locations.",
+mistakes:"Do not state a sample size without explaining how it was determined."
+},
+
+"Data Collection Methods":{
+what:"This section explains how research data will be collected.",
+how:"Describe instruments, procedures and sources of data.",
+contain:"Questionnaires, interviews, observations, measurements, documents or technical tools.",
+example:"Network performance data may be collected using network monitoring tools.",
+mistakes:"Do not list instruments without explaining how they will be used."
+},
+
+"Data Analysis":{
+what:"Data analysis explains how collected information will be processed and interpreted.",
+how:"Describe the statistical, qualitative or technical methods that will be used.",
+contain:"Data preparation, analysis techniques and presentation methods.",
+example:"Network measurements may be summarized using averages and tables.",
+mistakes:"Do not claim results before the data has been analyzed."
+},
+
+"Ethical Considerations":{
+what:"Ethical considerations explain how the study will protect participants and maintain responsible research practices.",
+how:"Discuss consent, privacy, confidentiality and responsible data handling.",
+contain:"Consent, confidentiality, privacy and ethical approval where required.",
+example:"Participants will be informed about the purpose of the study.",
+mistakes:"Do not collect personal information unnecessarily."
+},
+
+"Limitations":{
+what:"Limitations are factors that may affect the study but are outside the researcher's full control.",
+how:"Identify realistic limitations and explain how they may affect the study.",
+contain:"Technical, financial, time, sample or access limitations.",
+example:"Limited access to some environments may restrict measurements.",
+mistakes:"Do not present limitations as excuses."
+},
+
+"Data Presentation":{
+what:"Data presentation organizes research results so that readers can understand them easily.",
+how:"Use tables, figures, charts and clear explanations.",
+contain:"Relevant results, tables, figures and explanatory text.",
+example:"Average throughput can be presented in a comparison table.",
+mistakes:"Do not include tables without explaining what they show."
+},
+
+"Findings":{
+what:"Findings present the actual results obtained from your research.",
+how:"Present the results objectively and connect them to research questions or objectives.",
+contain:"Measured or analyzed results supported by evidence.",
+example:"The results showed differences in network performance between locations.",
+mistakes:"Do not invent data."
+},
+
+"Discussion":{
+what:"The discussion interprets your findings and compares them with previous research.",
+how:"Explain what your results mean and how they relate to the literature.",
+contain:"Interpretation, comparison and implications.",
+example:"Lower throughput during peak periods may be consistent with previous research.",
+mistakes:"Do not repeat results without interpretation."
+},
+
+"Conclusion":{
+what:"A conclusion summarizes what the research established based on the findings.",
+how:"Return to the objectives and explain the main conclusions supported by evidence.",
+contain:"Main findings, overall conclusion and connection to objectives.",
+example:"The study concludes that high user density affected Wi-Fi performance.",
+mistakes:"Do not introduce completely new findings."
+},
+
+"Recommendations":{
+what:"Recommendations propose practical actions based on the findings.",
+how:"Make specific recommendations to the people or organizations who can act on the results.",
+contain:"Clear, realistic and evidence-based actions.",
+example:"Network administrators should consider additional access points where congestion persists.",
+mistakes:"Recommendations should come from the findings."
+},
+
+"Suggestions for Further Research":{
+what:"This section identifies areas that future researchers could investigate.",
+how:"Point out questions or limitations that your study could not fully address.",
+contain:"Specific future research topics or methods.",
+example:"Future research could investigate machine-learning approaches for predicting congestion.",
+mistakes:"Avoid vague statements."
+},
+
+"Introduction":{
+what:"The introduction presents the reader with the topic, purpose and direction of the work.",
+how:"Introduce the subject, explain its context, identify the main issue and tell the reader what the work will cover.",
+contain:"Context, purpose, scope and structure.",
+example:"This work introduces networking concepts and gradually moves toward practical design.",
+mistakes:"Do not make the introduction unnecessarily long."
+},
+
+"Preface":{
+what:"A preface is a short introductory note from the author about the book.",
+how:"Explain why the book was written, who it is for and what motivated its creation.",
+contain:"Purpose, audience and motivation.",
+example:"This book was created to help beginners understand networking concepts.",
+mistakes:"Do not turn the preface into a complete chapter summary."
+},
+
+"Acknowledgement":{
+what:"Acknowledgement is where the author recognizes people or organizations that contributed to the work.",
+how:"Mention supervisors, institutions, colleagues, family or others who genuinely supported the project.",
+contain:"Specific people or organizations and their contributions.",
+example:"I sincerely thank my supervisor for guidance and constructive feedback.",
+mistakes:"Keep it respectful and concise."
+},
+
+"Chapter 1 — Introduction":{
+what:"This chapter introduces the academic project and establishes the context of the study.",
+how:"Move from the broad topic toward the specific research problem.",
+contain:"Background, problem, objectives, questions, significance, scope and key terms.",
+example:"Chapter One introduces the study by explaining the context and objectives.",
+mistakes:"Do not put detailed results in the introduction."
+},
+
+"Chapter 2 — Literature Review":{
+what:"The literature review examines existing knowledge and research related to your topic.",
+how:"Organize sources by themes or concepts, compare studies and identify the research gap.",
+contain:"Theories, concepts, empirical studies and research gap.",
+example:"The chapter reviews previous studies related to network performance.",
+mistakes:"Avoid writing a list of unrelated summaries."
+},
+
+"Chapter 3 — Methodology":{
+what:"Methodology explains exactly how the research will be conducted.",
+how:"Describe design, population, sampling, data collection, analysis and ethics.",
+contain:"A clear and reproducible research procedure.",
+example:"This chapter describes the research design and procedures.",
+mistakes:"Do not leave out important methodological details."
+},
+
+"Chapter 3 — Research Methodology":{
+what:"This chapter explains the methods and procedures used to conduct the research.",
+how:"Describe design, population, sampling, data collection and analysis.",
+contain:"A practical and realistic research plan.",
+example:"The study may use a quantitative approach to measure network performance.",
+mistakes:"Do not write methodology as though results already exist."
+},
+
+"Chapter 3 — System Analysis & Design":{
+what:"This chapter explains the existing system, requirements and design of the proposed system.",
+how:"Analyze the current situation, identify requirements and present the proposed architecture.",
+contain:"System analysis, requirements, architecture, diagrams and design decisions.",
+example:"The chapter may include use-case diagrams and system architecture.",
+mistakes:"Do not include diagrams without explanation."
+},
+
+"Chapter 4 — Implementation":{
+what:"Implementation explains how the designed system was built.",
+how:"Describe technologies, development steps and important components.",
+contain:"Tools, technologies, implementation process and system components.",
+example:"The application may be implemented using HTML, CSS, JavaScript and Firebase.",
+mistakes:"Do not paste huge amounts of source code into the main chapter."
+},
+
+"Chapter 5 — Testing & Evaluation":{
+what:"This chapter demonstrates whether the developed system works correctly.",
+how:"Describe testing methods, test cases, results and evaluation.",
+contain:"Testing strategy, test cases, results and interpretation.",
+example:"Functional testing can verify registration, authentication and project saving.",
+mistakes:"Do not simply say the system works without evidence."
+},
+
+"Conclusion & Recommendations":{
+what:"This section summarizes the project outcome and proposes improvements.",
+how:"Connect the conclusion to objectives and make evidence-based recommendations.",
+contain:"Summary, conclusion and practical recommendations.",
+example:"The project successfully developed a platform for academic project creation.",
+mistakes:"Do not introduce unrelated information."
+},
+
+"Work Plan / Timeline":{
+what:"A work plan shows when major research activities will be performed.",
+how:"List activities and assign realistic time periods.",
+contain:"Activities, dates or durations and milestones.",
+example:"Literature review, data collection, analysis and writing can be scheduled.",
+mistakes:"Avoid unrealistic schedules."
+},
+
+"Budget":{
+what:"The budget estimates the resources and costs required to complete the research.",
+how:"List expected expenses and estimated costs.",
+contain:"Item, quantity, unit cost and total cost.",
+example:"Transport, internet and printing may be included.",
+mistakes:"Do not include unexplained costs."
+},
+
+"Book Chapters":{
+what:"Book chapters contain the main educational or informational content of your academic book.",
+how:"Organize chapters logically from basic concepts toward advanced ideas.",
+contain:"Sections, explanations, examples, figures and references.",
+example:"A networking book could progress from fundamentals to routing and security.",
+mistakes:"Avoid mixing unrelated topics."
+}
+
+};
+
+
+/* =========================================
+   GENERIC LESSON
+========================================= */
+
+function getLesson(title){
+
+    return lessons[title] || {
+
+        what:
+        "This section is part of your academic project and should contain information directly related to your topic.",
+
+        how:
+        "Write the section in a clear academic structure and follow your institution's guidelines.",
+
+        contain:
+        "Relevant information, evidence, explanations and citations.",
+
+        example:
+        "Write clear academic paragraphs that directly support your project.",
+
+        mistakes:
+        "Avoid unsupported claims, plagiarism and unnecessary repetition."
+
+    };
+
+}
+
+
+/* =========================================
+   NORMALIZE SECTIONS
+========================================= */
+
+function normalizeSections(rawSections){
+
+    if(
+        Array.isArray(rawSections)
+    ){
+
+        return rawSections;
+
+    }
+
+
+    if(
+        rawSections &&
+        typeof rawSections === "object"
+    ){
+
+        return Object.keys(
+            rawSections
+        ).map(
+            key=>{
+
+                const item =
+                    rawSections[key];
+
+
+                if(
+                    typeof item === "string"
+                ){
+
+                    return {
+
+                        id:key,
+
+                        title:key,
+
+                        key:key,
+
+                        content:item,
+
+                        completed:
+                        item.trim().length > 0
+
+                    };
+
+                }
+
+
+                return {
+
+                    id:
+                    item.id ||
+                    key,
+
+                    title:
+                    item.title ||
+                    key,
+
+                    key:
+                    item.key ||
+                    item.title ||
+                    key,
+
+                    content:
+                    typeof item.content ===
+                    "string"
+                    ? item.content
+                    : "",
+
+                    completed:
+                    item.completed === true
+
+                };
+
+            }
+        );
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =========================================
+   BUILD SECTIONS
+========================================= */
+
+function buildSections(){
+
+    const type =
+        project.type ||
+        "University Thesis";
+
+
+    const structure =
+        structures[type] ||
+        structures["University Thesis"];
+
+
+    const existing =
+        normalizeSections(
+            project.sections
+        );
+
+
+    sections =
+        structure.map(
+            (title,index)=>{
+
+                const saved =
+                    existing.find(
+                        item =>
+                        item.id ===
+                        "section_" + index
+                    ) ||
+                    existing.find(
+                        item =>
+                        item.title === title
+                    ) ||
+                    existing.find(
+                        item =>
+                        item.key === title
+                    );
+
+
+                return {
+
+                    id:
+                    "section_" + index,
+
+                    title,
+
+                    key:title,
+
+                    content:
+                    saved &&
+                    typeof saved.content ===
+                    "string"
+                    ? saved.content
+                    : "",
+
+                    completed:
+                    saved &&
+                    saved.completed === true
+
+                };
+
+            }
+        );
+
+}
+
+
+/* =========================================
+   RENDER PROJECT INFO
+========================================= */
+
+function renderProjectInfo(){
+
+    document.getElementById(
+        "projectTitle"
+    ).textContent =
+        project.title ||
+        "Untitled Academic Project";
+
+
+    document.getElementById(
+        "projectType"
+    ).textContent =
+        project.type ||
+        "Academic Project";
+
+
+    document.getElementById(
+        "projectAuthor"
+    ).textContent =
+        project.authorName ||
+        project.author ||
+        currentUser.displayName ||
+        currentUser.email ||
+        "-";
+
+
+    document.getElementById(
+        "projectInstitution"
+    ).textContent =
+        project.university ||
+        project.institution ||
+        "-";
+
+
+    document.getElementById(
+        "projectDepartment"
+    ).textContent =
+        project.department ||
+        project.program ||
+        "-";
+
+
+    document.getElementById(
+        "projectYear"
+    ).textContent =
+        project.academicYear ||
+        project.year ||
+        "-";
+
+
+    document.getElementById(
+        "reviewLink"
+    ).href =
+        projectUrl(
+            "review.html"
+        );
+
+}
+
+
+/* =========================================
+   RENDER SIDEBAR
+========================================= */
+
+function renderSidebar(){
+
+    const list =
+        document.getElementById(
+            "sectionList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    sections.forEach(
+        (section,index)=>{
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "section-item";
+
+
+            if(
+                index === currentIndex
+            ){
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            if(
+                section.completed
+            ){
+
+                item.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            item.innerHTML =
+                `${section.completed ? "✅" : "📘"}
+                 ${escapeHTML(section.title)}`;
+
+
+            item.addEventListener(
+                "click",
+                async()=>{
+
+                    await saveCurrentToMemory();
+
+                    currentIndex =
+                        index;
+
+                    saveBuilderState();
+
+                    renderCurrentSection();
+
+                }
+            );
+
+
+            list.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   RENDER CURRENT SECTION
+========================================= */
+
+function renderCurrentSection(){
+
+    if(!sections.length){
+
+        return;
+
+    }
+
+
+    if(
+        currentIndex < 0 ||
+        currentIndex >= sections.length
+    ){
+
+        currentIndex = 0;
+
+    }
+
+
+    const section =
+        sections[currentIndex];
+
+
+    document.getElementById(
+        "sectionTitle"
+    ).textContent =
+        section.title;
+
+
+    document.getElementById(
+        "editor"
+    ).innerHTML =
+        section.content || "";
+
+
+    updateLesson();
+
+    updateProgress();
+
+    updateNavigation();
+
+    renderSidebar();
+
+}
+
+
+/* =========================================
+   UPDATE LESSON
+========================================= */
+
+function updateLesson(){
+
+    const section =
+        sections[currentIndex];
+
+
+    const lesson =
+        getLesson(
+            section.key
+        );
+
+
+    document.getElementById(
+        "lessonWhat"
+    ).textContent =
+        lesson.what;
+
+
+    document.getElementById(
+        "lessonHow"
+    ).textContent =
+        lesson.how;
+
+
+    document.getElementById(
+        "lessonContain"
+    ).textContent =
+        lesson.contain;
+
+
+    document.getElementById(
+        "lessonExample"
+    ).textContent =
+        lesson.example;
+
+
+    document.getElementById(
+        "lessonMistakes"
+    ).textContent =
+        lesson.mistakes;
+
+}
+
+
+/* =========================================
+   MODE
+========================================= */
+
+function setMode(mode){
+
+    currentMode =
+        mode;
+
+
+    document.getElementById(
+        "beginnerBtn"
+    ).classList.toggle(
+        "active",
+        mode === "beginner"
+    );
+
+
+    document.getElementById(
+        "professionalBtn"
+    ).classList.toggle(
+        "active",
+        mode === "professional"
+    );
+
+
+    document.getElementById(
+        "guidedBox"
+    ).style.display =
+        mode === "beginner"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "professionalBox"
+    ).style.display =
+        mode === "professional"
+        ? "block"
+        : "none";
+
+
+    localStorage.setItem(
+        "bhAcademicBuilderMode",
+        mode
+    );
+
+}
+
+
+/* =========================================
+   FORMAT
+========================================= */
+
+window.format =
+function(command,value=null){
+
+    const editor =
+        document.getElementById(
+            "editor"
+        );
+
+
+    editor.focus();
+
+
+    document.execCommand(
+        command,
+        false,
+        value
+    );
+
+};
+
+
+/* =========================================
+   FORMAT BLOCK
+========================================= */
+
+window.formatBlock =
+function(tag){
+
+    if(!tag){
+
+        return;
+
+    }
+
+
+    const editor =
+        document.getElementById(
+            "editor"
+        );
+
+
+    editor.focus();
+
+
+    document.execCommand(
+        "formatBlock",
+        false,
+        tag
+    );
+
+};
+
+
+/* =========================================
+   CLEAR
+========================================= */
+
+window.clearFormatting =
+function(){
+
+    const editor =
+        document.getElementById(
+            "editor"
+        );
+
+
+    editor.focus();
+
+
+    document.execCommand(
+        "removeFormat",
+        false,
+        null
+    );
+
+};
+
+
+/* =========================================
+   SAVE MEMORY
+========================================= */
+
+async function saveCurrentToMemory(){
+
+    if(!sections.length){
+
+        return;
+
+    }
+
+
+    sections[currentIndex].content =
+        document.getElementById(
+            "editor"
+        ).innerHTML;
+
+}
+
+
+/* =========================================
+   BUILDER STATE
+========================================= */
+
+function builderStateKey(){
+
+    if(
+        !project ||
+        !project.id
+    ){
+
+        return null;
+
+    }
+
+
+    return (
+        "bhAcademicBuilderState_" +
+        project.id
+    );
+
+}
+
+
+function saveBuilderState(){
+
+    const key =
+        builderStateKey();
+
+
+    if(!key){
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        key,
+        JSON.stringify({
+
+            currentIndex,
+
+            mode:
+            currentMode,
+
+            updatedAt:
+            new Date().toISOString()
+
+        })
+    );
+
+}
+
+
+function loadBuilderState(){
+
+    const key =
+        builderStateKey();
+
+
+    if(!key){
+
+        return null;
+
+    }
+
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                key
+            );
+
+
+        return saved
+            ? JSON.parse(saved)
+            : null;
+
+    }catch{
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================
+   LOCAL PROJECT
+========================================= */
+
+function makeLocalProject(data){
+
+    return {
+
+        id:
+        data.id,
+
+        title:
+        data.title || "",
+
+        type:
+        data.type || "",
+
+        authorName:
+        data.authorName ||
+        data.author ||
+        "",
+
+        author:
+        data.author ||
+        data.authorName ||
+        "",
+
+        university:
+        data.university ||
+        data.institution ||
+        "",
+
+        institution:
+        data.institution ||
+        data.university ||
+        "",
+
+        faculty:
+        data.faculty ||
+        "",
+
+        department:
+        data.department ||
+        "",
+
+        program:
+        data.program ||
+        "",
+
+        supervisor:
+        data.supervisor ||
+        "",
+
+        academicYear:
+        data.academicYear ||
+        data.year ||
+        "",
+
+        year:
+        data.year ||
+        data.academicYear ||
+        "",
+
+        sections:
+        Array.isArray(data.sections)
+        ? data.sections
+        : normalizeSections(
+            data.sections
+        ),
+
+        references:
+        Array.isArray(data.references)
+        ? data.references
+        : [],
+
+        progress:
+        data.progress || 0
+
+    };
+
+}
+
+
+/* =========================================
+   SAVE LOCAL
+========================================= */
+
+function saveLocalProject(){
+
+    if(!project){
+
+        return;
+
+    }
+
+
+    try{
+
+        localStorage.setItem(
+            "bhAcademicProject",
+            JSON.stringify(
+                makeLocalProject(
+                    project
+                )
+            )
+        );
+
+    }catch(error){
+
+        console.error(
+            "Local save error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SAVE PROJECT
+========================================= */
+
+async function saveProject(
+    showMessage = true
+){
+
+    if(
+        !project ||
+        !projectRef
+    ){
+
+        showMessageBox(
+            "Project is not loaded.",
+            "error"
+        );
+
+        return false;
+
+    }
+
+
+    await saveCurrentToMemory();
+
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+
+    saveBtn.disabled = true;
+
+    saveBtn.textContent =
+        "Saving...";
+
+
+    try{
+
+        project.sections =
+            sections;
+
+
+        project.currentSection =
+            currentIndex;
+
+
+        project.currentLesson =
+            currentIndex;
+
+
+        project.builderMode =
+            currentMode;
+
+
+        project.progress =
+            calculateProgress();
+
+
+        project.lastUpdated =
+            new Date().toISOString();
+
+
+        await setDoc(
+            projectRef,
+            project,
+            {
+                merge:true
+            }
+        );
+
+
+        saveLocalProject();
+
+        saveBuilderState();
+
+
+        if(showMessage){
+
+            showMessageBox(
+                "Section saved successfully.",
+                "success"
+            );
+
+        }
+
+
+        updateProgress();
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "Save project error:",
+            error
+        );
+
+
+        showMessageBox(
+            "Could not save the project: " +
+            error.message,
+            "error"
+        );
+
+
+        return false;
+
+    }finally{
+
+        saveBtn.disabled =
+            false;
+
+        saveBtn.textContent =
+            "💾 Save Section";
+
+    }
+
+}
+
+
+/* =========================================
+   MARK COMPLETE
+========================================= */
+
+async function markComplete(){
+
+    if(!sections.length){
+
+        return;
+
+    }
+
+
+    await saveCurrentToMemory();
+
+
+    sections[currentIndex].completed =
+        true;
+
+
+    const saved =
+        await saveProject(
+            false
+        );
+
+
+    if(saved){
+
+        showMessageBox(
+            "Section marked as complete.",
+            "success"
+        );
+
+        renderCurrentSection();
+
+    }
+
+}
+
+
+/* =========================================
+   PROGRESS
+========================================= */
+
+function calculateProgress(){
+
+    if(!sections.length){
+
+        return 0;
+
+    }
+
+
+    const completed =
+        sections.filter(
+            section =>
+            section.completed === true
+        ).length;
+
+
+    return Math.round(
+        (
+            completed /
+            sections.length
+        ) * 100
+    );
+
+}
+
+
+function updateProgress(){
+
+    const progress =
+        calculateProgress();
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        progress + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        progress + "%";
+
+
+    if(project){
+
+        project.progress =
+            progress;
+
+    }
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function updateNavigation(){
+
+    document.getElementById(
+        "previousBtn"
+    ).disabled =
+        currentIndex === 0;
+
+
+    document.getElementById(
+        "nextBtn"
+    ).disabled =
+        currentIndex ===
+        sections.length - 1;
+
+}
+
+
+async function nextSection(){
+
+    await saveCurrentToMemory();
+
+    await saveProject(false);
+
+
+    if(
+        currentIndex <
+        sections.length - 1
+    ){
+
+        currentIndex++;
+
+        saveBuilderState();
+
+        renderCurrentSection();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }else{
+
+        showMessageBox(
+            "You are on the final section of this project.",
+            "info"
+        );
+
+    }
+
+}
+
+
+async function previousSection(){
+
+    await saveCurrentToMemory();
+
+    await saveProject(false);
+
+
+    if(currentIndex > 0){
+
+        currentIndex--;
+
+        saveBuilderState();
+
+        renderCurrentSection();
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+const tableModal =
+    document.getElementById(
+        "tableModal"
+    );
+
+
+document.getElementById(
+    "addTableBtn"
+).addEventListener(
+    "click",
+    ()=>{
+        tableModal.classList.add("show");
+    }
+);
+
+
+function closeTable(){
+
+    tableModal.classList.remove(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "closeTableModal"
+).addEventListener(
+    "click",
+    closeTable
+);
+
+
+document.getElementById(
+    "cancelTable"
+).addEventListener(
+    "click",
+    closeTable
+);
+
+
+document.getElementById(
+    "insertTable"
+).addEventListener(
+    "click",
+    ()=>{
+
+        const caption =
+            document.getElementById(
+                "tableCaption"
+            ).value.trim();
+
+
+        const rows =
+            parseInt(
+                document.getElementById(
+                    "tableRows"
+                ).value
+            );
+
+
+        const columns =
+            parseInt(
+                document.getElementById(
+                    "tableColumns"
+                ).value
+            );
+
+
+        if(
+            !rows ||
+            !columns ||
+            rows < 1 ||
+            columns < 1
+        ){
+
+            alert(
+                "Enter valid rows and columns."
+            );
+
+            return;
+
+        }
+
+
+        let html =
+            "<table>";
+
+
+        if(caption){
+
+            html +=
+                "<caption>" +
+                escapeHTML(caption) +
+                "</caption>";
+
+        }
+
+
+        html +=
+            "<thead><tr>";
+
+
+        for(
+            let c=1;
+            c<=columns;
+            c++
+        ){
+
+            html +=
+                "<th>Header " +
+                c +
+                "</th>";
+
+        }
+
+
+        html +=
+            "</tr></thead><tbody>";
+
+
+        for(
+            let r=1;
+            r<rows;
+            r++
+        ){
+
+            html += "<tr>";
+
+            for(
+                let c=1;
+                c<=columns;
+                c++
+            ){
+
+                html +=
+                    "<td>Enter data</td>";
+
+            }
+
+            html += "</tr>";
+
+        }
+
+
+        html +=
+            "</tbody></table><p></p>";
+
+
+        insertHTMLAtCursor(
+            html
+        );
+
+
+        closeTable();
+
+    }
+);
+
+
+/* =========================================
+   FIGURE
+========================================= */
+
+const figureModal =
+    document.getElementById(
+        "figureModal"
+    );
+
+
+document.getElementById(
+    "addFigureBtn"
+).addEventListener(
+    "click",
+    ()=>{
+        figureModal.classList.add("show");
+    }
+);
+
+
+function closeFigure(){
+
+    figureModal.classList.remove(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "closeFigureModal"
+).addEventListener(
+    "click",
+    closeFigure
+);
+
+
+document.getElementById(
+    "cancelFigure"
+).addEventListener(
+    "click",
+    closeFigure
+);
+
+
+document.getElementById(
+    "uploadFigure"
+).addEventListener(
+    "click",
+    uploadFigure
+);
+
+
+async function uploadFigure(){
+
+    if(
+        !currentUser ||
+        !project
+    ){
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "uploadFigure"
+        );
+
+
+    const file =
+        document.getElementById(
+            "figureFile"
+        ).files[0];
+
+
+    const caption =
+        document.getElementById(
+            "figureCaption"
+        ).value.trim();
+
+
+    if(!file){
+
+        alert(
+            "Please select an image."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        alert(
+            "Please select a valid image file."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        file.size >
+        10 * 1024 * 1024
+    ){
+
+        alert(
+            "Image must be smaller than 10 MB."
+        );
+
+        return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Uploading...";
+
+
+    try{
+
+        const safeName =
+            sanitizeFilename(
+                file.name
+            );
+
+
+        const fileName =
+            Date.now() +
+            "_" +
+            safeName;
+
+
+        const storageRef =
+            ref(
+                storage,
+                "users/" +
+                currentUser.uid +
+                "/projects/" +
+                project.id +
+                "/figures/" +
+                fileName
+            );
+
+
+        await uploadBytes(
+            storageRef,
+            file
+        );
+
+
+        const imageUrl =
+            await getDownloadURL(
+                storageRef
+            );
+
+
+        const html = `
+
+            <figure>
+
+                <img
+                    src="${escapeAttribute(imageUrl)}"
+                    alt="${escapeAttribute(
+                        caption ||
+                        "Academic figure"
+                    )}"
+                >
+
+                ${
+                    caption
+                    ?
+                    `<figcaption>
+                        ${escapeHTML(caption)}
+                    </figcaption>`
+                    :
+                    ""
+                }
+
+            </figure>
+
+            <p></p>
+
+        `;
+
+
+        insertHTMLAtCursor(
+            html
+        );
+
+
+        await saveProject(false);
+
+
+        closeFigure();
+
+
+        document.getElementById(
+            "figureFile"
+        ).value = "";
+
+
+        document.getElementById(
+            "figureCaption"
+        ).value = "";
+
+
+        showMessageBox(
+            "Figure uploaded and inserted successfully.",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Figure upload error:",
+            error
+        );
+
+
+        showMessageBox(
+            "Figure upload failed: " +
+            error.message,
+            "error"
+        );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Upload & Insert";
+
+    }
+
+}
+
+
+/* =========================================
+   INSERT HTML
+========================================= */
+
+function insertHTMLAtCursor(html){
+
+    const editor =
+        document.getElementById(
+            "editor"
+        );
+
+
+    editor.focus();
+
+
+    document.execCommand(
+        "insertHTML",
+        false,
+        html
+    );
+
+}
+
+
+/* =========================================
+   REVIEW
+========================================= */
+
+function openReview(){
+
+    if(
+        !project ||
+        !project.id
+    ){
+
+        showMessageBox(
+            "Project ID is missing.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        projectUrl(
+            "review.html"
+        );
+
+}
+
+
+document.getElementById(
+    "reviewBtn"
+).addEventListener(
+    "click",
+    openReview
+);
+
+
+document.getElementById(
+    "reviewProjectBtn"
+).addEventListener(
+    "click",
+    openReview
+);
+
+
+/* =========================================
+   REFERENCES
+========================================= */
+
+document.getElementById(
+    "referencesBtn"
+).addEventListener(
+    "click",
+    ()=>{
+
+        if(!project){
+
+            return;
+
+        }
+
+
+        window.location.href =
+            projectUrl(
+                "references.html"
+            );
+
+    }
+);
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+document.getElementById(
+    "previousBtn"
+).addEventListener(
+    "click",
+    previousSection
+);
+
+
+document.getElementById(
+    "nextBtn"
+).addEventListener(
+    "click",
+    nextSection
+);
+
+
+document.getElementById(
+    "saveBtn"
+).addEventListener(
+    "click",
+    ()=>saveProject(true)
+);
+
+
+document.getElementById(
+    "completeBtn"
+).addEventListener(
+    "click",
+    markComplete
+);
+
+
+document.getElementById(
+    "beginnerBtn"
+).addEventListener(
+    "click",
+    ()=>setMode("beginner")
+);
+
+
+document.getElementById(
+    "professionalBtn"
+).addEventListener(
+    "click",
+    ()=>setMode("professional")
+);
+
+
+/* =========================================
+   EDITOR
+========================================= */
+
+document.getElementById(
+    "editor"
+).addEventListener(
+    "input",
+    ()=>{
+
+        if(
+            sections[currentIndex]
+        ){
+
+            sections[currentIndex].content =
+                document.getElementById(
+                    "editor"
+                ).innerHTML;
+
+        }
+
+        saveBuilderState();
+
+    }
+);
+
+
+/* =========================================
+   AUTO SAVE
+========================================= */
+
+function startAutoSave(){
+
+    if(autoSaveTimer){
+
+        clearInterval(
+            autoSaveTimer
+        );
+
+    }
+
+
+    autoSaveTimer =
+        setInterval(
+            async()=>{
+
+                if(
+                    currentUser &&
+                    project &&
+                    projectRef
+                ){
+
+                    await saveCurrentToMemory();
+
+                    await saveProject(false);
+
+                }
+
+            },
+            5000
+        );
+
+}
+
+
+/* =========================================
+   ESCAPE
+========================================= */
+
+function escapeHTML(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+    return escapeHTML(value);
+
+}
+
+
+function sanitizeFilename(filename){
+
+    return filename
+        .replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+        )
+        .replace(
+            /_+/g,
+            "_"
+        )
+        .substring(
+            0,
+            120
+        );
+
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+function showMessageBox(
+    text,
+    type="info"
+){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.textContent =
+        text;
+
+
+    message.className = "";
+
+
+    message.classList.add(
+        type === "success"
+        ? "message-success"
+        :
+        type === "error"
+        ? "message-error"
+        :
+        "message-info"
+    );
+
+
+    message.style.display =
+        "block";
+
+
+    clearTimeout(
+        message.hideTimer
+    );
+
+
+    message.hideTimer =
+        setTimeout(
+            ()=>{
+                message.style.display =
+                    "none";
+            },
+            5000
+        );
+
+}
+
+
+/* =========================================
+   LOAD PROJECT
+========================================= */
+
+async function loadProject(){
+
+    const projectId =
+        getProjectId();
+
+
+    if(!projectId){
+
+        showMessageBox(
+            "Project ID is missing. Returning to My Projects.",
+            "error"
+        );
+
+
+        setTimeout(
+            ()=>{
+                window.location.replace(
+                    "my-academic-projects.html"
+                );
+            },
+            1500
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         * IMPORTANT:
+         * Always use the authenticated user's UID
+         * and the exact ID from the URL.
+         */
+
+        projectRef =
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "projects",
+                projectId
+            );
+
+
+        const snapshot =
+            await getDoc(
+                projectRef
+            );
+
+
+        if(
+            snapshot.exists()
+        ){
+
+            project = {
+
+                id:projectId,
+
+                ...snapshot.data()
+
+            };
+
+        }else{
+
+            /*
+             * FALLBACK:
+             * Check local project only when its ID
+             * is exactly the same as the URL ID.
+             */
+
+            const local =
+                getLocalProject();
+
+
+            if(
+                local &&
+                String(local.id) ===
+                String(projectId)
+            ){
+
+                project = {
+
+                    ...local,
+
+                    id:projectId
+
+                };
+
+
+                /*
+                 * Try to restore the missing Firestore
+                 * document from the local project.
+                 */
+
+                try{
+
+                    await setDoc(
+                        projectRef,
+                        project,
+                        {
+                            merge:true
+                        }
+                    );
+
+                }catch(restoreError){
+
+                    console.warn(
+                        "Could not restore local project to Firestore:",
+                        restoreError
+                    );
+
+                }
+
+            }else{
+
+                showMessageBox(
+                    "Project not found. Please return to My Projects and open the project again.",
+                    "error"
+                );
+
+
+                setTimeout(
+                    ()=>{
+                        window.location.replace(
+                            "my-academic-projects.html"
+                        );
+                    },
+                    2000
+                );
+
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+         * Normalize project ID.
+         */
+
+        project.id =
+            String(
+                project.id
+            ).trim();
+
+
+        /*
+         * Save latest project locally.
+         */
+
+        saveLocalProject();
+
+
+        /*
+         * Build sections.
+         */
+
+        buildSections();
+
+
+        /*
+         * Current section.
+         */
+
+        if(
+            Number.isInteger(
+                project.currentSection
+            )
+        ){
+
+            currentIndex =
+                project.currentSection;
+
+        }else if(
+            Number.isInteger(
+                project.currentLesson
+            )
+        ){
+
+            currentIndex =
+                project.currentLesson;
+
+        }else{
+
+            const state =
+                loadBuilderState();
+
+
+            currentIndex =
+                state &&
+                Number.isInteger(
+                    state.currentIndex
+                )
+                ? state.currentIndex
+                : 0;
+
+        }
+
+
+        if(
+            currentIndex < 0 ||
+            currentIndex >= sections.length
+        ){
+
+            currentIndex = 0;
+
+        }
+
+
+        /*
+         * Mode.
+         */
+
+        if(
+            project.builderMode ===
+            "professional"
+        ){
+
+            currentMode =
+                "professional";
+
+        }else{
+
+            const state =
+                loadBuilderState();
+
+
+            currentMode =
+                state &&
+                state.mode ===
+                "professional"
+                ? "professional"
+                : "beginner";
+
+        }
+
+
+        renderProjectInfo();
+
+        setMode(
+            currentMode
+        );
+
+        renderCurrentSection();
+
+        startAutoSave();
+
+
+    }catch(error){
+
+        console.error(
+            "LOAD PROJECT ERROR:",
+            error
+        );
+
+
+        showMessageBox(
+            "Could not load project: " +
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   AUTH
+========================================= */
+
+onAuthStateChanged(
+    auth,
+    async(user)=>{
+
+        if(!user){
+
+            const redirect =
+                urlProjectId
+                ? "chapter-builder.html?id=" +
+                  encodeURIComponent(
+                      urlProjectId
+                  )
+                : "chapter-builder.html";
+
+
+            sessionStorage.setItem(
+                "redirectAfterLogin",
+                redirect
+            );
+
+
+            window.location.replace(
+                "login.html"
+            );
+
+
+            return;
+
+        }
+
+
+        currentUser =
+            user;
+
+
+        await loadProject();
+
+
+        document.getElementById(
+            "authLoading"
+        ).style.display =
+            "none";
+
+    }
+);
+
+
+/* =========================================
+   MODAL BACKDROP
+========================================= */
+
+tableModal.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            event.target ===
+            tableModal
+        ){
+
+            closeTable();
+
+        }
+
+    }
+);
+
+
+figureModal.addEventListener(
+    "click",
+    event=>{
+
+        if(
+            event.target ===
+            figureModal
+        ){
+
+            closeFigure();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   BEFORE UNLOAD
+========================================= */
+
+window.addEventListener(
+    "beforeunload",
+    ()=>{
+
+        saveCurrentToMemory();
+
+        saveBuilderState();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

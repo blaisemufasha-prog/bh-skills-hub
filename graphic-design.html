@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graphic Design Course - BH Skills Hub</title>
+
+<style>
+:root{
+  --bg:#f7f7fb;
+  --card:#ffffff;
+  --text:#171522;
+  --muted:#707080;
+  --dark:#171522;
+  --primary:#8b5cf6;
+  --pink:#ec4899;
+  --orange:#f97316;
+  --border:#e8e6ef;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --shadow:0 12px 35px rgba(20,15,40,.10);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(236,72,153,.10),transparent 30%),
+    radial-gradient(circle at top right,rgba(139,92,246,.12),transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button{
+  font-family:inherit;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  color:white;
+  background:linear-gradient(135deg,#171522,#30204b,#7c3aed);
+  box-shadow:0 5px 25px rgba(0,0,0,.18);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:800;
+  font-size:19px;
+}
+
+.brand-logo{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ec4899,#f97316,#8b5cf6);
+  box-shadow:0 5px 15px rgba(236,72,153,.35);
+}
+
+.back-btn,
+.menu-btn{
+  border:0;
+  color:white;
+  background:rgba(255,255,255,.12);
+  padding:10px 15px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.back-btn:hover,
+.menu-btn:hover{
+  background:rgba(255,255,255,.22);
+}
+
+.menu-btn{
+  display:none;
+}
+
+.layout{
+  display:flex;
+  max-width:1500px;
+  margin:auto;
+}
+
+.sidebar{
+  width:285px;
+  flex-shrink:0;
+  min-height:calc(100vh - 68px);
+  padding:25px 18px;
+  background:#fff;
+  border-right:1px solid var(--border);
+  position:sticky;
+  top:68px;
+  height:calc(100vh - 68px);
+  overflow-y:auto;
+}
+
+.sidebar-title{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+  font-weight:800;
+  margin:0 8px 13px;
+}
+
+.chapter{
+  width:100%;
+  border:0;
+  background:transparent;
+  text-align:left;
+  padding:12px;
+  margin-bottom:5px;
+  border-radius:11px;
+  cursor:pointer;
+  color:#454250;
+  font-size:14px;
+  font-weight:650;
+  transition:.2s;
+}
+
+.chapter:hover{
+  background:#f4efff;
+  color:#6d28d9;
+}
+
+.chapter.active{
+  color:#fff;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  box-shadow:0 7px 18px rgba(139,92,246,.25);
+}
+
+.chapter.done{
+  color:#15803d;
+}
+
+.chapter.done::after{
+  content:" ✓";
+  font-weight:900;
+}
+
+.main{
+  flex:1;
+  min-width:0;
+  padding:35px;
+}
+
+.hero{
+  padding:35px;
+  border-radius:25px;
+  color:white;
+  background:
+    radial-gradient(circle at 80% 20%,rgba(255,255,255,.25),transparent 25%),
+    linear-gradient(135deg,#7c3aed,#db2777,#f97316);
+  box-shadow:var(--shadow);
+  margin-bottom:25px;
+  overflow:hidden;
+}
+
+.hero small{
+  font-weight:800;
+  letter-spacing:1px;
+  opacity:.9;
+}
+
+.hero h1{
+  font-size:clamp(28px,4vw,48px);
+  margin:8px 0;
+}
+
+.hero p{
+  max-width:800px;
+  opacity:.92;
+  line-height:1.7;
+}
+
+.progress-area{
+  margin-top:24px;
+}
+
+.progress-info{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.progress-track{
+  height:10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.25);
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#fff;
+  border-radius:20px;
+  transition:.4s;
+}
+
+.lesson-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:35px;
+  box-shadow:var(--shadow);
+}
+
+.lesson-number{
+  color:#7c3aed;
+  font-weight:800;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.lesson-title{
+  font-size:clamp(25px,3vw,38px);
+  margin:8px 0 22px;
+  background:linear-gradient(90deg,#7c3aed,#db2777,#f97316);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.content{
+  line-height:1.8;
+  color:#3f3d49;
+  font-size:16px;
+}
+
+.content h3{
+  margin:25px 0 10px;
+  color:#241f32;
+}
+
+.content p{
+  margin-bottom:14px;
+}
+
+.content ul,
+.content ol{
+  margin:10px 0 18px 25px;
+}
+
+.content li{
+  margin:7px 0;
+}
+
+.highlight{
+  padding:18px;
+  border-left:5px solid #8b5cf6;
+  background:#f5f0ff;
+  border-radius:10px;
+  margin:20px 0;
+}
+
+.design-example{
+  margin:22px 0;
+  padding:25px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#171522,#30204b);
+  color:white;
+  overflow:hidden;
+}
+
+.color-wheel{
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  margin:20px auto;
+  background:conic-gradient(
+    #ef4444,
+    #f97316,
+    #facc15,
+    #22c55e,
+    #06b6d4,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #ef4444
+  );
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+.type-demo{
+  display:grid;
+  gap:10px;
+}
+
+.type-demo div:nth-child(1){
+  font-size:34px;
+  font-weight:900;
+}
+
+.type-demo div:nth-child(2){
+  font-size:24px;
+  font-weight:600;
+}
+
+.type-demo div:nth-child(3){
+  font-size:18px;
+}
+
+.type-demo div:nth-child(4){
+  font-size:14px;
+  opacity:.75;
+}
+
+.grid-demo{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  max-width:500px;
+  margin:20px auto;
+}
+
+.grid-demo div{
+  height:70px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+.logo-demo{
+  width:130px;
+  height:130px;
+  margin:20px auto;
+  border-radius:35px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:45px;
+  font-weight:900;
+  background:linear-gradient(135deg,#f97316,#ec4899,#8b5cf6);
+  transform:rotate(-5deg);
+}
+
+.social-demo{
+  max-width:420px;
+  margin:20px auto;
+  border-radius:18px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+  padding:35px;
+  text-align:center;
+}
+
+.social-demo h2{
+  font-size:30px;
+}
+
+.poster-demo{
+  max-width:300px;
+  margin:20px auto;
+  min-height:380px;
+  padding:30px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center;
+  border-radius:12px;
+  background:
+    linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.65)),
+    linear-gradient(135deg,#f97316,#ec4899,#7c3aed);
+  color:white;
+}
+
+.workflow{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.workflow div{
+  padding:18px 10px;
+  text-align:center;
+  border-radius:14px;
+  background:#f4efff;
+  color:#5b21b6;
+  font-weight:800;
+}
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+  margin:20px 0;
+}
+
+table{
+  width:100%;
+  min-width:550px;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  border:1px solid var(--border);
+  padding:12px;
+  text-align:left;
+}
+
+th{
+  background:#f3efff;
+  color:#5b21b6;
+}
+
+.quiz{
+  margin-top:30px;
+  padding:25px;
+  border-radius:18px;
+  background:#faf8ff;
+  border:1px solid #e5dafa;
+}
+
+.quiz h3{
+  margin-top:0;
+  color:#5b21b6;
+}
+
+.question{
+  margin:20px 0;
+  padding:18px;
+  background:white;
+  border-radius:12px;
+  border:1px solid var(--border);
+}
+
+.question label{
+  display:block;
+  padding:8px;
+  cursor:pointer;
+}
+
+.quiz button,
+.nav-btn,
+.complete-btn{
+  border:0;
+  cursor:pointer;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:800;
+}
+
+.quiz button{
+  color:white;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+}
+
+.quiz-result{
+  margin-top:15px;
+  padding:14px;
+  border-radius:10px;
+  font-weight:800;
+  display:none;
+}
+
+.result-pass{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.result-fail{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.final-box{
+  margin-top:25px;
+  padding:25px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#171522,#39205c);
+  color:white;
+}
+
+.final-box h2{
+  color:white;
+  margin-bottom:10px;
+}
+
+.final-box .question{
+  color:#222;
+}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:25px;
+  flex-wrap:wrap;
+}
+
+.nav-btn{
+  background:#eeeaf5;
+  color:#3f3a4b;
+}
+
+.nav-btn.primary{
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+  color:white;
+}
+
+.complete-btn{
+  background:#16a34a;
+  color:white;
+}
+
+.complete-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.status{
+  margin-top:15px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.footer{
+  text-align:center;
+  padding:35px 15px;
+  color:#777;
+  font-size:13px;
+}
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:1500;
+}
+
+.loading{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#171522;
+  color:white;
+  font-weight:800;
+}
+
+.spinner{
+  width:40px;
+  height:40px;
+  border:4px solid rgba(255,255,255,.2);
+  border-top-color:#ec4899;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:auto auto 15px;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:900px){
+
+  .header{
+    padding:0 15px;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .back-btn{
+    padding:9px 11px;
+  }
+
+  .sidebar{
+    position:fixed;
+    z-index:2000;
+    left:-310px;
+    top:68px;
+    bottom:0;
+    height:auto;
+    transition:.3s;
+    box-shadow:10px 0 30px rgba(0,0,0,.15);
+  }
+
+  .sidebar.open{
+    left:0;
+  }
+
+  .overlay.show{
+    display:block;
+  }
+
+  .main{
+    padding:20px 14px;
+  }
+
+  .hero{
+    padding:25px 20px;
+    border-radius:20px;
+  }
+
+  .lesson-card{
+    padding:23px 18px;
+  }
+
+  .workflow{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:500px){
+
+  .brand span{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:29px;
+  }
+
+  .lesson-title{
+    font-size:27px;
+  }
+
+  .content{
+    font-size:15px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .nav-btn,
+  .complete-btn{
+    width:100%;
+  }
+
+  .workflow{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading" class="loading">
+  <div style="text-align:center">
+    <div class="spinner"></div>
+    Loading Graphic Design Course...
+  </div>
+</div>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-logo">BH</div>
+    <span>BH Skills Hub</span>
+  </div>
+
+  <button class="menu-btn" onclick="toggleDrawer()">☰ Chapters</button>
+
+  <button class="back-btn" onclick="goCourses()">← Courses</button>
+</header>
+
+<div id="overlay" class="overlay" onclick="closeDrawer()"></div>
+
+<div class="layout">
+
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-title">Graphic Design Course</div>
+  <div id="chapterList"></div>
+</aside>
+
+<main class="main">
+
+<section class="hero">
+  <small>BH SKILLS HUB • CREATIVE SKILLS</small>
+  <h1>Graphic Design</h1>
+  <p>
+    Learn the principles, tools and workflows used to create attractive,
+    professional and meaningful visual designs.
+  </p>
+
+  <div class="progress-area">
+    <div class="progress-info">
+      <span>Course Progress</span>
+      <span id="progressText">0%</span>
+    </div>
+
+    <div class="progress-track">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+  </div>
+</section>
+
+<section class="lesson-card">
+
+  <div class="lesson-number" id="lessonNumber"></div>
+  <h2 id="lessonTitle" class="lesson-title"></h2>
+
+  <div id="lessonContent" class="content"></div>
+
+  <div id="quizContainer"></div>
+
+  <div id="finalQuizContainer"></div>
+
+  <div class="actions">
+    <button class="nav-btn" onclick="previousLesson()">← Previous</button>
+    <button id="nextBtn" class="nav-btn primary" onclick="nextLesson()">Next →</button>
+    <button id="completeBtn" class="complete-btn" onclick="finishCourse()" disabled>
+      🎓 Complete Course
+    </button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+</section>
+
+<footer class="footer">
+  © 2026 BH Skills Hub — All Rights Reserved.<br>
+  Made by Blaise Hadari
+</footer>
+
+</main>
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+  authDomain: "bh-skills-hub.firebaseapp.com",
+  projectId: "bh-skills-hub",
+  storageBucket: "bh-skills-hub.firebasestorage.app",
+  messagingSenderId: "503359590632",
+  appId: "1:503359590632:web:5b81f57e402addaf2bb95d6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* =========================
+   COURSE CONFIG
+========================= */
+
+const COURSE_CONFIG = {
+  id:"graphic-design",
+  name:"Graphic Design",
+  code:"GD",
+  totalLessons:12
+};
+
+const FIRESTORE_KEY = "graphicDesign";
+
+
+/* =========================
+   LESSONS
+========================= */
+
+const lessons = [
+
+{
+title:"Introduction to Graphic Design",
+
+content:`
+<p>
+Graphic Design is the process of communicating ideas and information
+through visual elements such as typography, colors, images, shapes and layout.
+</p>
+
+<h3>Why Graphic Design Matters</h3>
+
+<ul>
+<li>It communicates ideas quickly.</li>
+<li>It creates a strong visual identity.</li>
+<li>It attracts attention.</li>
+<li>It improves communication.</li>
+<li>It helps businesses build trust.</li>
+</ul>
+
+<div class="highlight">
+<strong>Key idea:</strong>
+Good design is not simply about making something beautiful.
+It is about communicating the right message to the right audience.
+</div>
+
+<h3>Basic Elements</h3>
+
+<ul>
+<li>Line</li>
+<li>Shape</li>
+<li>Color</li>
+<li>Typography</li>
+<li>Texture</li>
+<li>Space</li>
+<li>Images</li>
+</ul>
+`,
+
+quiz:[
+{
+q:"What is the main purpose of graphic design?",
+options:[
+"To communicate ideas visually",
+"To write computer programs",
+"To repair computers",
+"To install networks"
+],
+answer:0
+},
+{
+q:"Which is a basic design element?",
+options:[
+"Router",
+"Typography",
+"Database",
+"Firewall"
+],
+answer:1
+}
+]
+
+},
+
+{
+title:"Design Principles",
+
+content:`
+<p>
+Design principles are rules that help designers arrange visual elements
+in a clear, attractive and effective way.
+</p>
+
+<h3>Important Principles</h3>
+
+<ul>
+<li><strong>Balance</strong> – distributes visual weight.</li>
+<li><strong>Contrast</strong> – creates differences between elements.</li>
+<li><strong>Alignment</strong> – keeps elements organized.</li>
+<li><strong>Repetition</strong> – creates consistency.</li>
+<li><strong>Proximity</strong> – groups related elements.</li>
+<li><strong>Hierarchy</strong> – shows what should be noticed first.</li>
+</ul>
+
+<div class="highlight">
+A professional design normally has a clear visual hierarchy:
+the viewer should know what to look at first, second and third.
+</div>
+`,
+
+quiz:[
+{
+q:"Which principle helps show what the viewer should notice first?",
+options:["Hierarchy","Randomness","Compression","Encryption"],
+answer:0
+},
+{
+q:"Which principle groups related elements together?",
+options:["Proximity","Rotation","Coding","Networking"],
+answer:0
+}
+]
+
+},
+
+{
+title:"Color Theory",
+
+content:`
+<p>
+Color is one of the most powerful elements in graphic design.
+Different colors can communicate different emotions and meanings.
+</p>
+
+<div class="design-example">
+<h3 style="color:white">Color Wheel</h3>
+<div class="color-wheel"></div>
+</div>
+
+<h3>Color Categories</h3>
+
+<ul>
+<li>Primary colors</li>
+<li>Secondary colors</li>
+<li>Tertiary colors</li>
+</ul>
+
+<h3>Color Schemes</h3>
+
+<ul>
+<li>Complementary</li>
+<li>Analogous</li>
+<li>Triadic</li>
+<li>Monochromatic</li>
+</ul>
+
+<p>
+Always consider contrast and readability when choosing colors.
+</p>
+`,
+
+quiz:[
+{
+q:"Which colors are directly opposite each other on a color wheel?",
+options:["Complementary","Monochromatic","Analogous","Neutral"],
+answer:0
+},
+{
+q:"Why is contrast important?",
+options:[
+"To improve readability",
+"To slow down computers",
+"To create passwords",
+"To connect networks"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Typography",
+
+content:`
+<p>
+Typography is the art and technique of arranging text so that it is
+readable, clear and visually attractive.
+</p>
+
+<div class="design-example">
+<div class="type-demo">
+<div>Headline</div>
+<div>Subheading</div>
+<div>Body Text</div>
+<div>Supporting information</div>
+</div>
+</div>
+
+<h3>Typography Concepts</h3>
+
+<ul>
+<li>Font family</li>
+<li>Font size</li>
+<li>Font weight</li>
+<li>Line height</li>
+<li>Letter spacing</li>
+<li>Text alignment</li>
+</ul>
+
+<div class="highlight">
+Do not use too many fonts in one design. Two or three complementary
+font styles are usually enough.
+</div>
+`,
+
+quiz:[
+{
+q:"What does typography deal with?",
+options:["Text arrangement","Computer hardware","Internet cables","Database security"],
+answer:0
+},
+{
+q:"What improves text readability?",
+options:["Good spacing and contrast","Random colors","Very small text","Too many fonts"],
+answer:0
+}
+]
+
+},
+
+{
+title:"Composition & Layout",
+
+content:`
+<p>
+Composition is the way visual elements are arranged inside a design.
+A good layout makes information easy to understand.
+</p>
+
+<div class="design-example">
+<h3 style="color:white;text-align:center">Grid Layout</h3>
+
+<div class="grid-demo">
+<div></div><div></div><div></div>
+<div></div><div></div><div></div>
+</div>
+</div>
+
+<h3>Useful Layout Concepts</h3>
+
+<ul>
+<li>Grid systems</li>
+<li>Margins</li>
+<li>Whitespace</li>
+<li>Alignment</li>
+<li>Visual hierarchy</li>
+</ul>
+`,
+
+quiz:[
+{
+q:"What is whitespace?",
+options:[
+"Empty visual space",
+"Broken computer space",
+"Internet bandwidth",
+"Hidden text"
+],
+answer:0
+},
+{
+q:"What helps organize a layout?",
+options:["Grid","Virus","Router","Password"],
+answer:0
+}
+]
+
+},
+
+{
+title:"Branding & Logo Design",
+
+content:`
+<p>
+Branding is the process of creating a recognizable identity for a person,
+business, organization or product.
+</p>
+
+<div class="design-example">
+<div class="logo-demo">BH</div>
+<p style="text-align:center">
+A logo should be simple, memorable and appropriate for the brand.
+</p>
+</div>
+
+<h3>Good Logo Characteristics</h3>
+
+<ul>
+<li>Simple</li>
+<li>Memorable</li>
+<li>Scalable</li>
+<li>Relevant</li>
+<li>Unique</li>
+</ul>
+`,
+
+quiz:[
+{
+q:"What is one characteristic of a good logo?",
+options:["Memorable","Extremely complicated","Unreadable","Random"],
+answer:0
+},
+{
+q:"What does branding create?",
+options:[
+"A recognizable identity",
+"A computer virus",
+"A network cable",
+"A database"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Images & Visuals",
+
+content:`
+<p>
+Images are powerful communication tools in graphic design.
+A designer must choose images that support the message.
+</p>
+
+<h3>Image Considerations</h3>
+
+<ul>
+<li>Quality and resolution</li>
+<li>Composition</li>
+<li>Color</li>
+<li>Relevance</li>
+<li>Copyright and licensing</li>
+</ul>
+
+<div class="highlight">
+Never assume that every image found online is free to use.
+Always consider copyright and licensing.
+</div>
+`,
+
+quiz:[
+{
+q:"What should a designer consider before using an online image?",
+options:[
+"Copyright and licensing",
+"Only the file name",
+"Internet speed",
+"Keyboard layout"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Social Media Design",
+
+content:`
+<p>
+Social media graphics must communicate quickly because users often
+scroll through content very fast.
+</p>
+
+<div class="design-example">
+<div class="social-demo">
+<h2>CREATE.</h2>
+<p>LEARN • DESIGN • GROW</p>
+<br>
+<strong>BH SKILLS HUB</strong>
+</div>
+</div>
+
+<h3>Important Factors</h3>
+
+<ul>
+<li>Strong headline</li>
+<li>Readable typography</li>
+<li>Good contrast</li>
+<li>Brand consistency</li>
+<li>Correct platform dimensions</li>
+</ul>
+`,
+
+quiz:[
+{
+q:"Why should social media graphics have clear headlines?",
+options:[
+"Users scan content quickly",
+"To increase file size",
+"To hide information",
+"To make designs confusing"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Design Tools",
+
+content:`
+<p>
+Graphic designers use different software tools depending on the type
+of work they are creating.
+</p>
+
+<h3>Examples</h3>
+
+<ul>
+<li>Adobe Photoshop</li>
+<li>Adobe Illustrator</li>
+<li>Adobe InDesign</li>
+<li>Canva</li>
+<li>Figma</li>
+<li>CorelDRAW</li>
+</ul>
+
+<p>
+The tool is important, but design thinking and visual communication
+skills are even more important.
+</p>
+
+<div class="highlight">
+Learning one tool deeply is often more valuable than knowing many tools
+without understanding design principles.
+</div>
+`,
+
+quiz:[
+{
+q:"Which tool is commonly used for vector graphics?",
+options:["Adobe Illustrator","Calculator","Notepad","Terminal"],
+answer:0
+},
+{
+q:"What matters more than simply knowing software?",
+options:[
+"Understanding design principles",
+"Having many fonts",
+"Using large files",
+"Using random colors"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Poster & Flyer Design",
+
+content:`
+<p>
+Posters and flyers are designed to communicate information quickly
+and attract attention.
+</p>
+
+<div class="poster-demo">
+<div>
+<small>BH SKILLS HUB PRESENTS</small>
+<h2>GRAPHIC DESIGN</h2>
+</div>
+
+<div>
+<p>LEARN • CREATE • GROW</p>
+<strong>JOIN TODAY</strong>
+</div>
+</div>
+
+<h3>Poster Structure</h3>
+
+<ol>
+<li>Headline</li>
+<li>Main visual</li>
+<li>Supporting information</li>
+<li>Call to action</li>
+<li>Contact or event details</li>
+</ol>
+`,
+
+quiz:[
+{
+q:"What should a poster communicate quickly?",
+options:["Its main message","Its source code","Its database","Its network protocol"],
+answer:0
+}
+]
+
+},
+
+{
+title:"Design Workflow",
+
+content:`
+<p>
+A professional design process normally follows a sequence of steps.
+</p>
+
+<div class="design-example">
+<div class="workflow">
+<div>Research</div>
+<div>Sketch</div>
+<div>Design</div>
+<div>Review</div>
+</div>
+</div>
+
+<h3>Typical Workflow</h3>
+
+<ol>
+<li>Understand the brief.</li>
+<li>Research the audience.</li>
+<li>Generate ideas.</li>
+<li>Create sketches.</li>
+<li>Build the design.</li>
+<li>Review and refine.</li>
+<li>Export the final design.</li>
+</ol>
+
+<div class="highlight">
+Never rush directly into designing before understanding the problem,
+audience and purpose.
+</div>
+`,
+
+quiz:[
+{
+q:"What should normally happen before designing?",
+options:["Research","Export","Print","Delete"],
+answer:0
+},
+{
+q:"Why review a design?",
+options:[
+"To find problems and improve it",
+"To make it slower",
+"To delete the project",
+"To hide the message"
+],
+answer:0
+}
+]
+
+},
+
+{
+title:"Final Design Project",
+
+content:`
+<p>
+Congratulations! You have reached the final lesson.
+</p>
+
+<p>
+Your final project is to create a complete promotional design for
+<strong>BH Skills Hub</strong>.
+</p>
+
+<h3>Project Requirements</h3>
+
+<ul>
+<li>Create a professional poster or social media graphic.</li>
+<li>Use a clear visual hierarchy.</li>
+<li>Use an appropriate color palette.</li>
+<li>Use readable typography.</li>
+<li>Include BH Skills Hub branding.</li>
+<li>Include a strong call to action.</li>
+<li>Apply balance, contrast and alignment.</li>
+</ul>
+
+<div class="highlight">
+<strong>Final Project Goal:</strong>
+Demonstrate that you can combine design principles, typography,
+color theory, composition and branding into one professional design.
+</div>
+
+<p>
+After reviewing this lesson, take the Final Quiz below.
+You must score at least <strong>70%</strong> to complete the course
+and receive your certificate.
+</p>
+`
+}
+
+];
+
+
+/* =========================
+   FINAL QUIZ
+========================= */
+
+const finalQuestions = [
+
+{
+q:"What is the main purpose of graphic design?",
+options:[
+"Visual communication",
+"Computer repair",
+"Network configuration",
+"Database administration"
+],
+answer:0
+},
+
+{
+q:"Which principle creates differences between elements?",
+options:["Contrast","Proximity","Repetition","Silence"],
+answer:0
+},
+
+{
+q:"Which element is directly related to text?",
+options:["Typography","Router","Firewall","IP address"],
+answer:0
+},
+
+{
+q:"What does whitespace provide?",
+options:[
+"Visual breathing room",
+"More computer memory",
+"Internet access",
+"Encryption"
+],
+answer:0
+},
+
+{
+q:"Which is a characteristic of a good logo?",
+options:["Memorable","Confusing","Unreadable","Overloaded"],
+answer:0
+},
+
+{
+q:"What should be considered before using an online image?",
+options:[
+"Copyright",
+"Keyboard brand",
+"Wi-Fi password",
+"CPU speed"
+],
+answer:0
+},
+
+{
+q:"Why is hierarchy important?",
+options:[
+"It controls what viewers notice first",
+"It increases file size",
+"It removes colors",
+"It connects devices"
+],
+answer:0
+},
+
+{
+q:"Which is commonly used for vector design?",
+options:["Adobe Illustrator","Calculator","Notepad","File Manager"],
+answer:0
+},
+
+{
+q:"What should happen before creating a final design?",
+options:[
+"Understand the audience and purpose",
+"Randomly choose colors",
+"Ignore the brief",
+"Export immediately"
+],
+answer:0
+},
+
+{
+q:"What is the minimum score required to pass the Final Quiz?",
+options:["50%","60%","70%","100%"],
+answer:2
+}
+
+];
+
+
+/* =========================
+   STATE
+========================= */
+
+let currentLesson =
+  parseInt(localStorage.getItem("graphicCurrentLesson") || "0");
+
+let completedLessons =
+  JSON.parse(
+    localStorage.getItem("graphicCompletedLessons") || "[]"
+  );
+
+let quizResults =
+  JSON.parse(
+    localStorage.getItem("graphicQuizResults") || "{}"
+  );
+
+let finalQuizPassed =
+  localStorage.getItem("graphicFinalQuizPassed") === "true";
+
+let currentUser = null;
+
+
+/* =========================
+   FIREBASE AUTH
+========================= */
+
+onAuthStateChanged(auth, async(user)=>{
+
+  if(!user){
+
+    sessionStorage.setItem(
+      "redirectAfterLogin",
+      "graphic-design.html"
+    );
+
+    window.location.href="login.html";
+    return;
+  }
+
+  currentUser=user;
+
+  try{
+    await loadFirestoreData();
+  }catch(error){
+    console.error(error);
+  }
+
+  renderChapters();
+  renderLesson();
+
+  document.getElementById("loading").style.display="none";
+
+});
+
+
+/* =========================
+   FIRESTORE LOAD
+========================= */
+
+async function loadFirestoreData(){
+
+  const ref=doc(
+    db,
+    "users",
+    currentUser.uid
+  );
+
+  const snap=await getDoc(ref);
+
+  if(!snap.exists()) return;
+
+  const data=snap.data();
+
+  if(!data[FIRESTORE_KEY]) return;
+
+  const saved=data[FIRESTORE_KEY];
+
+  if(typeof saved.currentLesson==="number"){
+    currentLesson=saved.currentLesson;
+  }
+
+  if(Array.isArray(saved.completedLessons)){
+    completedLessons=saved.completedLessons;
+  }
+
+  if(saved.quizResults){
+    quizResults=saved.quizResults;
+  }
+
+  finalQuizPassed=
+    saved.finalQuizPassed===true;
+
+  saveLocal();
+}
+
+
+/* =========================
+   SAVE PROGRESS
+========================= */
+
+function saveLocal(){
+
+  localStorage.setItem(
+    "graphicCurrentLesson",
+    currentLesson
+  );
+
+  localStorage.setItem(
+    "graphicCompletedLessons",
+    JSON.stringify(completedLessons)
+  );
+
+  localStorage.setItem(
+    "graphicQuizResults",
+    JSON.stringify(quizResults)
+  );
+
+  localStorage.setItem(
+    "graphicFinalQuizPassed",
+    finalQuizPassed
+  );
+}
+
+
+async function saveProgress(){
+
+  saveLocal();
+
+  if(!currentUser) return;
+
+  const progress=
+    Math.round(
+      (completedLessons.length /
+      COURSE_CONFIG.totalLessons)*100
+    );
+
+  const ref=doc(
+    db,
+    "users",
+    currentUser.uid
+  );
+
+  await setDoc(
+    ref,
+    {
+      [FIRESTORE_KEY]:{
+        currentLesson,
+        completedLessons,
+        progress,
+        quizResults,
+        finalQuizPassed,
+        courseCompleted:false,
+        lastUpdated:serverTimestamp()
+      }
+    },
+    {merge:true}
+  );
+}
+
+
+/* =========================
+   RENDER CHAPTERS
+========================= */
+
+function renderChapters(){
+
+  const list=
+    document.getElementById("chapterList");
+
+  list.innerHTML="";
+
+  lessons.forEach((lesson,index)=>{
+
+    const btn=document.createElement("button");
+
+    btn.className="chapter";
+
+    if(index===currentLesson){
+      btn.classList.add("active");
+    }
+
+    if(completedLessons.includes(index)){
+      btn.classList.add("done");
+    }
+
+    btn.textContent=
+      `${index+1}. ${lesson.title}`;
+
+    btn.onclick=()=>{
+      currentLesson=index;
+      saveProgress();
+      renderChapters();
+      renderLesson();
+      closeDrawer();
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+    };
+
+    list.appendChild(btn);
+
+  });
+
+}
+
+
+/* =========================
+   RENDER LESSON
+========================= */
+
+function renderLesson(){
+
+  const lesson=lessons[currentLesson];
+
+  document.getElementById("lessonNumber").textContent=
+    `Lesson ${currentLesson+1} of ${lessons.length}`;
+
+  document.getElementById("lessonTitle").textContent=
+    lesson.title;
+
+  document.getElementById("lessonContent").innerHTML=
+    lesson.content;
+
+  renderQuickQuiz();
+  renderFinalQuiz();
+
+  updateProgress();
+  updateButtons();
+
+}
+
+
+/* =========================
+   QUICK QUIZ
+========================= */
+
+function renderQuickQuiz(){
+
+  const container=
+    document.getElementById("quizContainer");
+
+  container.innerHTML="";
+
+  const lesson=lessons[currentLesson];
+
+  if(!lesson.quiz) return;
+
+  let html=`
+    <div class="quiz">
+      <h3>📝 Quick Quiz</h3>
+      <p>Test your understanding of this lesson.</p>
+  `;
+
+  lesson.quiz.forEach((q,qIndex)=>{
+
+    html+=`
+      <div class="question">
+        <strong>${qIndex+1}. ${q.q}</strong>
+    `;
+
+    q.options.forEach((option,oIndex)=>{
+
+      html+=`
+        <label>
+          <input
+            type="radio"
+            name="quick_${qIndex}"
+            value="${oIndex}"
+          >
+          ${option}
+        </label>
+      `;
+
+    });
+
+    html+=`</div>`;
+
+  });
+
+  html+=`
+      <button onclick="submitQuickQuiz()">
+        Check Answers
+      </button>
+
+      <div id="quickResult" class="quiz-result"></div>
+    </div>
+  `;
+
+  container.innerHTML=html;
+
+}
+
+
+/* =========================
+   SUBMIT QUICK QUIZ
+========================= */
+
+window.submitQuickQuiz=async function(){
+
+  const lesson=lessons[currentLesson];
+
+  let score=0;
+
+  lesson.quiz.forEach((q,qIndex)=>{
+
+    const selected=
+      document.querySelector(
+        `input[name="quick_${qIndex}"]:checked`
+      );
+
+    if(selected &&
+       Number(selected.value)===q.answer){
+
+      score++;
+    }
+
+  });
+
+  const percentage=
+    Math.round(
+      (score/lesson.quiz.length)*100
+    );
+
+  quizResults[currentLesson]={
+    score,
+    total:lesson.quiz.length,
+    percentage
+  };
+
+  const result=
+    document.getElementById("quickResult");
+
+  result.style.display="block";
+
+  if(percentage>=70){
+
+    result.className=
+      "quiz-result result-pass";
+
+    result.textContent=
+      `✅ Passed: ${score}/${lesson.quiz.length} (${percentage}%)`;
+
+  }else{
+
+    result.className=
+      "quiz-result result-fail";
+
+    result.textContent=
+      `❌ Score: ${score}/${lesson.quiz.length} (${percentage}%). Review the lesson and try again.`;
+
+  }
+
+  await saveProgress();
+
+};
+
+
+/* =========================
+   FINAL QUIZ
+========================= */
+
+function renderFinalQuiz(){
+
+  const container=
+    document.getElementById("finalQuizContainer");
+
+  container.innerHTML="";
+
+  if(currentLesson!==11) return;
+
+  let html=`
+    <div class="final-box">
+      <h2>🏆 Final Quiz</h2>
+      <p>
+        10 questions • Pass mark: 70%
+      </p>
+  `;
+
+  finalQuestions.forEach((q,index)=>{
+
+    html+=`
+      <div class="question">
+        <strong>${index+1}. ${q.q}</strong>
+    `;
+
+    q.options.forEach((option,oIndex)=>{
+
+      html+=`
+        <label>
+          <input
+            type="radio"
+            name="final_${index}"
+            value="${oIndex}"
+          >
+          ${option}
+        </label>
+      `;
+
+    });
+
+    html+=`</div>`;
+
+  });
+
+  html+=`
+      <button onclick="submitFinalQuiz()">
+        Submit Final Quiz
+      </button>
+
+      <div id="finalResult" class="quiz-result"></div>
+    </div>
+  `;
+
+  container.innerHTML=html;
+
+}
+
+
+/* =========================
+   SUBMIT FINAL QUIZ
+========================= */
+
+window.submitFinalQuiz=async function(){
+
+  let score=0;
+
+  finalQuestions.forEach((q,index)=>{
+
+    const selected=
+      document.querySelector(
+        `input[name="final_${index}"]:checked`
+      );
+
+    if(selected &&
+       Number(selected.value)===q.answer){
+
+      score++;
+    }
+
+  });
+
+  const percentage=
+    Math.round(
+      (score/finalQuestions.length)*100
+    );
+
+  const result=
+    document.getElementById("finalResult");
+
+  result.style.display="block";
+
+  if(percentage>=70){
+
+    finalQuizPassed=true;
+
+    result.className=
+      "quiz-result result-pass";
+
+    result.textContent=
+      `🎉 Congratulations! You scored ${score}/10 (${percentage}%). You passed the Final Quiz.`;
+
+  }else{
+
+    finalQuizPassed=false;
+
+    result.className=
+      "quiz-result result-fail";
+
+    result.textContent=
+      `❌ You scored ${score}/10 (${percentage}%). You need at least 70% to pass.`;
+
+  }
+
+  await saveProgress();
+
+  updateButtons();
+
+};
+
+
+/* =========================
+   MARK LESSON COMPLETE
+========================= */
+
+async function markCurrentComplete(){
+
+  if(!completedLessons.includes(currentLesson)){
+
+    completedLessons.push(currentLesson);
+
+    completedLessons.sort(
+      (a,b)=>a-b
+    );
+
+  }
+
+  await saveProgress();
+
+  renderChapters();
+  updateProgress();
+
+}
+
+
+/* =========================
+   NEXT LESSON
+========================= */
+
+window.nextLesson=async function(){
+
+  await markCurrentComplete();
+
+  if(currentLesson < lessons.length-1){
+
+    currentLesson++;
+
+    await saveProgress();
+
+    renderChapters();
+    renderLesson();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+};
+
+
+/* =========================
+   PREVIOUS
+========================= */
+
+window.previousLesson=function(){
+
+  if(currentLesson>0){
+
+    currentLesson--;
+
+    saveProgress();
+
+    renderChapters();
+    renderLesson();
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+  }
+
+};
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function updateProgress(){
+
+  const progress=
+    Math.round(
+      (completedLessons.length /
+      COURSE_CONFIG.totalLessons)*100
+    );
+
+  document.getElementById("progressBar")
+    .style.width=progress+"%";
+
+  document.getElementById("progressText")
+    .textContent=progress+"%";
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+function updateButtons(){
+
+  const next=
+    document.getElementById("nextBtn");
+
+  const complete=
+    document.getElementById("completeBtn");
+
+  next.style.display=
+    currentLesson===lessons.length-1
+    ? "none"
+    : "block";
+
+  const allLessonsCompleted=
+    completedLessons.length===
+    COURSE_CONFIG.totalLessons;
+
+  complete.disabled=
+    !(allLessonsCompleted &&
+      finalQuizPassed);
+
+  if(allLessonsCompleted &&
+     finalQuizPassed){
+
+    document.getElementById("status")
+      .textContent=
+      "🎓 You have completed all lessons and passed the Final Quiz. You can now receive your certificate.";
+
+  }else if(currentLesson===11){
+
+    document.getElementById("status")
+      .textContent=
+      "Complete all 12 lessons and pass the Final Quiz with at least 70%.";
+
+  }else{
+
+    document.getElementById("status")
+      .textContent=
+      "Continue learning and complete all lessons.";
+  }
+
+}
+
+
+/* =========================
+   COMPLETE COURSE
+========================= */
+
+window.finishCourse=async function(){
+
+  const allLessonsCompleted=
+    completedLessons.length===
+    COURSE_CONFIG.totalLessons;
+
+  if(!allLessonsCompleted){
+
+    alert(
+      "Please complete all 12 lessons first."
+    );
+
+    return;
+  }
+
+  if(!finalQuizPassed){
+
+    alert(
+      "You must pass the Final Quiz with at least 70%."
+    );
+
+    return;
+  }
+
+  if(!currentUser){
+
+    alert("Please login again.");
+
+    return;
+  }
+
+  const certificateId=
+    generateCertificateId();
+
+  const certificateData={
+
+    certificateId,
+
+    studentName:
+      currentUser.displayName ||
+      currentUser.email.split("@")[0],
+
+    studentEmail:
+      currentUser.email,
+
+    courseId:
+      COURSE_CONFIG.id,
+
+    courseName:
+      COURSE_CONFIG.name,
+
+    courseCode:
+      COURSE_CONFIG.code,
+
+    completionDate:
+      new Date().toISOString(),
+
+    uid:
+      currentUser.uid,
+
+    issuedBy:
+      "BH Skills Hub"
+
+  };
+
+
+  try{
+
+    await setDoc(
+      doc(
+        db,
+        "certificates",
+        certificateId
+      ),
+      certificateData
+    );
+
+
+    await setDoc(
+      doc(
+        db,
+        "users",
+        currentUser.uid
+      ),
+      {
+        [FIRESTORE_KEY]:{
+
+          currentLesson,
+
+          completedLessons,
+
+          progress:100,
+
+          quizResults,
+
+          finalQuizPassed:true,
+
+          courseCompleted:true,
+
+          certificateId,
+
+          lastUpdated:
+            serverTimestamp()
+
+        }
+      },
+      {merge:true}
+    );
+
+
+    localStorage.setItem(
+      "graphicCertificateId",
+      certificateId
+    );
+
+
+    const name=encodeURIComponent(
+      currentUser.displayName ||
+      currentUser.email.split("@")[0]
+    );
+
+    window.location.href=
+      `certificate.html?course=${COURSE_CONFIG.id}&name=${name}&id=${certificateId}`;
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Certificate creation failed. Please check your Firebase Firestore rules."
+    );
+
+  }
+
+};
+
+
+/* =========================
+   CERTIFICATE ID
+========================= */
+
+function generateCertificateId(){
+
+  const year=
+    new Date().getFullYear();
+
+  const random=
+    Math.random()
+      .toString(36)
+      .substring(2,8)
+      .toUpperCase();
+
+  return `BH-${COURSE_CONFIG.code}-${year}-${random}`;
+
+}
+
+
+/* =========================
+   DRAWER
+========================= */
+
+window.toggleDrawer=function(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+  document
+    .getElementById("overlay")
+    .classList.toggle("show");
+
+};
+
+
+window.closeDrawer=function(){
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
+
+};
+
+
+/* =========================
+   COURSES
+========================= */
+
+window.goCourses=function(){
+
+  window.location.href=
+    "courses.html";
+
+};
+
+</script>
+
+</body>
+</html>

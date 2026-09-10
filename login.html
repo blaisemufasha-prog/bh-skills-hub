@@ -1,0 +1,811 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login | BH Skills Hub</title><style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.login-container{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border-radius:20px;
+  padding:35px 30px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.logo h1{
+  color:#2563eb;
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.logo p{
+  color:#64748b;
+  font-size:14px;
+}
+
+.form-group{
+  margin-bottom:18px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  color:#334155;
+  font-size:14px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  outline:none;
+  font-size:16px;
+  background:#fff;
+}
+
+input:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+
+.forgot{
+  text-align:right;
+  margin:-5px 0 20px;
+}
+
+.forgot a{
+  color:#2563eb;
+  font-size:14px;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.forgot a:hover{
+  text-decoration:underline;
+}
+
+#loginBtn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#loginBtn:hover{
+  background:#1d4ed8;
+}
+
+#loginBtn:disabled{
+  background:#94a3b8;
+  cursor:not-allowed;
+}
+
+.message{
+  display:none;
+  padding:12px;
+  border-radius:9px;
+  margin-bottom:18px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.info{
+  display:block;
+  background:#dbeafe;
+  color:#1e40af;
+}
+
+.signup{
+  text-align:center;
+  margin-top:22px;
+  color:#64748b;
+  font-size:14px;
+}
+
+.signup a{
+  color:#2563eb;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.signup a:hover{
+  text-decoration:underline;
+}
+
+#loadingScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.97);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+}
+
+.loader-box{
+  width:100%;
+  max-width:300px;
+  padding:20px;
+}
+
+.spinner{
+  width:48px;
+  height:48px;
+  border:4px solid rgba(255,255,255,.25);
+  border-top:4px solid white;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 15px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@media(max-width:480px){
+
+  body{
+    padding:15px;
+  }
+
+  .login-container{
+    padding:28px 20px;
+    border-radius:16px;
+  }
+
+  .logo h1{
+    font-size:26px;
+  }
+}
+</style></head><body><!-- LOADING --><div id="loadingScreen">  <div class="loader-box"><div class="spinner"></div>
+
+<p id="loadingText">
+  Signing in...
+</p>
+
+  </div></div><!-- LOGIN --><div class="login-container">  <div class="logo"><h1>
+  BH Skills Hub
+</h1>
+
+<p>
+  Learn • Practice • Grow
+</p>
+
+  </div>  <div
+    id="message"
+    class="message"
+  ></div>  <form id="loginForm"><div class="form-group">
+
+  <label for="email">
+    Email
+  </label>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Enter your email"
+    autocomplete="email"
+    required
+  >
+
+</div>
+
+
+<div class="form-group">
+
+  <label for="password">
+    Password
+  </label>
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    required
+  >
+
+</div>
+
+
+<div class="forgot">
+
+  <a
+    href="#"
+    id="forgotPassword"
+  >
+    Forgot Password?
+  </a>
+
+</div>
+
+
+<button
+  type="submit"
+  id="loginBtn"
+>
+  Login
+</button>
+
+  </form>  <div class="signup">Don't have an account?
+
+<a href="signup.html">
+  Create Account
+</a>
+
+  </div></div><!-- FIREBASE --><script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+  authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+  projectId:
+    "bh-skills-hub",
+
+  storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+  messagingSenderId:
+    "503359590632",
+
+  appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d"
+
+};
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+const app =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(app);
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const emailInput =
+  document.getElementById("email");
+
+const passwordInput =
+  document.getElementById("password");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const forgotPassword =
+  document.getElementById("forgotPassword");
+
+const message =
+  document.getElementById("message");
+
+const loadingScreen =
+  document.getElementById("loadingScreen");
+
+const loadingText =
+  document.getElementById("loadingText");
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(text,type){
+
+  message.textContent =
+    text;
+
+  message.className =
+    "message " + type;
+
+  message.style.display =
+    "block";
+
+}
+
+
+function hideMessage(){
+
+  message.textContent =
+    "";
+
+  message.className =
+    "message";
+
+  message.style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   FIREBASE PERSISTENCE
+===================================================== */
+
+let persistenceReady =
+  false;
+
+
+try{
+
+  await setPersistence(
+    auth,
+    browserLocalPersistence
+  );
+
+  persistenceReady =
+    true;
+
+  console.log(
+    "Firebase persistence ready."
+  );
+
+}catch(error){
+
+  console.error(
+    "Persistence error:",
+    error
+  );
+
+  showMessage(
+    "Login system could not be initialized. Please refresh the page.",
+    "error"
+  );
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+loginForm.addEventListener(
+  "submit",
+  async(event)=>{
+
+    event.preventDefault();
+
+    hideMessage();
+
+
+    if(!persistenceReady){
+
+      showMessage(
+        "Login system is not ready. Please refresh the page.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const email =
+      emailInput.value.trim();
+
+    const password =
+      passwordInput.value;
+
+
+    if(!email){
+
+      showMessage(
+        "Please enter your email.",
+        "error"
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    if(!password){
+
+      showMessage(
+        "Please enter your password.",
+        "error"
+      );
+
+      passwordInput.focus();
+
+      return;
+
+    }
+
+
+    loginBtn.disabled =
+      true;
+
+    loginBtn.textContent =
+      "Logging in...";
+
+
+    loadingText.textContent =
+      "Signing in...";
+
+    loadingScreen.style.display =
+      "flex";
+
+
+    try{
+
+      /* =============================================
+         SIGN IN
+      ============================================= */
+
+      const result =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+      const user =
+        result.user;
+
+
+      console.log(
+        "LOGIN SUCCESS:",
+        user.uid
+      );
+
+
+      /* =============================================
+         CONFIRM SESSION
+      ============================================= */
+
+      if(!auth.currentUser){
+
+        throw new Error(
+          "Login succeeded but Firebase session was not available."
+        );
+
+      }
+
+
+      console.log(
+        "AUTH SESSION CONFIRMED:",
+        auth.currentUser.uid
+      );
+
+
+      /* =============================================
+         SUCCESS MESSAGE
+      ============================================= */
+
+      loadingText.textContent =
+        "Login successful! Opening your dashboard...";
+
+
+      showMessage(
+        "Login successful! Opening your dashboard...",
+        "success"
+      );
+
+
+      /*
+       * Small delay allows Firebase local
+       * authentication state to settle.
+      */
+
+      await new Promise(
+        resolve =>
+          setTimeout(resolve,800)
+      );
+
+
+      /* =============================================
+         FINAL SESSION CHECK
+      ============================================= */
+
+      if(!auth.currentUser){
+
+        throw new Error(
+          "Authentication session was lost before opening the dashboard."
+        );
+
+      }
+
+
+      /* =============================================
+         REDIRECT
+      ============================================= */
+
+      console.log(
+        "Opening student-dashboard.html"
+      );
+
+
+      window.location.replace(
+        "student-dashboard.html"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "LOGIN ERROR:",
+        error
+      );
+
+
+      loadingScreen.style.display =
+        "none";
+
+
+      loginBtn.disabled =
+        false;
+
+      loginBtn.textContent =
+        "Login";
+
+
+      let errorMessage =
+        "Login failed. Please try again.";
+
+
+      switch(error.code){
+
+        case "auth/invalid-credential":
+
+          errorMessage =
+            "Incorrect email or password.";
+
+          break;
+
+
+        case "auth/user-not-found":
+
+          errorMessage =
+            "No account was found with this email.";
+
+          break;
+
+
+        case "auth/wrong-password":
+
+          errorMessage =
+            "Incorrect password.";
+
+          break;
+
+
+        case "auth/invalid-email":
+
+          errorMessage =
+            "Please enter a valid email address.";
+
+          break;
+
+
+        case "auth/too-many-requests":
+
+          errorMessage =
+            "Too many login attempts. Please wait and try again.";
+
+          break;
+
+
+        case "auth/network-request-failed":
+
+          errorMessage =
+            "Network error. Check your internet connection.";
+
+          break;
+
+
+        case "auth/user-disabled":
+
+          errorMessage =
+            "This account has been disabled.";
+
+          break;
+
+
+        case "auth/operation-not-allowed":
+
+          errorMessage =
+            "Email/password authentication is not enabled in Firebase.";
+
+          break;
+
+
+        default:
+
+          errorMessage =
+            error.message ||
+            "Login failed.";
+
+      }
+
+
+      showMessage(
+        errorMessage,
+        "error"
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+forgotPassword.addEventListener(
+  "click",
+  async(event)=>{
+
+    event.preventDefault();
+
+    hideMessage();
+
+
+    const email =
+      emailInput.value.trim();
+
+
+    if(!email){
+
+      showMessage(
+        "Enter your email first.",
+        "error"
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    try{
+
+      await sendPasswordResetEmail(
+        auth,
+        email
+      );
+
+
+      showMessage(
+        "Password reset email sent. Check your inbox.",
+        "success"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "PASSWORD RESET ERROR:",
+        error
+      );
+
+
+      let errorMessage =
+        "Could not send password reset email.";
+
+
+      switch(error.code){
+
+        case "auth/user-not-found":
+
+          errorMessage =
+            "No account was found with this email.";
+
+          break;
+
+
+        case "auth/invalid-email":
+
+          errorMessage =
+            "Please enter a valid email address.";
+
+          break;
+
+
+        case "auth/network-request-failed":
+
+          errorMessage =
+            "Network error. Check your internet connection.";
+
+          break;
+
+
+        default:
+
+          errorMessage =
+            error.message ||
+            "Could not send password reset email.";
+
+      }
+
+
+      showMessage(
+        errorMessage,
+        "error"
+      );
+
+    }
+
+  }
+);
+
+</script></body>
+</html>

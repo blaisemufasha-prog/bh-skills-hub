@@ -1,0 +1,2925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Web Development Course | BH Skills Hub</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f4f6;
+    color:#111827;
+    line-height:1.6;
+}
+
+/* LOADING */
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    background:#111827;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+}
+
+.loader{
+    width:45px;
+    height:45px;
+    border:5px solid #374151;
+    border-top:5px solid #60a5fa;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin-bottom:15px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+/* HEADER */
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#111827;
+    color:white;
+    height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.menu-btn,
+.back-btn{
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.menu-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.back-btn{
+    background:#374151;
+    color:white;
+    text-decoration:none;
+}
+
+/* OVERLAY */
+#overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:1100;
+    display:none;
+}
+
+#overlay.show{
+    display:block;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    top:0;
+    left:-330px;
+    width:310px;
+    height:100vh;
+    background:#fff;
+    z-index:1200;
+    transition:.3s ease;
+    overflow-y:auto;
+    box-shadow:5px 0 20px rgba(0,0,0,.25);
+}
+
+.sidebar.open{
+    left:0;
+}
+
+.sidebar-header{
+    background:#111827;
+    color:white;
+    padding:18px;
+    position:sticky;
+    top:0;
+    z-index:2;
+}
+
+.sidebar-header h2{
+    font-size:19px;
+    margin-bottom:5px;
+}
+
+.close-btn{
+    position:absolute;
+    right:15px;
+    top:15px;
+    border:none;
+    background:#374151;
+    color:white;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.progress-box{
+    margin:15px;
+    padding:15px;
+    background:#f3f4f6;
+    border-radius:10px;
+}
+
+.progress-text{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    width:100%;
+    height:9px;
+    background:#d1d5db;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#progressFill{
+    width:0%;
+    height:100%;
+    background:#2563eb;
+    transition:.3s;
+}
+
+.chapter-list{
+    padding:5px 12px 30px;
+}
+
+.chapter-btn{
+    width:100%;
+    text-align:left;
+    border:none;
+    background:#f9fafb;
+    margin:5px 0;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#111827;
+    font-size:14px;
+    transition:.2s;
+}
+
+.chapter-btn:hover{
+    background:#e5e7eb;
+}
+
+.chapter-btn.active{
+    background:#2563eb;
+    color:white;
+}
+
+.chapter-btn.completed{
+    border-left:5px solid #16a34a;
+}
+
+.chapter-btn.completed::after{
+    content:" ✓";
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.chapter-btn.active.completed::after{
+    color:white;
+}
+
+/* MAIN */
+main{
+    max-width:1050px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+/* HERO */
+.course-title{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:35px 30px;
+    border-radius:18px;
+    margin-bottom:25px;
+    box-shadow:0 8px 25px rgba(37,99,235,.25);
+}
+
+.course-badge{
+    display:inline-block;
+    background:rgba(255,255,255,.18);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.course-title h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.course-title p{
+    max-width:750px;
+    font-size:16px;
+    opacity:.95;
+}
+
+.course-stats{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+}
+
+.stat{
+    background:rgba(255,255,255,.16);
+    padding:9px 13px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+/* LESSON */
+.lesson{
+    display:none;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.lesson.active{
+    display:block;
+}
+
+.lesson h2{
+    font-size:27px;
+    margin-bottom:18px;
+    color:#111827;
+}
+
+.lesson h3{
+    margin-top:22px;
+    margin-bottom:10px;
+    color:#1d4ed8;
+}
+
+.lesson p{
+    margin-bottom:13px;
+}
+
+.lesson ul,
+.lesson ol{
+    margin:10px 0 15px 25px;
+}
+
+.lesson li{
+    margin-bottom:6px;
+}
+
+.note{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:14px;
+    margin:18px 0;
+    border-radius:6px;
+}
+
+.warning{
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+    padding:14px;
+    margin:18px 0;
+    border-radius:6px;
+}
+
+.code{
+    background:#111827;
+    color:#e5e7eb;
+    padding:17px;
+    border-radius:10px;
+    overflow-x:auto;
+    margin:15px 0;
+    font-family:monospace;
+    white-space:pre;
+    font-size:14px;
+}
+
+.example{
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    padding:18px;
+    border-radius:10px;
+    margin:15px 0;
+}
+
+/* QUIZ */
+.quiz{
+    margin-top:25px;
+    padding:20px;
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+}
+
+.quiz h3{
+    margin-top:0;
+    color:#111827;
+}
+
+.quiz-question{
+    margin:15px 0;
+}
+
+.quiz-question label{
+    display:block;
+    background:white;
+    border:1px solid #d1d5db;
+    padding:10px;
+    margin:7px 0;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.quiz-question label:hover{
+    background:#eff6ff;
+}
+
+.quiz-btn,
+.final-submit{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:11px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.quiz-result{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+/* FINAL QUIZ */
+.final-quiz{
+    background:#eef2ff;
+    border:2px solid #6366f1;
+}
+
+.final-question{
+    background:white;
+    padding:15px;
+    margin:15px 0;
+    border-radius:10px;
+}
+
+.final-question p{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.final-question label{
+    display:block;
+    padding:7px;
+    cursor:pointer;
+}
+
+/* NAVIGATION */
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:25px;
+}
+
+.nav-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.prev-btn{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.next-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.complete-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.nav-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:25px 15px;
+    background:#111827;
+    color:#d1d5db;
+    font-size:13px;
+}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+
+    header{
+        padding:0 12px;
+        height:60px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .back-btn{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    .menu-btn{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    main{
+        padding:15px 10px 35px;
+    }
+
+    .course-title{
+        padding:25px 20px;
+        border-radius:14px;
+    }
+
+    .course-title h1{
+        font-size:28px;
+    }
+
+    .course-title p{
+        font-size:14px;
+    }
+
+    .lesson{
+        padding:20px 16px;
+        border-radius:12px;
+    }
+
+    .lesson h2{
+        font-size:23px;
+    }
+
+    .code{
+        font-size:12px;
+    }
+
+    .sidebar{
+        width:290px;
+        left:-310px;
+    }
+
+    .navigation{
+        position:sticky;
+        bottom:0;
+        background:white;
+        padding:10px 0;
+        z-index:50;
+    }
+
+    .nav-btn{
+        padding:10px 12px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+<div id="loadingScreen">
+    <div class="loader"></div>
+    <h3>Loading BH Skills Hub...</h3>
+    <p>Please wait...</p>
+</div>
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo">
+        🎓 BH Skills Hub
+    </div>
+
+    <div class="header-right">
+        <button class="menu-btn" onclick="openSidebar()">
+            ☰ Chapters
+        </button>
+
+        <a href="index.html" class="back-btn">
+            ← Courses
+        </a>
+    </div>
+
+</header>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+        <h2>Web Development</h2>
+        <small>Course Chapters</small>
+
+        <button class="close-btn" onclick="closeSidebar()">×</button>
+
+    </div>
+
+    <div class="progress-box">
+
+        <div class="progress-text">
+            <span>Progress</span>
+            <span id="progressPercent">0%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div id="progressFill"></div>
+        </div>
+
+    </div>
+
+    <div class="chapter-list" id="chapterList"></div>
+
+</aside>
+
+<!-- MAIN -->
+<main>
+
+    <!-- HERO -->
+    <section class="course-title">
+
+        <span class="course-badge">
+            🚀 BH SKILLS HUB
+        </span>
+
+        <h1>Web Development</h1>
+
+        <p>
+            Learn how to build modern websites from HTML and CSS
+            to JavaScript, Firebase and complete web projects.
+        </p>
+
+        <div class="course-stats">
+
+            <div class="stat">📚 12 Chapters</div>
+            <div class="stat">📝 10 Final Questions</div>
+            <div class="stat">🎯 70% Pass Mark</div>
+            <div class="stat">💻 Practical Skills</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 1 -->
+    <section class="lesson" id="lesson0">
+
+        <h2>Chapter 1: Introduction to Web Development</h2>
+
+        <p>
+            Web development is the process of creating websites and
+            web applications that users access through browsers.
+        </p>
+
+        <h3>What is a Website?</h3>
+
+        <p>
+            A website is a collection of web pages connected together
+            and hosted on a web server.
+        </p>
+
+        <h3>Main Technologies</h3>
+
+        <ul>
+            <li><strong>HTML</strong> — structure and content</li>
+            <li><strong>CSS</strong> — design and presentation</li>
+            <li><strong>JavaScript</strong> — behavior and interactivity</li>
+            <li><strong>Backend</strong> — server-side processing</li>
+            <li><strong>Database</strong> — storing information</li>
+        </ul>
+
+        <div class="note">
+            <strong>Remember:</strong>
+            HTML structures the page, CSS styles it, and JavaScript
+            makes it interactive.
+        </div>
+
+        <h3>Frontend vs Backend</h3>
+
+        <p>
+            Frontend development deals with what users see and interact
+            with. Backend development handles server logic, databases,
+            authentication and APIs.
+        </p>
+
+        <div class="quiz">
+
+            <h3>⚡ Quick Quiz</h3>
+
+            <p>What is HTML mainly used for?</p>
+
+            <label>
+                <input type="radio" name="q1" value="a">
+                Website structure
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="b">
+                Database management
+            </label>
+
+            <label>
+                <input type="radio" name="q1" value="c">
+                Operating system
+            </label>
+
+            <button class="quiz-btn"
+                onclick="checkQuiz('q1','a','r1')">
+                Check Answer
+            </button>
+
+            <div id="r1" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 2 -->
+    <section class="lesson" id="lesson1">
+
+        <h2>Chapter 2: How the Web Works</h2>
+
+        <p>
+            When you open a website, your browser communicates with
+            a server through the Internet.
+        </p>
+
+        <h3>Basic Process</h3>
+
+        <ol>
+            <li>You enter a website address.</li>
+            <li>The browser sends a request.</li>
+            <li>The server receives the request.</li>
+            <li>The server sends a response.</li>
+            <li>The browser displays the page.</li>
+        </ol>
+
+        <div class="example">
+            <strong>Example:</strong><br>
+            Browser → Internet → Web Server → Response → Browser
+        </div>
+
+        <h3>HTTP and HTTPS</h3>
+
+        <p>
+            HTTP is a protocol used for transferring web information.
+            HTTPS is the secure version that uses encryption.
+        </p>
+
+        <div class="code">GET /index.html HTTP/1.1
+Host: example.com</div>
+
+        <div class="quiz">
+
+            <h3>⚡ Quick Quiz</h3>
+
+            <p>
+                Who normally sends a request when you open a website?
+            </p>
+
+            <label>
+                <input type="radio" name="q2" value="a">
+                Browser / Client
+            </label>
+
+            <label>
+                <input type="radio" name="q2" value="b">
+                Keyboard
+            </label>
+
+            <label>
+                <input type="radio" name="q2" value="c">
+                Monitor
+            </label>
+
+            <button class="quiz-btn"
+                onclick="checkQuiz('q2','a','r2')">
+                Check Answer
+            </button>
+
+            <div id="r2" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 3 -->
+    <section class="lesson" id="lesson2">
+
+        <h2>Chapter 3: HTML Basics</h2>
+
+        <p>
+            HTML stands for HyperText Markup Language.
+            It is the standard language used to structure web pages.
+        </p>
+
+        <h3>Basic HTML Structure</h3>
+
+        <div class="code">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My Website&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h1&gt;Hello World&lt;/h1&gt;
+
+    &lt;p&gt;Welcome to my website.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</div>
+
+        <h3>Common HTML Elements</h3>
+
+        <ul>
+            <li>&lt;h1&gt; — heading</li>
+            <li>&lt;p&gt; — paragraph</li>
+            <li>&lt;a&gt; — link</li>
+            <li>&lt;img&gt; — image</li>
+            <li>&lt;ul&gt; — unordered list</li>
+            <li>&lt;ol&gt; — ordered list</li>
+            <li>&lt;div&gt; — container</li>
+        </ul>
+
+        <div class="note">
+            HTML elements normally have an opening tag and a closing tag,
+            although some elements such as images do not require closing tags.
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 4 -->
+    <section class="lesson" id="lesson3">
+
+        <h2>Chapter 4: HTML Elements and Forms</h2>
+
+        <p>
+            HTML forms allow users to enter and submit information.
+        </p>
+
+        <h3>Common Form Elements</h3>
+
+        <ul>
+            <li>input</li>
+            <li>label</li>
+            <li>textarea</li>
+            <li>select</li>
+            <li>button</li>
+        </ul>
+
+        <div class="code">&lt;form&gt;
+
+    &lt;label&gt;Full Name&lt;/label&gt;
+
+    &lt;input
+        type="text"
+        name="name"
+        placeholder="Enter your name"
+    &gt;
+
+    &lt;label&gt;Email&lt;/label&gt;
+
+    &lt;input
+        type="email"
+        name="email"
+    &gt;
+
+    &lt;button type="submit"&gt;
+        Submit
+    &lt;/button&gt;
+
+&lt;/form&gt;</div>
+
+        <h3>Input Types</h3>
+
+        <ul>
+            <li>text</li>
+            <li>email</li>
+            <li>password</li>
+            <li>number</li>
+            <li>date</li>
+            <li>file</li>
+            <li>checkbox</li>
+            <li>radio</li>
+        </ul>
+
+        <div class="quiz">
+
+            <h3>⚡ Quick Quiz</h3>
+
+            <p>
+                Which HTML element is normally used for a paragraph?
+            </p>
+
+            <label>
+                <input type="radio" name="q4" value="a">
+                &lt;p&gt;
+            </label>
+
+            <label>
+                <input type="radio" name="q4" value="b">
+                &lt;div&gt;
+            </label>
+
+            <label>
+                <input type="radio" name="q4" value="c">
+                &lt;h1&gt;
+            </label>
+
+            <button class="quiz-btn"
+                onclick="checkQuiz('q4','a','r4')">
+                Check Answer
+            </button>
+
+            <div id="r4" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 5 -->
+    <section class="lesson" id="lesson4">
+
+        <h2>Chapter 5: HTML Links and Images</h2>
+
+        <p>
+            Links allow users to navigate from one page to another.
+            Images add visual content to a web page.
+        </p>
+
+        <h3>Creating a Link</h3>
+
+        <div class="code">&lt;a href="https://example.com"&gt;
+    Visit Website
+&lt;/a&gt;</div>
+
+        <h3>Adding an Image</h3>
+
+        <div class="code">&lt;img
+    src="photo.jpg"
+    alt="My Photo"
+    width="300"
+&gt;</div>
+
+        <h3>Important Attributes</h3>
+
+        <ul>
+            <li><strong>href</strong> — destination of a link</li>
+            <li><strong>src</strong> — image location</li>
+            <li><strong>alt</strong> — alternative image text</li>
+            <li><strong>target</strong> — controls where a link opens</li>
+        </ul>
+
+    </section>
+
+
+    <!-- CHAPTER 6 -->
+    <section class="lesson" id="lesson5">
+
+        <h2>Chapter 6: CSS Basics</h2>
+
+        <p>
+            CSS stands for Cascading Style Sheets. It controls the
+            appearance and layout of HTML elements.
+        </p>
+
+        <h3>Example</h3>
+
+        <div class="code">h1 {
+    color: blue;
+    font-size: 32px;
+}
+
+p {
+    color: #333;
+    line-height: 1.6;
+}</div>
+
+        <h3>Three Ways to Add CSS</h3>
+
+        <ol>
+            <li>Inline CSS</li>
+            <li>Internal CSS</li>
+            <li>External CSS</li>
+        </ol>
+
+        <h3>Common CSS Properties</h3>
+
+        <ul>
+            <li>color</li>
+            <li>background</li>
+            <li>font-size</li>
+            <li>margin</li>
+            <li>padding</li>
+            <li>border</li>
+            <li>width</li>
+            <li>height</li>
+        </ul>
+
+        <div class="quiz">
+
+            <h3>⚡ Quick Quiz</h3>
+
+            <p>
+                What is CSS mainly used for?
+            </p>
+
+            <label>
+                <input type="radio" name="q6" value="a">
+                Styling web pages
+            </label>
+
+            <label>
+                <input type="radio" name="q6" value="b">
+                Creating databases
+            </label>
+
+            <label>
+                <input type="radio" name="q6" value="c">
+                Managing computer hardware
+            </label>
+
+            <button class="quiz-btn"
+                onclick="checkQuiz('q6','a','r6')">
+                Check Answer
+            </button>
+
+            <div id="r6" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 7 -->
+    <section class="lesson" id="lesson6">
+
+        <h2>Chapter 7: CSS Layout</h2>
+
+        <p>
+            CSS provides several techniques for arranging elements
+            on a web page.
+        </p>
+
+        <h3>Flexbox</h3>
+
+        <div class="code">.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}</div>
+
+        <h3>Grid</h3>
+
+        <div class="code">.container {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap: 20px;
+}</div>
+
+        <h3>Responsive Design</h3>
+
+        <p>
+            Responsive design makes websites adapt to different screen
+            sizes such as phones, tablets and computers.
+        </p>
+
+        <div class="code">@media (max-width: 768px) {
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+}</div>
+
+        <div class="note">
+            A professional website should work correctly on both
+            mobile devices and desktop computers.
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 8 -->
+    <section class="lesson" id="lesson7">
+
+        <h2>Chapter 8: JavaScript Basics</h2>
+
+        <p>
+            JavaScript is a programming language used to add behavior
+            and interactivity to websites.
+        </p>
+
+        <h3>Variables</h3>
+
+        <div class="code">let name = "Blaise";
+const age = 25;
+
+console.log(name);
+console.log(age);</div>
+
+        <h3>Functions</h3>
+
+        <div class="code">function greet() {
+
+    alert("Welcome to BH Skills Hub!");
+
+}
+
+greet();</div>
+
+        <h3>Changing HTML</h3>
+
+        <div class="code">document.getElementById("title")
+    .textContent = "Hello World";</div>
+
+        <div class="quiz">
+
+            <h3>⚡ Quick Quiz</h3>
+
+            <p>
+                What does JavaScript mainly add to a website?
+            </p>
+
+            <label>
+                <input type="radio" name="q8" value="a">
+                Interactivity and behavior
+            </label>
+
+            <label>
+                <input type="radio" name="q8" value="b">
+                Only colors
+            </label>
+
+            <label>
+                <input type="radio" name="q8" value="c">
+                Only images
+            </label>
+
+            <button class="quiz-btn"
+                onclick="checkQuiz('q8','a','r8')">
+                Check Answer
+            </button>
+
+            <div id="r8" class="quiz-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 9 -->
+    <section class="lesson" id="lesson8">
+
+        <h2>Chapter 9: JavaScript Events</h2>
+
+        <p>
+            Events happen when users interact with a web page.
+        </p>
+
+        <h3>Common Events</h3>
+
+        <ul>
+            <li>click</li>
+            <li>submit</li>
+            <li>change</li>
+            <li>input</li>
+            <li>mouseover</li>
+            <li>keydown</li>
+        </ul>
+
+        <div class="code">document
+    .getElementById("myButton")
+    .addEventListener("click", function(){
+
+        alert("Button clicked!");
+
+    });</div>
+
+        <h3>DOM</h3>
+
+        <p>
+            DOM stands for Document Object Model. It allows JavaScript
+            to access and modify HTML elements.
+        </p>
+
+    </section>
+
+
+    <!-- CHAPTER 10 -->
+    <section class="lesson" id="lesson9">
+
+        <h2>Chapter 10: Working with Forms</h2>
+
+        <p>
+            JavaScript can validate form data before it is submitted.
+        </p>
+
+        <div class="code">const form =
+    document.getElementById("form");
+
+form.addEventListener("submit",
+    function(event){
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById("email").value;
+
+        if(email === ""){
+
+            alert("Email is required!");
+
+        }else{
+
+            alert("Form submitted!");
+
+        }
+
+    }
+);</div>
+
+        <h3>Why Validation Matters</h3>
+
+        <ul>
+            <li>Improves user experience</li>
+            <li>Prevents incomplete information</li>
+            <li>Reduces invalid submissions</li>
+            <li>Provides immediate feedback</li>
+        </ul>
+
+    </section>
+
+
+    <!-- CHAPTER 11 -->
+    <section class="lesson" id="lesson10">
+
+        <h2>Chapter 11: Introduction to Firebase</h2>
+
+        <p>
+            Firebase is a platform from Google that provides services
+            for modern web and mobile applications.
+        </p>
+
+        <h3>Firebase Services</h3>
+
+        <ul>
+            <li>Authentication</li>
+            <li>Cloud Firestore</li>
+            <li>Storage</li>
+            <li>Hosting</li>
+            <li>Cloud Functions</li>
+        </ul>
+
+        <h3>Authentication</h3>
+
+        <p>
+            Firebase Authentication can be used for registration,
+            login, password reset and user management.
+        </p>
+
+        <h3>Firestore</h3>
+
+        <p>
+            Cloud Firestore is a NoSQL database used to store application
+            data in collections and documents.
+        </p>
+
+        <div class="code">users
+   |
+   ├── userId
+   │     ├── name
+   │     ├── email
+   │     └── createdAt</div>
+
+        <div class="note">
+            In BH Skills Hub, Firebase is used for authentication,
+            student progress and certificate records.
+        </div>
+
+    </section>
+
+
+    <!-- CHAPTER 12 -->
+    <section class="lesson" id="lesson11">
+
+        <h2>Chapter 12: Building a Complete Web Project</h2>
+
+        <p>
+            A complete web project combines HTML, CSS, JavaScript,
+            authentication, database services and good user experience.
+        </p>
+
+        <h3>Project Development Process</h3>
+
+        <ol>
+            <li>Define the problem</li>
+            <li>Plan the features</li>
+            <li>Create the HTML structure</li>
+            <li>Design using CSS</li>
+            <li>Add JavaScript functionality</li>
+            <li>Connect backend services</li>
+            <li>Test the project</li>
+            <li>Make it responsive</li>
+            <li>Deploy the project</li>
+        </ol>
+
+        <h3>Example Project Structure</h3>
+
+        <div class="code">my-project/
+│
+├── index.html
+├── login.html
+├── signup.html
+├── dashboard.html
+├── style.css
+├── script.js
+│
+└── assets/
+    ├── images/
+    └── icons/</div>
+
+        <div class="warning">
+            <strong>Important:</strong>
+            Completing this final quiz does not mean you should stop
+            practicing. Build real projects to strengthen your skills.
+        </div>
+
+
+        <!-- FINAL QUIZ -->
+        <div class="quiz final-quiz">
+
+            <h3>🎯 Web Development Final Quiz</h3>
+
+            <p>
+                Pass mark: <strong>70%</strong>
+            </p>
+
+            <!-- Q1 -->
+            <div class="final-question">
+
+                <p>1. What is HTML mainly used for?</p>
+
+                <label>
+                    <input type="radio" name="f1" value="a">
+                    Structuring web pages
+                </label>
+
+                <label>
+                    <input type="radio" name="f1" value="b">
+                    Database management
+                </label>
+
+                <label>
+                    <input type="radio" name="f1" value="c">
+                    Video editing
+                </label>
+
+            </div>
+
+
+            <!-- Q2 -->
+            <div class="final-question">
+
+                <p>2. What does CSS control?</p>
+
+                <label>
+                    <input type="radio" name="f2" value="a">
+                    Website styling
+                </label>
+
+                <label>
+                    <input type="radio" name="f2" value="b">
+                    Server hardware
+                </label>
+
+                <label>
+                    <input type="radio" name="f2" value="c">
+                    Email accounts
+                </label>
+
+            </div>
+
+
+            <!-- Q3 -->
+            <div class="final-question">
+
+                <p>3. Which language adds interactivity to web pages?</p>
+
+                <label>
+                    <input type="radio" name="f3" value="a">
+                    HTML
+                </label>
+
+                <label>
+                    <input type="radio" name="f3" value="b">
+                    CSS
+                </label>
+
+                <label>
+                    <input type="radio" name="f3" value="c">
+                    JavaScript
+                </label>
+
+            </div>
+
+
+            <!-- Q4 -->
+            <div class="final-question">
+
+                <p>4. Which technology is commonly used to store web application data in BH Skills Hub?</p>
+
+                <label>
+                    <input type="radio" name="f4" value="a">
+                    Photoshop
+                </label>
+
+                <label>
+                    <input type="radio" name="f4" value="b">
+                    Cloud Firestore
+                </label>
+
+                <label>
+                    <input type="radio" name="f4" value="c">
+                    VLC
+                </label>
+
+            </div>
+
+
+            <!-- Q5 -->
+            <div class="final-question">
+
+                <p>5. What does HTTPS provide?</p>
+
+                <label>
+                    <input type="radio" name="f5" value="a">
+                    Secure encrypted communication
+                </label>
+
+                <label>
+                    <input type="radio" name="f5" value="b">
+                    Image editing
+                </label>
+
+                <label>
+                    <input type="radio" name="f5" value="c">
+                    Computer repair
+                </label>
+
+            </div>
+
+
+            <!-- Q6 -->
+            <div class="final-question">
+
+                <p>6. Which CSS feature is useful for responsive layouts?</p>
+
+                <label>
+                    <input type="radio" name="f6" value="a">
+                    Media queries
+                </label>
+
+                <label>
+                    <input type="radio" name="f6" value="b">
+                    HTML comments
+                </label>
+
+                <label>
+                    <input type="radio" name="f6" value="c">
+                    SQL tables
+                </label>
+
+            </div>
+
+
+            <!-- Q7 -->
+            <div class="final-question">
+
+                <p>7. What is the DOM?</p>
+
+                <label>
+                    <input type="radio" name="f7" value="a">
+                    A representation of the web document
+                </label>
+
+                <label>
+                    <input type="radio" name="f7" value="b">
+                    A database server
+                </label>
+
+                <label>
+                    <input type="radio" name="f7" value="c">
+                    An operating system
+                </label>
+
+            </div>
+
+
+            <!-- Q8 -->
+            <div class="final-question">
+
+                <p>8. What is Firebase Authentication used for?</p>
+
+                <label>
+                    <input type="radio" name="f8" value="a">
+                    User registration and login
+                </label>
+
+                <label>
+                    <input type="radio" name="f8" value="b">
+                    Editing photos
+                </label>
+
+                <label>
+                    <input type="radio" name="f8" value="c">
+                    Designing logos
+                </label>
+
+            </div>
+
+
+            <!-- Q9 -->
+            <div class="final-question">
+
+                <p>9. What should you do before deploying a web project?</p>
+
+                <label>
+                    <input type="radio" name="f9" value="a">
+                    Test the project
+                </label>
+
+                <label>
+                    <input type="radio" name="f9" value="b">
+                    Delete the files
+                </label>
+
+                <label>
+                    <input type="radio" name="f9" value="c">
+                    Remove the HTML
+                </label>
+
+            </div>
+
+
+            <!-- Q10 -->
+            <div class="final-question">
+
+                <p>10. Which combination represents the basic frontend technologies?</p>
+
+                <label>
+                    <input type="radio" name="f10" value="a">
+                    HTML, CSS and JavaScript
+                </label>
+
+                <label>
+                    <input type="radio" name="f10" value="b">
+                    Word, Excel and PowerPoint
+                </label>
+
+                <label>
+                    <input type="radio" name="f10" value="c">
+                    Python, Photoshop and VLC
+                </label>
+
+            </div>
+
+
+            <button class="final-submit"
+                    onclick="submitFinalQuiz()">
+                Submit Final Quiz
+            </button>
+
+            <div id="finalQuizResult"
+                 class="quiz-result">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVIGATION -->
+    <div class="navigation">
+
+        <button
+            class="nav-btn prev-btn"
+            id="prevBtn"
+            onclick="previousLesson()">
+
+            ← Previous
+
+        </button>
+
+        <button
+            class="nav-btn next-btn"
+            id="nextBtn"
+            onclick="nextLesson()">
+
+            Next →
+
+        </button>
+
+        <button
+            class="nav-btn complete-btn"
+            onclick="finishCourse()">
+
+            🎓 Complete Course
+
+        </button>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 BH Skills Hub — All Rights Reserved.
+    </p>
+
+    <p>
+        Made by Blaise Hadari
+    </p>
+
+</footer>
+
+
+<!-- FIREBASE -->
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+        "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+        "bh-skills-hub",
+
+    storageBucket:
+        "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+        "503359590632",
+
+    appId:
+        "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+/* INITIALIZE */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* COURSE CONFIG */
+
+const COURSE_CONFIG = {
+
+    id:
+        "web-development",
+
+    name:
+        "Web Development",
+
+    code:
+        "WD",
+
+    totalLessons:
+        12
+
+};
+
+
+/* GLOBAL VARIABLES */
+
+let currentUser = null;
+
+let currentLesson = 0;
+
+let completedLessons = [];
+
+let finalQuizPassed = false;
+
+let quizResults = {};
+
+
+/* LESSON TITLES */
+
+const lessons = [
+
+    "Introduction to Web Development",
+
+    "How the Web Works",
+
+    "HTML Basics",
+
+    "HTML Elements and Forms",
+
+    "HTML Links and Images",
+
+    "CSS Basics",
+
+    "CSS Layout",
+
+    "JavaScript Basics",
+
+    "JavaScript Events",
+
+    "Working with Forms",
+
+    "Introduction to Firebase",
+
+    "Building a Complete Web Project"
+
+];
+
+
+/* LOCAL STORAGE KEYS */
+
+const CURRENT_KEY =
+    "webDevCurrentLesson";
+
+const COMPLETED_KEY =
+    "webDevCompletedLessons";
+
+const RESULTS_KEY =
+    "webDevQuizResults";
+
+const PASSED_KEY =
+    "webDevFinalQuizPassed";
+
+
+/* LOAD LOCAL DATA */
+
+function loadLocalData(){
+
+    currentLesson =
+        parseInt(
+            localStorage.getItem(
+                CURRENT_KEY
+            )
+        ) || 0;
+
+
+    try{
+
+        completedLessons =
+            JSON.parse(
+                localStorage.getItem(
+                    COMPLETED_KEY
+                )
+            ) || [];
+
+    }catch(error){
+
+        completedLessons = [];
+
+    }
+
+
+    try{
+
+        quizResults =
+            JSON.parse(
+                localStorage.getItem(
+                    RESULTS_KEY
+                )
+            ) || {};
+
+    }catch(error){
+
+        quizResults = {};
+
+    }
+
+
+    finalQuizPassed =
+        localStorage.getItem(
+            PASSED_KEY
+        ) === "true";
+
+}
+
+
+/* SAVE LOCAL DATA */
+
+function saveLocalData(){
+
+    localStorage.setItem(
+        CURRENT_KEY,
+        currentLesson
+    );
+
+    localStorage.setItem(
+        COMPLETED_KEY,
+        JSON.stringify(
+            completedLessons
+        )
+    );
+
+    localStorage.setItem(
+        RESULTS_KEY,
+        JSON.stringify(
+            quizResults
+        )
+    );
+
+    localStorage.setItem(
+        PASSED_KEY,
+        finalQuizPassed
+    );
+
+}
+
+
+/* FIRESTORE PROGRESS */
+
+async function saveFirebaseProgress(){
+
+    if(!currentUser){
+        return;
+    }
+
+    try{
+
+        await setDoc(
+
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            ),
+
+            {
+
+                webDevelopment: {
+
+                    currentLesson:
+                        currentLesson,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:
+                        calculateProgress(),
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:
+                        finalQuizPassed,
+
+                    lastUpdated:
+                        new Date().toISOString()
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+    }catch(error){
+
+        console.error(
+            "Progress save error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* LOAD FIREBASE PROGRESS */
+
+async function loadFirebaseProgress(){
+
+    if(!currentUser){
+        return;
+    }
+
+    try{
+
+        const snapshot =
+            await getDoc(
+
+                doc(
+                    db,
+                    "courseProgress",
+                    currentUser.uid
+                )
+
+            );
+
+
+        if(snapshot.exists()){
+
+            const data =
+                snapshot.data();
+
+            const course =
+                data.webDevelopment;
+
+
+            if(course){
+
+                if(
+                    typeof course.currentLesson
+                    === "number"
+                ){
+
+                    currentLesson =
+                        course.currentLesson;
+
+                }
+
+
+                if(
+                    Array.isArray(
+                        course.completedLessons
+                    )
+                ){
+
+                    completedLessons =
+                        course.completedLessons;
+
+                }
+
+
+                if(course.quizResults){
+
+                    quizResults =
+                        course.quizResults;
+
+                }
+
+
+                finalQuizPassed =
+                    course.finalQuizPassed === true;
+
+
+                /* Restore local storage */
+
+                saveLocalData();
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Firebase progress load error:",
+            error
+        );
+
+        loadLocalData();
+
+    }
+
+}
+
+
+/* AUTH */
+
+async function startAuth(){
+
+    try{
+
+        await setPersistence(
+            auth,
+            browserLocalPersistence
+        );
+
+    }catch(error){
+
+        console.error(
+            "Persistence error:",
+            error
+        );
+
+    }
+
+
+    onAuthStateChanged(
+        auth,
+        async function(user){
+
+            if(!user){
+
+                sessionStorage.setItem(
+                    "redirectAfterLogin",
+                    "web-development.html"
+                );
+
+                window.location.replace(
+                    "login.html"
+                );
+
+                return;
+
+            }
+
+
+            currentUser =
+                user;
+
+
+            loadLocalData();
+
+            await loadFirebaseProgress();
+
+
+            document.getElementById(
+                "loadingScreen"
+            ).style.display = "none";
+
+
+            renderChapterList();
+
+            updateProgress();
+
+            showLesson(
+                currentLesson,
+                false
+            );
+
+        }
+    );
+
+}
+
+
+/* CHAPTER LIST */
+
+function renderChapterList(){
+
+    const list =
+        document.getElementById(
+            "chapterList"
+        );
+
+    list.innerHTML = "";
+
+
+    lessons.forEach(
+        function(title,index){
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "chapter-btn";
+
+
+            if(index === currentLesson){
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            if(
+                completedLessons.includes(
+                    index
+                )
+            ){
+
+                button.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            button.innerHTML =
+                `${index + 1}. ${title}`;
+
+
+            button.onclick =
+                function(){
+
+                    showLesson(
+                        index,
+                        true
+                    );
+
+                };
+
+
+            list.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* CALCULATE PROGRESS */
+
+function calculateProgress(){
+
+    const total =
+        lessons.length;
+
+    const completed =
+        completedLessons.filter(
+            function(index){
+
+                return (
+                    index >= 0 &&
+                    index < total
+                );
+
+            }
+        ).length;
+
+
+    return Math.round(
+        (completed / total) * 100
+    );
+
+}
+
+
+/* UPDATE PROGRESS */
+
+function updateProgress(){
+
+    const progress =
+        calculateProgress();
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+        progress + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        progress + "%";
+
+}
+
+
+/* SHOW LESSON */
+
+window.showLesson =
+function(index, save = true){
+
+    if(
+        index < 0 ||
+        index >= lessons.length
+    ){
+
+        return;
+
+    }
+
+
+    currentLesson =
+        index;
+
+
+    document
+        .querySelectorAll(".lesson")
+        .forEach(
+            function(lesson){
+
+                lesson.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const selected =
+        document.getElementById(
+            "lesson" + index
+        );
+
+
+    if(selected){
+
+        selected.classList.add(
+            "active"
+        );
+
+    }
+
+
+    renderChapterList();
+
+    updateProgress();
+
+
+    document.getElementById(
+        "prevBtn"
+    ).disabled =
+        index === 0;
+
+
+    document.getElementById(
+        "nextBtn"
+    ).disabled =
+        index === lessons.length - 1;
+
+
+    if(save){
+
+        saveLocalData();
+
+        saveFirebaseProgress();
+
+    }
+
+
+    closeSidebar();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
+
+
+/* MARK LESSON COMPLETE */
+
+function markLessonComplete(){
+
+    if(
+        !completedLessons.includes(
+            currentLesson
+        )
+    ){
+
+        completedLessons.push(
+            currentLesson
+        );
+
+        completedLessons.sort(
+            function(a,b){
+                return a-b;
+            }
+        );
+
+    }
+
+
+    saveLocalData();
+
+    updateProgress();
+
+    renderChapterList();
+
+    saveFirebaseProgress();
+
+}
+
+
+/* NEXT */
+
+window.nextLesson =
+function(){
+
+    markLessonComplete();
+
+
+    if(
+        currentLesson <
+        lessons.length - 1
+    ){
+
+        showLesson(
+            currentLesson + 1
+        );
+
+    }else{
+
+        alert(
+            "You are already on Chapter 12. Complete the Final Quiz."
+        );
+
+    }
+
+};
+
+
+/* PREVIOUS */
+
+window.previousLesson =
+function(){
+
+    if(currentLesson > 0){
+
+        showLesson(
+            currentLesson - 1
+        );
+
+    }
+
+};
+
+
+/* SIDEBAR */
+
+window.openSidebar =
+function(){
+
+    document
+        .getElementById("sidebar")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+};
+
+
+window.closeSidebar =
+function(){
+
+    document
+        .getElementById("sidebar")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+};
+
+
+/* QUICK QUIZ */
+
+window.checkQuiz =
+function(
+    questionName,
+    correctAnswer,
+    resultId
+){
+
+    const selected =
+        document.querySelector(
+            `input[name="${questionName}"]:checked`
+        );
+
+
+    const result =
+        document.getElementById(
+            resultId
+        );
+
+
+    if(!selected){
+
+        result.textContent =
+            "⚠️ Please select an answer.";
+
+        result.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    if(
+        selected.value ===
+        correctAnswer
+    ){
+
+        result.textContent =
+            "✅ Correct answer!";
+
+        result.style.color =
+            "#16a34a";
+
+    }else{
+
+        result.textContent =
+            "❌ Incorrect answer. Try again.";
+
+        result.style.color =
+            "#dc2626";
+
+    }
+
+};
+
+
+/* FINAL QUIZ ANSWERS */
+
+const finalAnswers = {
+
+    f1:"a",
+
+    f2:"a",
+
+    f3:"c",
+
+    f4:"b",
+
+    f5:"a",
+
+    f6:"a",
+
+    f7:"a",
+
+    f8:"a",
+
+    f9:"a",
+
+    f10:"a"
+
+};
+
+
+/* SUBMIT FINAL QUIZ */
+
+window.submitFinalQuiz =
+async function(){
+
+    let score = 0;
+
+    let answered = 0;
+
+
+    Object.keys(
+        finalAnswers
+    ).forEach(
+        function(question){
+
+            const selected =
+                document.querySelector(
+                    `input[name="${question}"]:checked`
+                );
+
+
+            if(selected){
+
+                answered++;
+
+
+                if(
+                    selected.value ===
+                    finalAnswers[question]
+                ){
+
+                    score++;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    if(answered < 10){
+
+        document.getElementById(
+            "finalQuizResult"
+        ).innerHTML =
+            "⚠️ Please answer all 10 questions before submitting.";
+
+        document.getElementById(
+            "finalQuizResult"
+        ).style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    const percentage =
+        Math.round(
+            (score / 10) * 100
+        );
+
+
+    finalQuizPassed =
+        percentage >= 70;
+
+
+    quizResults.finalQuiz = {
+
+        score:
+            score,
+
+        percentage:
+            percentage,
+
+        passed:
+            finalQuizPassed,
+
+        attempts:
+            (
+                quizResults.finalQuiz?.attempts
+                || 0
+            ) + 1,
+
+        completedAt:
+            new Date().toISOString()
+
+    };
+
+
+    saveLocalData();
+
+    await saveFirebaseProgress();
+
+
+    const result =
+        document.getElementById(
+            "finalQuizResult"
+        );
+
+
+    if(finalQuizPassed){
+
+        result.innerHTML =
+            `🎉 <strong>Congratulations!</strong><br>
+             You scored ${score}/10 (${percentage}%).<br>
+             You passed the Final Quiz.`;
+
+        result.style.color =
+            "#16a34a";
+
+    }else{
+
+        result.innerHTML =
+            `❌ You scored ${score}/10 (${percentage}%).<br>
+             You need at least 70% to pass. Please try again.`;
+
+        result.style.color =
+            "#dc2626";
+
+    }
+
+};
+
+
+/* CERTIFICATE ID */
+
+function generateCertificateId(){
+
+    const random =
+        Math.random()
+            .toString(36)
+            .substring(2,8)
+            .toUpperCase();
+
+
+    return `BH-${COURSE_CONFIG.code}-${new Date().getFullYear()}-${random}`;
+
+}
+
+
+/* FINISH COURSE */
+
+window.finishCourse =
+async function(){
+
+    /*
+       IMPORTANT:
+       Do NOT automatically mark missing chapters
+       as completed.
+    */
+
+    const allLessonsCompleted =
+        Array.from(
+            {
+                length:
+                    lessons.length
+            },
+            function(_,index){
+
+                return completedLessons.includes(
+                    index
+                );
+
+            }
+        ).every(
+            Boolean
+        );
+
+
+    if(!allLessonsCompleted){
+
+        alert(
+            `Please complete all ${lessons.length} chapters before completing the course.`
+        );
+
+        return;
+
+    }
+
+
+    if(!finalQuizPassed){
+
+        alert(
+            "You must pass the Final Quiz with at least 70% before completing the course."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Your session has expired. Please log in again."
+        );
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    /*
+       GET STUDENT NAME
+
+       Full Name from signup.html is saved
+       to Firebase Authentication displayName.
+    */
+
+    const studentName =
+        currentUser.displayName &&
+        currentUser.displayName.trim()
+        ?
+        currentUser.displayName.trim()
+        :
+        currentUser.email
+            .split("@")[0];
+
+
+    try{
+
+        /*
+           CHECK WHETHER CERTIFICATE
+           ALREADY EXISTS
+        */
+
+        const progressSnapshot =
+            await getDoc(
+
+                doc(
+                    db,
+                    "courseProgress",
+                    currentUser.uid
+                )
+
+            );
+
+
+        if(
+            progressSnapshot.exists()
+        ){
+
+            const data =
+                progressSnapshot.data();
+
+
+            const course =
+                data.webDevelopment;
+
+
+            if(
+                course &&
+                course.completed === true &&
+                course.certificateId
+            ){
+
+                window.location.href =
+                    `certificate.html?course=${encodeURIComponent(
+                        COURSE_CONFIG.id
+                    )}&name=${encodeURIComponent(
+                        studentName
+                    )}&id=${encodeURIComponent(
+                        course.certificateId
+                    )}`;
+
+                return;
+
+            }
+
+        }
+
+
+        /*
+           CREATE NEW CERTIFICATE
+        */
+
+        const certificateId =
+            generateCertificateId();
+
+
+        const completionDate =
+            new Date().toISOString();
+
+
+        const certificateData = {
+
+            certificateId:
+                certificateId,
+
+            studentName:
+                studentName,
+
+            studentEmail:
+                currentUser.email || "",
+
+            courseId:
+                COURSE_CONFIG.id,
+
+            courseName:
+                COURSE_CONFIG.name,
+
+            courseCode:
+                COURSE_CONFIG.code,
+
+            uid:
+                currentUser.uid,
+
+            completionDate:
+                completionDate,
+
+            issuedBy:
+                "BH Skills Hub",
+
+            finalQuizScore:
+                quizResults.finalQuiz?.score || 0,
+
+            finalQuizPercentage:
+                quizResults.finalQuiz?.percentage || 0,
+
+            status:
+                "valid"
+
+        };
+
+
+        /*
+           SAVE CERTIFICATE
+        */
+
+        await setDoc(
+
+            doc(
+                db,
+                "certificates",
+                certificateId
+            ),
+
+            certificateData
+
+        );
+
+
+        /*
+           SAVE COURSE COMPLETION
+        */
+
+        await setDoc(
+
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            ),
+
+            {
+
+                webDevelopment: {
+
+                    currentLesson:
+                        currentLesson,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:
+                        100,
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:
+                        true,
+
+                    completed:
+                        true,
+
+                    certificateId:
+                        certificateId,
+
+                    completionDate:
+                        completionDate,
+
+                    lastUpdated:
+                        completionDate
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        /*
+           UPDATE LOCAL STORAGE
+        */
+
+        localStorage.setItem(
+            COMPLETED_KEY,
+            JSON.stringify(
+                completedLessons
+            )
+        );
+
+
+        localStorage.setItem(
+            PASSED_KEY,
+            "true"
+        );
+
+
+        /*
+           OPEN CERTIFICATE
+        */
+
+        window.location.href =
+            `certificate.html?course=${encodeURIComponent(
+                COURSE_CONFIG.id
+            )}&name=${encodeURIComponent(
+                studentName
+            )}&id=${encodeURIComponent(
+                certificateId
+            )}`;
+
+
+    }catch(error){
+
+        console.error(
+            "Certificate creation error:",
+            error
+        );
+
+
+        alert(
+            "Certificate could not be created. Please check your internet connection and Firebase Firestore rules."
+        );
+
+    }
+
+};
+
+
+/* START */
+
+startAuth();
+
+</script>
+
+</body>
+</html>

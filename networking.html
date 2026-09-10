@@ -1,0 +1,3267 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Networking Course - BH Skills Hub</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#172033;
+}
+
+/* HEADER */
+header{
+    background:#111827;
+    color:white;
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+    margin-right:auto;
+}
+
+.logo span{
+    color:#60a5fa;
+}
+
+.menu-btn,
+.back-btn{
+    border:none;
+    text-decoration:none;
+    color:white;
+    background:#2563eb;
+    padding:9px 14px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu-btn{
+    display:block;
+}
+
+/* OVERLAY */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:80;
+    display:none;
+}
+
+.overlay.show{
+    display:block;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    top:65px;
+    left:-320px;
+    width:300px;
+    height:calc(100vh - 65px);
+    background:white;
+    z-index:90;
+    padding:22px 15px;
+    overflow-y:auto;
+    transition:.3s ease;
+    box-shadow:4px 0 18px rgba(0,0,0,.15);
+}
+
+.sidebar.open{
+    left:0;
+}
+
+.sidebar-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.sidebar h3{
+    font-size:18px;
+}
+
+.close-btn{
+    border:none;
+    background:#fee2e2;
+    color:#dc2626;
+    width:32px;
+    height:32px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+/* PROGRESS */
+.progress-box{
+    background:#f1f5f9;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+.progress-text{
+    font-size:13px;
+    color:#667085;
+    margin-bottom:8px;
+}
+
+.progress{
+    height:9px;
+    background:#dbe3ef;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#2563eb;
+    transition:.3s;
+}
+
+/* CHAPTER LIST */
+.lesson-list{
+    list-style:none;
+}
+
+.lesson-list li{
+    margin-bottom:5px;
+}
+
+.lesson-list button{
+    width:100%;
+    border:none;
+    background:transparent;
+    text-align:left;
+    padding:11px;
+    border-radius:8px;
+    cursor:pointer;
+    color:#344054;
+    font-size:14px;
+}
+
+.lesson-list button:hover{
+    background:#eff6ff;
+    color:#2563eb;
+}
+
+.lesson-list button.active{
+    background:#2563eb;
+    color:white;
+}
+
+.lesson-list button.completed{
+    color:#15803d;
+    font-weight:bold;
+}
+
+/* MAIN */
+.content{
+    width:100%;
+    max-width:1000px;
+    margin:auto;
+    padding:30px 20px;
+}
+
+/* COURSE TITLE */
+.course-title{
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    padding:30px;
+    border-radius:18px;
+    margin-bottom:25px;
+}
+
+.course-title h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.course-title p{
+    line-height:1.7;
+}
+
+/* LESSON */
+.lesson{
+    display:none;
+    background:white;
+    padding:30px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.lesson.active{
+    display:block;
+}
+
+.lesson h2{
+    font-size:28px;
+    margin-bottom:18px;
+}
+
+.lesson h3{
+    font-size:20px;
+    margin:25px 0 12px;
+    color:#2563eb;
+}
+
+.lesson p{
+    line-height:1.75;
+    color:#475467;
+    margin-bottom:15px;
+}
+
+.lesson ul,
+.lesson ol{
+    margin:10px 0 20px 25px;
+}
+
+.lesson li{
+    margin-bottom:10px;
+    line-height:1.6;
+    color:#475467;
+}
+
+/* NOTE */
+.note{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:15px;
+    border-radius:8px;
+    margin:20px 0;
+    line-height:1.6;
+}
+
+.warning{
+    background:#fff7ed;
+    border-left:5px solid #f97316;
+    padding:15px;
+    border-radius:8px;
+    margin:20px 0;
+    line-height:1.6;
+}
+
+/* DIAGRAM */
+.diagram{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:20px;
+    margin:22px 0;
+    overflow-x:auto;
+}
+
+.diagram-title{
+    text-align:center;
+    font-weight:bold;
+    margin-bottom:15px;
+    color:#334155;
+}
+
+.network-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    min-width:550px;
+}
+
+.device{
+    background:white;
+    border:2px solid #2563eb;
+    padding:15px;
+    border-radius:12px;
+    text-align:center;
+    min-width:100px;
+    font-weight:bold;
+}
+
+.device small{
+    display:block;
+    font-weight:normal;
+    color:#667085;
+    margin-top:5px;
+}
+
+.line{
+    width:55px;
+    height:4px;
+    background:#2563eb;
+}
+
+/* TOPOLOGY */
+.topology{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.topology-box{
+    background:#f8fafc;
+    border:1px solid #dbe3ef;
+    padding:18px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.topology-box h4{
+    margin-bottom:15px;
+    color:#2563eb;
+}
+
+/* OSI */
+.osi{
+    max-width:520px;
+    margin:auto;
+}
+
+.osi-layer{
+    padding:13px;
+    margin:5px 0;
+    border-radius:7px;
+    color:white;
+    text-align:center;
+    font-weight:bold;
+}
+
+.l7{background:#7c3aed;}
+.l6{background:#9333ea;}
+.l5{background:#c026d3;}
+.l4{background:#db2777;}
+.l3{background:#dc2626;}
+.l2{background:#ea580c;}
+.l1{background:#ca8a04;}
+
+/* CODE */
+pre{
+    background:#111827;
+    color:#d1fae5;
+    padding:18px;
+    border-radius:10px;
+    overflow-x:auto;
+    margin:15px 0;
+    line-height:1.6;
+}
+
+/* QUICK QUIZ */
+.quiz{
+    margin-top:28px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    padding:20px;
+    border-radius:12px;
+}
+
+.quiz h3{
+    margin-top:0;
+}
+
+.quiz label{
+    display:block;
+    padding:11px;
+    margin:7px 0;
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.quiz label:hover{
+    background:#eff6ff;
+}
+
+.quiz button{
+    margin-top:12px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:11px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.result{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+/* FINAL QUIZ */
+.final-quiz{
+    margin-top:30px;
+    background:#fff;
+    border:2px solid #2563eb;
+    padding:24px;
+    border-radius:16px;
+}
+
+.final-quiz h2{
+    color:#2563eb;
+    margin-bottom:10px;
+}
+
+.quiz-question{
+    margin-top:25px;
+    padding:18px;
+    background:#f8fafc;
+    border-radius:12px;
+    border:1px solid #e2e8f0;
+}
+
+.quiz-question p{
+    font-weight:bold;
+    color:#172033;
+}
+
+.quiz-question label{
+    display:block;
+    margin:8px 0;
+    padding:11px;
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.quiz-question label:hover{
+    background:#eff6ff;
+}
+
+.submit-final{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.final-result{
+    margin-top:18px;
+    padding:15px;
+    border-radius:10px;
+    font-weight:bold;
+    display:none;
+}
+
+.pass{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.fail{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* NAVIGATION */
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:25px;
+}
+
+.navigation button{
+    border:none;
+    padding:12px 20px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.prev{
+    background:#e5e7eb;
+    color:#172033;
+}
+
+.next{
+    background:#2563eb;
+    color:white;
+}
+
+.complete{
+    background:#16a34a;
+    color:white;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px 15px;
+    color:#667085;
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    header{
+        padding:13px 12px;
+    }
+
+    .logo{
+        font-size:18px;
+    }
+
+    .back-btn,
+    .menu-btn{
+        padding:8px 10px;
+        font-size:13px;
+    }
+
+    .content{
+        padding:20px 14px;
+    }
+
+    .course-title{
+        padding:24px 19px;
+    }
+
+    .course-title h1{
+        font-size:26px;
+    }
+
+    .lesson{
+        padding:22px 17px;
+    }
+
+    .lesson h2{
+        font-size:23px;
+    }
+
+    .topology{
+        grid-template-columns:1fr;
+    }
+
+    .navigation{
+        flex-wrap:wrap;
+    }
+
+    .navigation button{
+        flex:1;
+        min-width:100px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        BH <span>Skills Hub</span>
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        ☰ Chapters
+    </button>
+
+    <a href="courses.html" class="back-btn">
+        ← Courses
+    </a>
+
+</header>
+
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-top">
+        <h3>Networking Course</h3>
+
+        <button class="close-btn" onclick="closeMenu()">
+            ×
+        </button>
+    </div>
+
+    <div class="progress-box">
+
+        <div class="progress-text">
+            Course Progress:
+            <strong id="progressText">0%</strong>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+    </div>
+
+    <ul class="lesson-list">
+
+        <li><button onclick="showLesson(0)">1. Introduction to Networking</button></li>
+
+        <li><button onclick="showLesson(1)">2. Network Types</button></li>
+
+        <li><button onclick="showLesson(2)">3. Network Topologies</button></li>
+
+        <li><button onclick="showLesson(3)">4. Network Devices</button></li>
+
+        <li><button onclick="showLesson(4)">5. OSI Model</button></li>
+
+        <li><button onclick="showLesson(5)">6. TCP/IP Model</button></li>
+
+        <li><button onclick="showLesson(6)">7. IP Addressing</button></li>
+
+        <li><button onclick="showLesson(7)">8. TCP and UDP</button></li>
+
+        <li><button onclick="showLesson(8)">9. DNS and DHCP</button></li>
+
+        <li><button onclick="showLesson(9)">10. Wi-Fi and Wireless Networks</button></li>
+
+        <li><button onclick="showLesson(10)">11. Network Security</button></li>
+
+        <li><button onclick="showLesson(11)">12. Troubleshooting</button></li>
+
+    </ul>
+
+</aside>
+
+
+<main class="content">
+
+<div class="course-title">
+
+    <h1>🌐 Computer Networking</h1>
+
+    <p>
+        Master the fundamentals of computer networking, including
+        network types, devices, OSI and TCP/IP models, IP addressing,
+        wireless networking, security and troubleshooting.
+    </p>
+
+</div>
+
+
+<!-- CHAPTER 1 -->
+<section class="lesson active">
+
+<h2>1. Introduction to Networking</h2>
+
+<p>
+Computer networking is the practice of connecting two or more
+devices so they can communicate and share information and resources.
+Networks can use Ethernet cables, fiber optics or wireless
+technologies such as Wi-Fi.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Basic Computer Network
+</div>
+
+<div class="network-row">
+
+<div class="device">
+💻 Computer
+<small>Client</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🔀 Switch
+<small>LAN</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📡 Router
+<small>Routing</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+☁️ Internet
+<small>WAN</small>
+</div>
+
+</div>
+
+</div>
+
+<h3>Why do we use networks?</h3>
+
+<ul>
+<li>Sharing files and information</li>
+<li>Sharing printers and other resources</li>
+<li>Accessing the Internet</li>
+<li>Communication between users</li>
+<li>Running online applications and services</li>
+<li>Centralized access to systems and data</li>
+</ul>
+
+<h3>Basic network components</h3>
+
+<ul>
+<li><strong>End devices:</strong> computers, phones, printers and servers.</li>
+<li><strong>Intermediary devices:</strong> switches, routers and access points.</li>
+<li><strong>Network media:</strong> copper, fiber and wireless radio.</li>
+<li><strong>Protocols:</strong> rules that control communication.</li>
+</ul>
+
+<div class="note">
+<strong>Remember:</strong>
+A network is not only the Internet. A home, school or office LAN
+is also a computer network.
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>What is the main purpose of a computer network?</p>
+
+<label>
+<input type="radio" name="q1" value="0">
+ To connect devices so they can communicate and share resources
+</label>
+
+<label>
+<input type="radio" name="q1" value="1">
+ To make every computer work without an operating system
+</label>
+
+<label>
+<input type="radio" name="q1" value="2">
+ To replace all computer hardware
+</label>
+
+<label>
+<input type="radio" name="q1" value="3">
+ To prevent all communication between devices
+</label>
+
+<button onclick="checkQuiz('q1',0,'r1')">
+Check Answer
+</button>
+
+<div class="result" id="r1"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 2 -->
+<section class="lesson">
+
+<h2>2. Network Types</h2>
+
+<p>
+Networks can be classified according to their geographical size,
+coverage and purpose.
+</p>
+
+<h3>PAN — Personal Area Network</h3>
+
+<p>
+A PAN covers a small area around an individual. Bluetooth
+connections between a phone and wireless earbuds are an example.
+</p>
+
+<h3>LAN — Local Area Network</h3>
+
+<p>
+A LAN connects devices in a relatively small area such as a home,
+school, laboratory or office.
+</p>
+
+<h3>MAN — Metropolitan Area Network</h3>
+
+<p>
+A MAN can connect networks across a city or metropolitan area.
+</p>
+
+<h3>WAN — Wide Area Network</h3>
+
+<p>
+A WAN connects networks across large geographical areas.
+The Internet is a global interconnected system of networks.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+LAN → Router → WAN → Internet
+</div>
+
+<div class="network-row">
+
+<div class="device">
+🏫 LAN
+<small>School / Office</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📡 Router
+<small>Routing</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🌍 WAN
+<small>Large area</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+☁️ Internet
+<small>Global</small>
+</div>
+
+</div>
+
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>Which network type normally covers a home, school or office?</p>
+
+<label>
+<input type="radio" name="q2" value="0">
+ LAN
+</label>
+
+<label>
+<input type="radio" name="q2" value="1">
+ WAN
+</label>
+
+<label>
+<input type="radio" name="q2" value="2">
+ MAN
+</label>
+
+<label>
+<input type="radio" name="q2" value="3">
+ PAN
+</label>
+
+<button onclick="checkQuiz('q2',0,'r2')">
+Check Answer
+</button>
+
+<div class="result" id="r2"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 3 -->
+<section class="lesson">
+
+<h2>3. Network Topologies</h2>
+
+<p>
+Network topology describes how devices and links are arranged
+within a network.
+</p>
+
+<div class="topology">
+
+<div class="topology-box">
+
+<h4>⭐ Star Topology</h4>
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+align-items:center;
+">
+
+<div>💻</div>
+<div style="
+background:#2563eb;
+color:white;
+padding:12px 5px;
+border-radius:8px;
+font-weight:bold;
+">
+SWITCH
+</div>
+<div>💻</div>
+
+<div></div>
+<div>💻</div>
+<div></div>
+
+</div>
+
+<p>
+Devices connect to a central device such as a switch.
+</p>
+
+</div>
+
+
+<div class="topology-box">
+
+<h4>🔄 Ring Topology</h4>
+
+<div style="
+border:5px solid #2563eb;
+border-radius:50%;
+padding:35px;
+margin:15px;
+">
+PC → PC → PC → PC
+</div>
+
+<p>
+Devices form a circular connection.
+</p>
+
+</div>
+
+
+<div class="topology-box">
+
+<h4>🚌 Bus Topology</h4>
+
+<div style="
+background:#2563eb;
+height:5px;
+margin:30px 10px;
+"></div>
+
+<p>
+💻 &nbsp;&nbsp; 💻 &nbsp;&nbsp; 💻 &nbsp;&nbsp; 💻
+</p>
+
+<p>
+Devices share a common backbone.
+</p>
+
+</div>
+
+
+<div class="topology-box">
+
+<h4>🕸️ Mesh Topology</h4>
+
+<p style="font-size:25px;">
+💻━━━━💻<br>
+┃ ╲ ╱ ┃<br>
+💻━━━━💻
+</p>
+
+<p>
+Devices have multiple interconnections.
+</p>
+
+</div>
+
+</div>
+
+<h3>Advantages of Star Topology</h3>
+
+<ul>
+<li>Easy to manage.</li>
+<li>Adding devices is relatively simple.</li>
+<li>A failure of one end-device link normally does not disconnect other devices.</li>
+</ul>
+
+<div class="note">
+Star topology is widely used in modern Ethernet LANs because
+devices connect through switches.
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>Which topology uses a central switch or device?</p>
+
+<label>
+<input type="radio" name="q3" value="0">
+ Star
+</label>
+
+<label>
+<input type="radio" name="q3" value="1">
+ Ring
+</label>
+
+<label>
+<input type="radio" name="q3" value="2">
+ Bus
+</label>
+
+<label>
+<input type="radio" name="q3" value="3">
+ Point-to-point
+</label>
+
+<button onclick="checkQuiz('q3',0,'r3')">
+Check Answer
+</button>
+
+<div class="result" id="r3"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 4 -->
+<section class="lesson">
+
+<h2>4. Network Devices</h2>
+
+<h3>🔀 Switch</h3>
+
+<p>
+A switch connects devices within a LAN and forwards Ethernet
+frames toward the appropriate destination.
+</p>
+
+<h3>📡 Router</h3>
+
+<p>
+A router connects different IP networks and forwards packets
+between networks.
+</p>
+
+<h3>📶 Access Point</h3>
+
+<p>
+An access point provides wireless connectivity and connects
+wireless clients to a network.
+</p>
+
+<h3>🔌 Modem</h3>
+
+<p>
+A modem provides an interface between a local network and certain
+types of ISP access technologies.
+</p>
+
+<h3>🛡️ Firewall</h3>
+
+<p>
+A firewall controls network traffic according to configured
+security rules.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Example Home / Office Network
+</div>
+
+<div class="network-row">
+
+<div class="device">
+💻 PC
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🔀 Switch
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📡 Router
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+☁️ ISP
+</div>
+
+</div>
+
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>Which device primarily connects different IP networks?</p>
+
+<label>
+<input type="radio" name="q4" value="0">
+ Router
+</label>
+
+<label>
+<input type="radio" name="q4" value="1">
+ Switch
+</label>
+
+<label>
+<input type="radio" name="q4" value="2">
+ Keyboard
+</label>
+
+<label>
+<input type="radio" name="q4" value="3">
+ Monitor
+</label>
+
+<button onclick="checkQuiz('q4',0,'r4')">
+Check Answer
+</button>
+
+<div class="result" id="r4"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 5 -->
+<section class="lesson">
+
+<h2>5. OSI Model</h2>
+
+<p>
+The OSI model is a seven-layer conceptual framework used to
+understand network communication and troubleshoot networking
+problems.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+The 7 Layers of the OSI Model
+</div>
+
+<div class="osi">
+
+<div class="osi-layer l7">7 — Application</div>
+<div class="osi-layer l6">6 — Presentation</div>
+<div class="osi-layer l5">5 — Session</div>
+<div class="osi-layer l4">4 — Transport</div>
+<div class="osi-layer l3">3 — Network</div>
+<div class="osi-layer l2">2 — Data Link</div>
+<div class="osi-layer l1">1 — Physical</div>
+
+</div>
+
+</div>
+
+<h3>Layer 7 — Application</h3>
+<p>
+Provides network services used by applications such as web,
+email and file-transfer applications.
+</p>
+
+<h3>Layer 6 — Presentation</h3>
+<p>
+Deals with data representation, translation, compression and
+encryption concepts.
+</p>
+
+<h3>Layer 5 — Session</h3>
+<p>
+Manages communication sessions between applications.
+</p>
+
+<h3>Layer 4 — Transport</h3>
+<p>
+Provides end-to-end transport functions. TCP and UDP are
+associated with this layer.
+</p>
+
+<h3>Layer 3 — Network</h3>
+<p>
+Responsible for logical addressing and routing. IP operates here.
+</p>
+
+<h3>Layer 2 — Data Link</h3>
+<p>
+Handles frames and MAC addressing on local network links.
+</p>
+
+<h3>Layer 1 — Physical</h3>
+<p>
+Deals with physical transmission through cables, radio signals
+and other media.
+</p>
+
+<div class="note">
+<strong>Memory trick:</strong>
+Please Do Not Throw Sausage Pizza Away.
+<br><br>
+Physical → Data Link → Network → Transport → Session →
+Presentation → Application
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>Which OSI layer is responsible for logical addressing and routing?</p>
+
+<label>
+<input type="radio" name="q5" value="0">
+ Network
+</label>
+
+<label>
+<input type="radio" name="q5" value="1">
+ Transport
+</label>
+
+<label>
+<input type="radio" name="q5" value="2">
+ Data Link
+</label>
+
+<label>
+<input type="radio" name="q5" value="3">
+ Physical
+</label>
+
+<button onclick="checkQuiz('q5',0,'r5')">
+Check Answer
+</button>
+
+<div class="result" id="r5"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 6 -->
+<section class="lesson">
+
+<h2>6. TCP/IP Model</h2>
+
+<p>
+The TCP/IP model describes the protocol architecture used by
+Internet networking. It is commonly represented using four layers.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+TCP/IP Four-Layer Model
+</div>
+
+<div class="osi">
+
+<div class="osi-layer l7">
+Application
+<br>
+<small>HTTP • DNS • SMTP</small>
+</div>
+
+<div class="osi-layer l4">
+Transport
+<br>
+<small>TCP • UDP</small>
+</div>
+
+<div class="osi-layer l3">
+Internet
+<br>
+<small>IP • ICMP</small>
+</div>
+
+<div class="osi-layer l1">
+Network Access
+<br>
+<small>Ethernet • Wi-Fi</small>
+</div>
+
+</div>
+
+</div>
+
+<h3>Application Layer</h3>
+<p>
+Contains protocols used by applications such as HTTP, DNS and SMTP.
+</p>
+
+<h3>Transport Layer</h3>
+<p>
+Provides transport functions using protocols such as TCP and UDP.
+</p>
+
+<h3>Internet Layer</h3>
+<p>
+Handles IP addressing and packet delivery between networks.
+</p>
+
+<h3>Network Access Layer</h3>
+<p>
+Handles local network technologies such as Ethernet and Wi-Fi.
+</p>
+
+<h3>TCP/IP vs OSI</h3>
+
+<ul>
+<li>OSI has 7 layers.</li>
+<li>TCP/IP is commonly represented using 4 layers.</li>
+<li>OSI is useful as a conceptual troubleshooting framework.</li>
+<li>TCP/IP describes the protocol architecture used by Internet networks.</li>
+</ul>
+
+</section>
+
+
+<!-- CHAPTER 7 -->
+<section class="lesson">
+
+<h2>7. IP Addressing</h2>
+
+<p>
+An IP address identifies a network interface at the Internet
+Protocol layer and helps devices communicate across networks.
+</p>
+
+<h3>IPv4</h3>
+
+<p>
+IPv4 addresses contain 32 bits and are commonly written as four
+decimal numbers separated by dots.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Example IPv4 Address
+</div>
+
+<div style="
+text-align:center;
+font-size:28px;
+font-weight:bold;
+color:#2563eb;
+padding:20px;
+">
+192 . 168 . 1 . 10
+</div>
+
+</div>
+
+<h3>Private IPv4 ranges</h3>
+
+<ul>
+<li>10.0.0.0/8</li>
+<li>172.16.0.0/12</li>
+<li>192.168.0.0/16</li>
+</ul>
+
+<h3>IPv6</h3>
+
+<p>
+IPv6 uses 128-bit addresses and provides a much larger address
+space than IPv4.
+</p>
+
+<div class="note">
+Example IPv6:
+<br><br>
+<strong>2001:db8::1</strong>
+</div>
+
+<h3>Public vs Private IP</h3>
+
+<ul>
+<li><strong>Private IP:</strong> used inside private networks.</li>
+<li><strong>Public IP:</strong> used for addressing across the public Internet.</li>
+</ul>
+
+</section>
+
+
+<!-- CHAPTER 8 -->
+<section class="lesson">
+
+<h2>8. TCP and UDP</h2>
+
+<h3>TCP — Transmission Control Protocol</h3>
+
+<p>
+TCP provides reliable and ordered delivery of data between
+endpoints. It uses acknowledgements and retransmission mechanisms.
+</p>
+
+<h3>UDP — User Datagram Protocol</h3>
+
+<p>
+UDP provides a connectionless transport mechanism with less
+protocol overhead than TCP.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Transport Layer
+</div>
+
+<div class="network-row">
+
+<div class="device">
+💻 Client
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🤝 TCP / UDP
+<small>Transport</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🖥️ Server
+</div>
+
+</div>
+
+</div>
+
+<h3>Simple comparison</h3>
+
+<ul>
+<li><strong>TCP:</strong> reliable, ordered and connection-oriented.</li>
+<li><strong>UDP:</strong> connectionless and lower overhead.</li>
+</ul>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>Which transport protocol provides reliable, ordered delivery?</p>
+
+<label>
+<input type="radio" name="q8" value="0">
+ TCP
+</label>
+
+<label>
+<input type="radio" name="q8" value="1">
+ UDP
+</label>
+
+<label>
+<input type="radio" name="q8" value="2">
+ IP
+</label>
+
+<label>
+<input type="radio" name="q8" value="3">
+ ARP
+</label>
+
+<button onclick="checkQuiz('q8',0,'r8')">
+Check Answer
+</button>
+
+<div class="result" id="r8"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 9 -->
+<section class="lesson">
+
+<h2>9. DNS and DHCP</h2>
+
+<h3>DNS — Domain Name System</h3>
+
+<p>
+DNS translates domain names into IP addresses and supports other
+naming functions used on networks.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+How DNS Helps
+</div>
+
+<div class="network-row">
+
+<div class="device">
+🌐
+<br>
+example.com
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🧠 DNS
+<small>Name → IP</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🖥️ Server
+<small>IP Address</small>
+</div>
+
+</div>
+
+</div>
+
+<h3>DHCP — Dynamic Host Configuration Protocol</h3>
+
+<p>
+DHCP can automatically provide clients with network configuration
+information such as IP address, subnet information, default
+gateway and DNS server information.
+</p>
+
+<div class="note">
+Without DHCP, administrators can configure IP information manually.
+DHCP simplifies configuration for many networks.
+</div>
+
+<div class="quiz">
+
+<h3>Quick Quiz</h3>
+
+<p>What is one primary function of DNS?</p>
+
+<label>
+<input type="radio" name="q9" value="0">
+ Translating domain names into IP addresses
+</label>
+
+<label>
+<input type="radio" name="q9" value="1">
+ Encrypting every network packet
+</label>
+
+<label>
+<input type="radio" name="q9" value="2">
+ Physically connecting Ethernet cables
+</label>
+
+<label>
+<input type="radio" name="q9" value="3">
+ Replacing the router
+</label>
+
+<button onclick="checkQuiz('q9',0,'r9')">
+Check Answer
+</button>
+
+<div class="result" id="r9"></div>
+
+</div>
+
+</section>
+
+
+<!-- CHAPTER 10 -->
+<section class="lesson">
+
+<h2>10. Wi-Fi and Wireless Networks</h2>
+
+<p>
+Wi-Fi allows devices to communicate over wireless radio rather
+than requiring an Ethernet cable for every connection.
+</p>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Wireless Network
+</div>
+
+<div class="network-row">
+
+<div class="device">
+📱 Phone
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📶 Access Point
+<small>Wi-Fi</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📡 Router
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+☁️ Internet
+</div>
+
+</div>
+
+</div>
+
+<h3>Important Wi-Fi concepts</h3>
+
+<ul>
+<li><strong>SSID:</strong> name used to identify a wireless network.</li>
+<li><strong>Signal strength:</strong> affects wireless connectivity and performance.</li>
+<li><strong>Interference:</strong> other radio sources can affect communication.</li>
+<li><strong>Security:</strong> modern security configurations and strong credentials should be used.</li>
+</ul>
+
+<div class="warning">
+Avoid using open or unknown Wi-Fi networks for sensitive activities
+unless you understand the security risks and use appropriate protection.
+</div>
+
+</section>
+
+
+<!-- CHAPTER 11 -->
+<section class="lesson">
+
+<h2>11. Network Security</h2>
+
+<p>
+Network security involves protecting devices, communications,
+services and data from unauthorized access, misuse and disruption.
+</p>
+
+<h3>Basic security practices</h3>
+
+<ul>
+<li>Use strong, unique passwords.</li>
+<li>Keep operating systems and network devices updated.</li>
+<li>Use firewalls where appropriate.</li>
+<li>Use secure Wi-Fi encryption.</li>
+<li>Disable unnecessary services.</li>
+<li>Monitor unusual network activity.</li>
+<li>Use least privilege when managing systems.</li>
+<li>Back up important data.</li>
+</ul>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Basic Network Security Concept
+</div>
+
+<div class="network-row">
+
+<div class="device">
+💻 Users
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🛡️ Firewall
+<small>Traffic control</small>
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+📡 Router
+</div>
+
+<div class="line"></div>
+
+<div class="device">
+🌍 Internet
+</div>
+
+</div>
+
+</div>
+
+<div class="note">
+<strong>Important:</strong>
+Networking and cybersecurity are closely connected.
+A good network engineer should understand basic security principles.
+</div>
+
+</section>
+
+
+<!-- CHAPTER 12 -->
+<section class="lesson">
+
+<h2>12. Network Troubleshooting</h2>
+
+<p>
+Troubleshooting is the process of identifying the cause of a
+network problem and applying a solution systematically.
+</p>
+
+<h3>Step 1 — Check the physical connection</h3>
+
+<ul>
+<li>Is the cable connected?</li>
+<li>Are link lights available?</li>
+<li>Is the device powered on?</li>
+</ul>
+
+<h3>Step 2 — Check IP configuration</h3>
+
+<p>On Windows:</p>
+
+<pre><code>ipconfig</code></pre>
+
+<p>On Linux:</p>
+
+<pre><code>ip addr</code></pre>
+
+<h3>Step 3 — Test connectivity</h3>
+
+<pre><code>ping 8.8.8.8</code></pre>
+
+<p>
+Ping can help determine whether a host is reachable.
+</p>
+
+<h3>Step 4 — Test DNS</h3>
+
+<p>
+If IP connectivity works but domain names do not resolve,
+investigate DNS configuration.
+</p>
+
+<pre><code>nslookup example.com</code></pre>
+
+<h3>Step 5 — Identify the problem layer</h3>
+
+<div class="diagram">
+
+<div class="diagram-title">
+Troubleshooting Flow
+</div>
+
+<div style="
+text-align:center;
+line-height:2.5;
+font-weight:bold;
+">
+
+🔌 Physical connection
+<br>↓<br>
+🌐 IP configuration
+<br>↓<br>
+📡 Connectivity
+<br>↓<br>
+🧠 DNS
+<br>↓<br>
+🌍 Application
+
+</div>
+
+</div>
+
+<div class="note">
+Good troubleshooting is systematic. Avoid changing many things
+at once because that can make it difficult to identify the actual
+cause of the problem.
+</div>
+
+
+<!-- FINAL QUIZ -->
+<div class="final-quiz" id="finalQuiz">
+
+<h2>🎓 Final Networking Quiz</h2>
+
+<p>
+Answer all 10 questions. You need at least
+<strong>70%</strong> to pass and unlock course completion.
+</p>
+
+
+<div class="quiz-question">
+
+<p>1. What is the primary purpose of a computer network?</p>
+
+<label>
+<input type="radio" name="f1" value="a">
+ A. To allow devices to communicate and share resources
+</label>
+
+<label>
+<input type="radio" name="f1" value="b">
+ B. To replace computer operating systems
+</label>
+
+<label>
+<input type="radio" name="f1" value="c">
+ C. To remove the need for hardware
+</label>
+
+<label>
+<input type="radio" name="f1" value="d">
+ D. To prevent communication
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>2. Which network type is normally used inside a school or office?</p>
+
+<label>
+<input type="radio" name="f2" value="a">
+ A. LAN
+</label>
+
+<label>
+<input type="radio" name="f2" value="b">
+ B. WAN
+</label>
+
+<label>
+<input type="radio" name="f2" value="c">
+ C. MAN
+</label>
+
+<label>
+<input type="radio" name="f2" value="d">
+ D. PAN
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>3. Which device primarily connects different IP networks?</p>
+
+<label>
+<input type="radio" name="f3" value="a">
+ A. Switch
+</label>
+
+<label>
+<input type="radio" name="f3" value="b">
+ B. Router
+</label>
+
+<label>
+<input type="radio" name="f3" value="c">
+ C. Access point
+</label>
+
+<label>
+<input type="radio" name="f3" value="d">
+ D. Hub
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>4. Which OSI layer is responsible for logical addressing and routing?</p>
+
+<label>
+<input type="radio" name="f4" value="a">
+ A. Physical
+</label>
+
+<label>
+<input type="radio" name="f4" value="b">
+ B. Data Link
+</label>
+
+<label>
+<input type="radio" name="f4" value="c">
+ C. Network
+</label>
+
+<label>
+<input type="radio" name="f4" value="d">
+ D. Application
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>5. How many layers are in the OSI model?</p>
+
+<label>
+<input type="radio" name="f5" value="a">
+ A. 4
+</label>
+
+<label>
+<input type="radio" name="f5" value="b">
+ B. 5
+</label>
+
+<label>
+<input type="radio" name="f5" value="c">
+ C. 6
+</label>
+
+<label>
+<input type="radio" name="f5" value="d">
+ D. 7
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>6. Which protocol provides reliable and ordered transport?</p>
+
+<label>
+<input type="radio" name="f6" value="a">
+ A. UDP
+</label>
+
+<label>
+<input type="radio" name="f6" value="b">
+ B. IP
+</label>
+
+<label>
+<input type="radio" name="f6" value="c">
+ C. TCP
+</label>
+
+<label>
+<input type="radio" name="f6" value="d">
+ D. DNS
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>7. Which protocol translates domain names into IP addresses?</p>
+
+<label>
+<input type="radio" name="f7" value="a">
+ A. DHCP
+</label>
+
+<label>
+<input type="radio" name="f7" value="b">
+ B. DNS
+</label>
+
+<label>
+<input type="radio" name="f7" value="c">
+ C. FTP
+</label>
+
+<label>
+<input type="radio" name="f7" value="d">
+ D. SSH
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>8. Which protocol can automatically provide clients with IP configuration?</p>
+
+<label>
+<input type="radio" name="f8" value="a">
+ A. DNS
+</label>
+
+<label>
+<input type="radio" name="f8" value="b">
+ B. HTTP
+</label>
+
+<label>
+<input type="radio" name="f8" value="c">
+ C. DHCP
+</label>
+
+<label>
+<input type="radio" name="f8" value="d">
+ D. ICMP
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>9. Which command can be used to test basic IP connectivity?</p>
+
+<label>
+<input type="radio" name="f9" value="a">
+ A. ping
+</label>
+
+<label>
+<input type="radio" name="f9" value="b">
+ B. mkdir
+</label>
+
+<label>
+<input type="radio" name="f9" value="c">
+ C. cd
+</label>
+
+<label>
+<input type="radio" name="f9" value="d">
+ D. copy
+</label>
+
+</div>
+
+
+<div class="quiz-question">
+
+<p>10. Which is a good network security practice?</p>
+
+<label>
+<input type="radio" name="f10" value="a">
+ A. Use strong unique passwords
+</label>
+
+<label>
+<input type="radio" name="f10" value="b">
+ B. Disable all security controls
+</label>
+
+<label>
+<input type="radio" name="f10" value="c">
+ C. Share passwords publicly
+</label>
+
+<label>
+<input type="radio" name="f10" value="d">
+ D. Leave unnecessary services enabled
+</label>
+
+</div>
+
+
+<button class="submit-final" onclick="submitFinalQuiz()">
+Submit Final Quiz
+</button>
+
+<div class="final-result" id="finalResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- NAVIGATION -->
+<div class="navigation">
+
+<button class="prev" onclick="previousLesson()">
+← Previous
+</button>
+
+<button class="next" onclick="nextLesson()">
+Next →
+</button>
+
+<button class="complete" onclick="finishCourse()">
+✓ Complete Course
+</button>
+
+</div>
+
+</main>
+
+
+<footer>
+
+© 2026 BH Skills Hub. All Rights Reserved.
+<br>
+Made by Blaise Hadari
+
+</footer>
+
+
+<script type="module">
+
+/* =========================================
+   FIREBASE
+========================================= */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain: "bh-skills-hub.firebaseapp.com",
+
+    projectId: "bh-skills-hub",
+
+    storageBucket: "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId: "503359590632",
+
+    appId: "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================================
+   COURSE CONFIG
+========================================= */
+
+const COURSE_CONFIG = {
+
+    id: "networking",
+
+    name: "Networking",
+
+    code: "NET",
+
+    totalLessons: 12
+
+};
+
+
+/* =========================================
+   LESSON DATA
+========================================= */
+
+const lessons =
+document.querySelectorAll(".lesson");
+
+const lessonButtons =
+document.querySelectorAll(".lesson-list button");
+
+let currentLesson =
+Number(
+    localStorage.getItem("networkingCurrentLesson")
+) || 0;
+
+
+let completedLessons =
+JSON.parse(
+    localStorage.getItem("networkingCompletedLessons")
+) || [];
+
+
+let finalQuizPassed =
+localStorage.getItem("networkingFinalQuizPassed")
+=== "true";
+
+
+let quizResults =
+JSON.parse(
+    localStorage.getItem("networkingQuizResults")
+) || {};
+
+
+/* =========================================
+   CURRENT USER
+========================================= */
+
+let currentUser = null;
+
+
+onAuthStateChanged(auth, async (user) => {
+
+    if(!user){
+
+        sessionStorage.setItem(
+            "redirectAfterLogin",
+            "networking.html"
+        );
+
+        window.location.replace("login.html");
+
+        return;
+    }
+
+
+    currentUser = user;
+
+
+    await loadFirebaseProgress();
+
+    showLesson(currentLesson);
+
+});
+
+
+/* =========================================
+   LOAD FIREBASE PROGRESS
+========================================= */
+
+async function loadFirebaseProgress(){
+
+    if(!currentUser) return;
+
+
+    try{
+
+        const progressRef =
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            );
+
+
+        const snapshot =
+            await getDoc(progressRef);
+
+
+        if(snapshot.exists()){
+
+            const data = snapshot.data();
+
+            const networking =
+                data.networking;
+
+
+            if(networking){
+
+                if(
+                    Array.isArray(
+                        networking.completedLessons
+                    )
+                ){
+
+                    completedLessons =
+                        networking.completedLessons;
+
+                }
+
+
+                if(
+                    typeof networking.currentLesson
+                    === "number"
+                ){
+
+                    currentLesson =
+                        networking.currentLesson;
+
+                }
+
+
+                if(networking.quizResults){
+
+                    quizResults =
+                        networking.quizResults;
+
+                }
+
+
+                if(
+                    networking.finalQuizPassed
+                    === true
+                ){
+
+                    finalQuizPassed = true;
+
+                }
+
+            }
+
+        }
+
+
+        localStorage.setItem(
+            "networkingCurrentLesson",
+            currentLesson
+        );
+
+
+        localStorage.setItem(
+            "networkingCompletedLessons",
+            JSON.stringify(
+                completedLessons
+            )
+        );
+
+
+        localStorage.setItem(
+            "networkingQuizResults",
+            JSON.stringify(
+                quizResults
+            )
+        );
+
+
+        localStorage.setItem(
+            "networkingFinalQuizPassed",
+            finalQuizPassed
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Firebase progress error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SAVE FIREBASE PROGRESS
+========================================= */
+
+async function saveFirebaseProgress(){
+
+    if(!currentUser) return;
+
+
+    const progress =
+        Math.round(
+            (
+                completedLessons.length /
+                COURSE_CONFIG.totalLessons
+            ) * 100
+        );
+
+
+    try{
+
+        const progressRef =
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            );
+
+
+        await setDoc(
+
+            progressRef,
+
+            {
+
+                networking: {
+
+                    currentLesson:
+                        currentLesson,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:
+                        progress,
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:
+                        finalQuizPassed,
+
+                    lastUpdated:
+                        new Date().toISOString()
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+    }catch(error){
+
+        console.error(
+            "Could not save progress:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SHOW LESSON
+========================================= */
+
+window.showLesson = function(index){
+
+    if(index < 0){
+
+        index = 0;
+
+    }
+
+
+    if(index >= lessons.length){
+
+        index =
+            lessons.length - 1;
+
+    }
+
+
+    currentLesson = index;
+
+
+    lessons.forEach(
+        (lesson,i)=>{
+
+            lesson.classList.toggle(
+                "active",
+                i === currentLesson
+            );
+
+        }
+    );
+
+
+    lessonButtons.forEach(
+        (button,i)=>{
+
+            button.classList.remove(
+                "active"
+            );
+
+
+            if(
+                completedLessons.includes(i)
+            ){
+
+                button.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            if(i === currentLesson){
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    localStorage.setItem(
+        "networkingCurrentLesson",
+        currentLesson
+    );
+
+
+    saveFirebaseProgress();
+
+
+    updateProgress();
+
+    closeMenu();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
+
+
+/* =========================================
+   MARK LESSON COMPLETE
+========================================= */
+
+function markLessonComplete(){
+
+    if(
+        !completedLessons.includes(
+            currentLesson
+        )
+    ){
+
+        completedLessons.push(
+            currentLesson
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "networkingCompletedLessons",
+        JSON.stringify(
+            completedLessons
+        )
+    );
+
+
+    updateProgress();
+
+    saveFirebaseProgress();
+
+}
+
+
+/* =========================================
+   UPDATE PROGRESS
+========================================= */
+
+function updateProgress(){
+
+    const total =
+        COURSE_CONFIG.totalLessons;
+
+
+    const completed =
+        completedLessons.length;
+
+
+    const percentage =
+        Math.round(
+            (completed / total) * 100
+        );
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).innerText =
+        percentage + "%";
+
+
+    lessonButtons.forEach(
+        (button,i)=>{
+
+            button.classList.toggle(
+                "completed",
+                completedLessons.includes(i)
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   NEXT LESSON
+========================================= */
+
+window.nextLesson = function(){
+
+    markLessonComplete();
+
+
+    if(
+        currentLesson <
+        lessons.length - 1
+    ){
+
+        showLesson(
+            currentLesson + 1
+        );
+
+    }else{
+
+        alert(
+            "🎓 You reached Chapter 12. Complete the Final Quiz to finish the course."
+        );
+
+    }
+
+};
+
+
+/* =========================================
+   PREVIOUS LESSON
+========================================= */
+
+window.previousLesson = function(){
+
+    if(currentLesson > 0){
+
+        showLesson(
+            currentLesson - 1
+        );
+
+    }
+
+};
+
+
+/* =========================================
+   QUICK QUIZ
+========================================= */
+
+window.checkQuiz = function(
+    questionName,
+    correctAnswer,
+    resultId
+){
+
+    const selected =
+        document.querySelector(
+            'input[name="' +
+            questionName +
+            '"]:checked'
+        );
+
+
+    const result =
+        document.getElementById(
+            resultId
+        );
+
+
+    if(!selected){
+
+        result.innerText =
+            "Please select an answer.";
+
+        result.style.color =
+            "#dc2626";
+
+        return;
+
+    }
+
+
+    const answer =
+        Number(selected.value);
+
+
+    if(answer === correctAnswer){
+
+        result.innerText =
+            "✓ Correct!";
+
+        result.style.color =
+            "#15803d";
+
+    }else{
+
+        result.innerText =
+            "✗ Incorrect. Try again.";
+
+        result.style.color =
+            "#dc2626";
+
+    }
+
+};
+
+
+/* =========================================
+   FINAL QUIZ
+========================================= */
+
+window.submitFinalQuiz = function(){
+
+    const answers = {
+
+        f1:"a",
+
+        f2:"a",
+
+        f3:"b",
+
+        f4:"c",
+
+        f5:"d",
+
+        f6:"c",
+
+        f7:"b",
+
+        f8:"c",
+
+        f9:"a",
+
+        f10:"a"
+
+    };
+
+
+    let score = 0;
+
+    let answered = 0;
+
+
+    Object.keys(answers).forEach(
+        question => {
+
+            const selected =
+                document.querySelector(
+                    'input[name="' +
+                    question +
+                    '"]:checked'
+                );
+
+
+            if(selected){
+
+                answered++;
+
+
+                if(
+                    selected.value ===
+                    answers[question]
+                ){
+
+                    score++;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    if(answered < 10){
+
+        alert(
+            "Please answer all 10 questions before submitting."
+        );
+
+        return;
+
+    }
+
+
+    const percentage =
+        Math.round(
+            (score / 10) * 100
+        );
+
+
+    finalQuizPassed =
+        percentage >= 70;
+
+
+    const attempts =
+        Number(
+            quizResults.finalQuiz?.attempts
+        ) || 0;
+
+
+    quizResults.finalQuiz = {
+
+        score:score,
+
+        percentage:percentage,
+
+        passed:finalQuizPassed,
+
+        attempts:
+            attempts + 1,
+
+        completedAt:
+            new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+        "networkingFinalQuizPassed",
+        finalQuizPassed
+    );
+
+
+    localStorage.setItem(
+        "networkingQuizResults",
+        JSON.stringify(
+            quizResults
+        )
+    );
+
+
+    const result =
+        document.getElementById(
+            "finalResult"
+        );
+
+
+    result.style.display =
+        "block";
+
+
+    if(finalQuizPassed){
+
+        result.className =
+            "final-result pass";
+
+
+        result.innerHTML =
+            "🎉 Congratulations! You scored " +
+            score +
+            "/10 (" +
+            percentage +
+            "%). You passed the Final Quiz. You can now complete the course.";
+
+    }else{
+
+        result.className =
+            "final-result fail";
+
+
+        result.innerHTML =
+            "You scored " +
+            score +
+            "/10 (" +
+            percentage +
+            "%). The pass mark is 70%. Please review the chapters and try again.";
+
+    }
+
+
+    saveFirebaseProgress();
+
+};
+
+
+/* =========================================
+   COMPLETE COURSE
+========================================= */
+
+window.finishCourse = async function(){
+
+    if(!currentUser){
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+    /* Require all lessons */
+
+    if(
+        completedLessons.length <
+        COURSE_CONFIG.totalLessons
+    ){
+
+        alert(
+            "Please complete all 12 chapters before completing the course."
+        );
+
+        return;
+
+    }
+
+
+    /* Require final quiz */
+
+    if(!finalQuizPassed){
+
+        alert(
+            "You must pass the Final Quiz with at least 70% before completing the course."
+        );
+
+
+        showLesson(11);
+
+
+        document
+        .getElementById("finalQuiz")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+
+        return;
+
+    }
+
+
+    try{
+
+        /* Keep all lessons completed */
+
+        for(
+            let i = 0;
+            i < COURSE_CONFIG.totalLessons;
+            i++
+        ){
+
+            if(
+                !completedLessons.includes(i)
+            ){
+
+                completedLessons.push(i);
+
+            }
+
+        }
+
+
+        localStorage.setItem(
+            "networkingCompletedLessons",
+            JSON.stringify(
+                completedLessons
+            )
+        );
+
+
+        /* =================================
+           CHECK EXISTING CERTIFICATE
+        ================================= */
+
+        const progressRef =
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            );
+
+
+        const progressSnapshot =
+            await getDoc(progressRef);
+
+
+        let existingCertificateId = null;
+
+
+        if(progressSnapshot.exists()){
+
+            const data =
+                progressSnapshot.data();
+
+
+            if(
+                data.networking &&
+                data.networking.certificateId
+            ){
+
+                existingCertificateId =
+                    data.networking.certificateId;
+
+            }
+
+        }
+
+
+        let certificateId =
+            existingCertificateId;
+
+
+        /* =================================
+           GENERATE CERTIFICATE ID
+        ================================= */
+
+        if(!certificateId){
+
+            const random =
+                Math.random()
+                .toString(36)
+                .substring(2,8)
+                .toUpperCase();
+
+
+            const year =
+                new Date()
+                .getFullYear();
+
+
+            certificateId =
+                "BH-" +
+                COURSE_CONFIG.code +
+                "-" +
+                year +
+                "-" +
+                random;
+
+        }
+
+
+        const completionDate =
+            new Date()
+            .toISOString();
+
+
+        /* =================================
+           SAVE CERTIFICATE
+        ================================= */
+
+        const certificateRef =
+            doc(
+                db,
+                "certificates",
+                certificateId
+            );
+
+
+        await setDoc(
+
+            certificateRef,
+
+            {
+
+                certificateId:
+                    certificateId,
+
+                studentName:
+                    currentUser.displayName ||
+                    currentUser.email?.split("@")[0] ||
+                    "Student",
+
+                studentEmail:
+                    currentUser.email ||
+                    "",
+
+                courseId:
+                    COURSE_CONFIG.id,
+
+                courseName:
+                    COURSE_CONFIG.name,
+
+                courseCode:
+                    COURSE_CONFIG.code,
+
+                uid:
+                    currentUser.uid,
+
+                completionDate:
+                    completionDate,
+
+                issuedBy:
+                    "BH Skills Hub",
+
+                finalQuizScore:
+                    quizResults.finalQuiz?.score ||
+                    0,
+
+                finalQuizPercentage:
+                    quizResults.finalQuiz?.percentage ||
+                    0,
+
+                status:
+                    "valid"
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        /* =================================
+           SAVE CERTIFICATE ID TO PROGRESS
+        ================================= */
+
+        await setDoc(
+
+            progressRef,
+
+            {
+
+                networking: {
+
+                    currentLesson:
+                        11,
+
+                    completedLessons:
+                        completedLessons,
+
+                    progress:
+                        100,
+
+                    quizResults:
+                        quizResults,
+
+                    finalQuizPassed:
+                        true,
+
+                    certificateId:
+                        certificateId,
+
+                    completed:
+                        true,
+
+                    completionDate:
+                        completionDate,
+
+                    lastUpdated:
+                        completionDate
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        /* =================================
+           OPEN CERTIFICATE
+        ================================= */
+
+        const studentName =
+            encodeURIComponent(
+                currentUser.displayName ||
+                currentUser.email?.split("@")[0] ||
+                "Student"
+            );
+
+
+        window.location.href =
+            "certificate.html?course=" +
+            encodeURIComponent(
+                COURSE_CONFIG.id
+            ) +
+            "&name=" +
+            studentName +
+            "&id=" +
+            encodeURIComponent(
+                certificateId
+            );
+
+
+    }catch(error){
+
+        console.error(
+            "Certificate error:",
+            error
+        );
+
+
+        alert(
+            "Could not create certificate. Please check your Firebase connection and Firestore rules."
+        );
+
+    }
+
+};
+
+
+/* =========================================
+   MENU
+========================================= */
+
+window.toggleMenu = function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+
+    document
+    .getElementById("overlay")
+    .classList.toggle("show");
+
+};
+
+
+window.closeMenu = function(){
+
+    document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+
+    document
+    .getElementById("overlay")
+    .classList.remove("show");
+
+};
+
+
+/* =========================================
+   INITIAL PROGRESS DISPLAY
+========================================= */
+
+updateProgress();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Academic Preview | BH Skills Hub</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#eef2f7;
+    color:#172033;
+    line-height:1.7;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#111827;
+    color:white;
+    min-height:64px;
+    padding:10px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,.2);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.header-actions button{
+    border:0;
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
+    color:white;
+    background:#1f2937;
+}
+
+.header-actions button:hover{
+    background:#374151;
+}
+
+.print-btn{
+    background:#2563eb !important;
+}
+
+.edit-btn{
+    background:#059669 !important;
+}
+
+/* MAIN */
+
+main{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:25px 16px 60px;
+}
+
+/* TOP CARD */
+
+.top-card{
+    background:white;
+    border:1px solid #dbe3ee;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:22px;
+    box-shadow:0 5px 20px rgba(15,23,42,.07);
+}
+
+.top-card h1{
+    font-size:28px;
+    margin-bottom:5px;
+}
+
+.project-type{
+    color:#2563eb;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.meta-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:18px;
+}
+
+.meta-item{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    padding:12px;
+    border-radius:9px;
+}
+
+.meta-item strong{
+    display:block;
+    color:#64748b;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.meta-item span{
+    font-weight:600;
+}
+
+/* PROGRESS */
+
+.progress-area{
+    margin-top:22px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.progress{
+    height:11px;
+    background:#e2e8f0;
+    border-radius:30px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#2563eb;
+    transition:.4s;
+}
+
+/* DOCUMENT */
+
+.document{
+    background:white;
+    border:1px solid #d8dee8;
+    box-shadow:0 6px 25px rgba(15,23,42,.08);
+}
+
+/* COVER */
+
+.cover{
+    min-height:900px;
+    padding:80px 70px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+.cover h1{
+    font-size:34px;
+    text-transform:uppercase;
+    margin:35px 0;
+    max-width:800px;
+}
+
+.cover h2{
+    font-size:22px;
+    margin-bottom:35px;
+}
+
+.cover-info{
+    margin-top:25px;
+    font-size:17px;
+    line-height:2;
+}
+
+.cover-footer{
+    margin-top:60px;
+    font-weight:700;
+}
+
+/* DOCUMENT CONTENT */
+
+.document-section{
+    padding:55px 70px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.document-section:last-child{
+    border-bottom:0;
+}
+
+.document-section h2{
+    font-size:27px;
+    color:#111827;
+    margin-bottom:20px;
+}
+
+.document-section h3{
+    font-size:20px;
+    color:#1d4ed8;
+    margin:25px 0 10px;
+}
+
+.document-section p{
+    margin-bottom:15px;
+    white-space:pre-wrap;
+}
+
+.empty{
+    color:#94a3b8;
+    font-style:italic;
+}
+
+.chapter{
+    margin-bottom:35px;
+    page-break-inside:avoid;
+}
+
+.chapter-title{
+    border-bottom:2px solid #2563eb;
+    padding-bottom:8px;
+    margin-bottom:20px;
+}
+
+.subchapter{
+    margin:20px 0;
+}
+
+.subchapter h4{
+    font-size:17px;
+    margin-bottom:7px;
+    color:#334155;
+}
+
+/* TOC */
+
+.toc-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:8px 0;
+    border-bottom:1px dotted #cbd5e1;
+}
+
+/* LOADING */
+
+#loading{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:18px;
+}
+
+/* ERROR */
+
+#error{
+    display:none;
+    max-width:700px;
+    margin:50px auto;
+    background:#fee2e2;
+    color:#991b1b;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+}
+
+/* PRINT */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    header,
+    .top-card,
+    #loading,
+    #error{
+        display:none !important;
+    }
+
+    main{
+        max-width:none;
+        padding:0;
+    }
+
+    .document{
+        border:0;
+        box-shadow:none;
+    }
+
+    .cover{
+        min-height:100vh;
+        page-break-after:always;
+    }
+
+    .document-section{
+        page-break-inside:auto;
+    }
+
+    .chapter{
+        page-break-inside:avoid;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    header{
+        padding:10px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .header-actions button{
+        padding:8px 9px;
+        font-size:12px;
+    }
+
+    main{
+        padding:14px 9px 40px;
+    }
+
+    .top-card{
+        padding:18px;
+    }
+
+    .top-card h1{
+        font-size:23px;
+    }
+
+    .meta-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cover{
+        min-height:700px;
+        padding:45px 20px;
+    }
+
+    .cover h1{
+        font-size:24px;
+    }
+
+    .cover h2{
+        font-size:18px;
+    }
+
+    .cover-info{
+        font-size:14px;
+    }
+
+    .document-section{
+        padding:30px 18px;
+    }
+
+    .document-section h2{
+        font-size:22px;
+    }
+
+    .document-section h3{
+        font-size:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+    Loading Academic Project...
+</div>
+
+<header>
+
+    <div class="logo">
+        BH <span>Skills Hub</span>
+    </div>
+
+    <div class="header-actions">
+
+        <button onclick="goReview()">
+            ← Review
+        </button>
+
+        <button class="edit-btn" onclick="editProject()">
+            ✏️ Edit
+        </button>
+
+        <button class="print-btn" onclick="printDocument()">
+            🖨️ PDF / Print
+        </button>
+
+    </div>
+
+</header>
+
+<div id="error"></div>
+
+<main>
+
+    <section class="top-card">
+
+        <h1 id="projectTitle">
+            Academic Project
+        </h1>
+
+        <div class="project-type" id="projectType">
+            Loading...
+        </div>
+
+        <div class="meta-grid">
+
+            <div class="meta-item">
+                <strong>Author</strong>
+                <span id="author">—</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>University / Institution</strong>
+                <span id="university">—</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Faculty</strong>
+                <span id="faculty">—</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Department / Program</strong>
+                <span id="department">—</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Supervisor</strong>
+                <span id="supervisor">—</span>
+            </div>
+
+            <div class="meta-item">
+                <strong>Academic Year</strong>
+                <span id="academicYear">—</span>
+            </div>
+
+        </div>
+
+        <div class="progress-area">
+
+            <div class="progress-top">
+                <span>Project Progress</span>
+                <span id="progressText">0%</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <article class="document" id="document">
+
+        <!-- COVER -->
+
+        <section class="cover">
+
+            <div>
+                <h2 id="coverInstitution">
+                    UNIVERSITY / INSTITUTION
+                </h2>
+
+                <h3 id="coverFaculty">
+                    FACULTY
+                </h3>
+
+                <h3 id="coverDepartment">
+                    DEPARTMENT / PROGRAM
+                </h3>
+
+                <h1 id="coverTitle">
+                    PROJECT TITLE
+                </h1>
+
+                <div class="cover-info">
+
+                    <p>
+                        <strong>Author:</strong>
+                        <span id="coverAuthor">—</span>
+                    </p>
+
+                    <p>
+                        <strong>Supervisor:</strong>
+                        <span id="coverSupervisor">—</span>
+                    </p>
+
+                    <p>
+                        <strong>Academic Year:</strong>
+                        <span id="coverYear">—</span>
+                    </p>
+
+                </div>
+
+                <div class="cover-footer">
+                    BH Skills Hub Academic Book Builder
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECT INFORMATION -->
+
+        <section class="document-section">
+
+            <h2>Project Information</h2>
+
+            <p>
+                <strong>Project Type:</strong>
+                <span id="docType">—</span>
+            </p>
+
+            <p>
+                <strong>Title:</strong>
+                <span id="docTitle">—</span>
+            </p>
+
+            <p>
+                <strong>Author:</strong>
+                <span id="docAuthor">—</span>
+            </p>
+
+            <p>
+                <strong>Institution:</strong>
+                <span id="docUniversity">—</span>
+            </p>
+
+            <p>
+                <strong>Faculty:</strong>
+                <span id="docFaculty">—</span>
+            </p>
+
+            <p>
+                <strong>Department / Program:</strong>
+                <span id="docDepartment">—</span>
+            </p>
+
+            <p>
+                <strong>Supervisor:</strong>
+                <span id="docSupervisor">—</span>
+            </p>
+
+            <p>
+                <strong>Academic Year:</strong>
+                <span id="docYear">—</span>
+            </p>
+
+        </section>
+
+
+        <!-- TABLE OF CONTENTS -->
+
+        <section class="document-section">
+
+            <h2>Table of Contents</h2>
+
+            <div id="toc"></div>
+
+        </section>
+
+
+        <!-- CONTENT -->
+
+        <section class="document-section">
+
+            <h2>Academic Content</h2>
+
+            <div id="chaptersContainer"></div>
+
+        </section>
+
+    </article>
+
+</main>
+
+
+<script type="module">
+
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* =========================
+   PROJECT ID
+========================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const urlProjectId =
+    params.get("id");
+
+
+let projectId =
+    urlProjectId;
+
+let project = null;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHTML(value){
+
+    if(value === null ||
+       value === undefined){
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function getValue(obj, keys){
+
+    for(const key of keys){
+
+        if(
+            obj &&
+            obj[key] !== undefined &&
+            obj[key] !== null &&
+            String(obj[key]).trim() !== ""
+        ){
+
+            return obj[key];
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+/* =========================
+   LOCAL FALLBACK
+========================= */
+
+function getLocalProject(){
+
+    try{
+
+        const raw =
+            localStorage.getItem(
+                "bhAcademicProject"
+            );
+
+        if(!raw) return null;
+
+        return JSON.parse(raw);
+
+    }catch{
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+    auth,
+    async(user)=>{
+
+        if(!user){
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+        try{
+
+            if(!projectId){
+
+                const localProject =
+                    getLocalProject();
+
+                if(localProject &&
+                   localProject.id){
+
+                    projectId =
+                        localProject.id;
+
+                }
+
+            }
+
+
+            if(!projectId){
+
+                showError(
+                    "No academic project was selected."
+                );
+
+                return;
+
+            }
+
+
+            await loadProject(user.uid);
+
+        }catch(error){
+
+            console.error(error);
+
+            showError(
+                "Unable to load this academic project."
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   LOAD PROJECT
+========================= */
+
+async function loadProject(uid){
+
+    const projectRef =
+        doc(
+            db,
+            "users",
+            uid,
+            "projects",
+            projectId
+        );
+
+
+    const snap =
+        await getDoc(projectRef);
+
+
+    if(!snap.exists()){
+
+        showError(
+            "This academic project could not be found."
+        );
+
+        return;
+
+    }
+
+
+    project = {
+
+        id:snap.id,
+
+        ...snap.data()
+
+    };
+
+
+    localStorage.setItem(
+        "bhAcademicProject",
+        JSON.stringify(project)
+    );
+
+
+    renderProject();
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================
+   RENDER PROJECT
+========================= */
+
+function renderProject(){
+
+    const title =
+        getValue(
+            project,
+            ["title","projectTitle","name"]
+        ) ||
+        "Untitled Academic Project";
+
+
+    const type =
+        getValue(
+            project,
+            ["type","projectType"]
+        ) ||
+        "Academic Project";
+
+
+    const author =
+        getValue(
+            project,
+            ["authorName","author","name"]
+        ) ||
+        "—";
+
+
+    const university =
+        getValue(
+            project,
+            [
+                "university",
+                "institution",
+                "universityInstitution"
+            ]
+        ) ||
+        "—";
+
+
+    const faculty =
+        getValue(
+            project,
+            ["faculty"]
+        ) ||
+        "—";
+
+
+    const department =
+        getValue(
+            project,
+            [
+                "department",
+                "program",
+                "departmentProgram"
+            ]
+        ) ||
+        "—";
+
+
+    const supervisor =
+        getValue(
+            project,
+            ["supervisor"]
+        ) ||
+        "—";
+
+
+    const year =
+        getValue(
+            project,
+            [
+                "academicYear",
+                "year"
+            ]
+        ) ||
+        "—";
+
+
+    /* TOP */
+
+    setText(
+        "projectTitle",
+        title
+    );
+
+    setText(
+        "projectType",
+        type
+    );
+
+    setText(
+        "author",
+        author
+    );
+
+    setText(
+        "university",
+        university
+    );
+
+    setText(
+        "faculty",
+        faculty
+    );
+
+    setText(
+        "department",
+        department
+    );
+
+    setText(
+        "supervisor",
+        supervisor
+    );
+
+    setText(
+        "academicYear",
+        year
+    );
+
+
+    /* COVER */
+
+    setText(
+        "coverInstitution",
+        university
+    );
+
+    setText(
+        "coverFaculty",
+        faculty
+    );
+
+    setText(
+        "coverDepartment",
+        department
+    );
+
+    setText(
+        "coverTitle",
+        title
+    );
+
+    setText(
+        "coverAuthor",
+        author
+    );
+
+    setText(
+        "coverSupervisor",
+        supervisor
+    );
+
+    setText(
+        "coverYear",
+        year
+    );
+
+
+    /* DOCUMENT INFO */
+
+    setText(
+        "docType",
+        type
+    );
+
+    setText(
+        "docTitle",
+        title
+    );
+
+    setText(
+        "docAuthor",
+        author
+    );
+
+    setText(
+        "docUniversity",
+        university
+    );
+
+    setText(
+        "docFaculty",
+        faculty
+    );
+
+    setText(
+        "docDepartment",
+        department
+    );
+
+    setText(
+        "docSupervisor",
+        supervisor
+    );
+
+    setText(
+        "docYear",
+        year
+    );
+
+
+    renderTOC();
+
+    renderChapters();
+
+    updateProgress();
+
+}
+
+
+function setText(id,value){
+
+    const element =
+        document.getElementById(id);
+
+    if(element){
+
+        element.textContent =
+            value || "—";
+
+    }
+
+}
+
+
+/* =========================
+   CONTENT STATE
+========================= */
+
+function getBuilderState(){
+
+    try{
+
+        const key =
+            "bhAcademicBuilderState_" +
+            projectId;
+
+        const raw =
+            localStorage.getItem(key);
+
+        if(!raw) return {};
+
+        return JSON.parse(raw);
+
+    }catch{
+
+        return {};
+
+    }
+
+}
+
+
+/* =========================
+   RENDER TOC
+========================= */
+
+function renderTOC(){
+
+    const toc =
+        document.getElementById("toc");
+
+    toc.innerHTML = "";
+
+    const state =
+        getBuilderState();
+
+
+    const chapters =
+        getChapters(state);
+
+
+    if(chapters.length === 0){
+
+        toc.innerHTML =
+            `<p class="empty">
+                No chapters have been added yet.
+            </p>`;
+
+        return;
+
+    }
+
+
+    chapters.forEach(
+        (chapter,index)=>{
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "toc-item";
+
+            row.innerHTML = `
+                <span>
+                    Chapter ${index + 1} —
+                    ${escapeHTML(
+                        chapter.title ||
+                        "Untitled Chapter"
+                    )}
+                </span>
+
+                <span>
+                    ${chapter.completed ? "✓" : "—"}
+                </span>
+            `;
+
+            toc.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* =========================
+   CHAPTER DATA
+========================= */
+
+function getChapters(state){
+
+    let chapters = [];
+
+
+    if(
+        Array.isArray(
+            project.chapters
+        )
+    ){
+
+        chapters =
+            project.chapters;
+
+    }
+
+
+    if(
+        chapters.length === 0 &&
+        Array.isArray(state.chapters)
+    ){
+
+        chapters =
+            state.chapters;
+
+    }
+
+
+    return chapters;
+
+}
+
+
+/* =========================
+   RENDER CHAPTERS
+========================= */
+
+function renderChapters(){
+
+    const container =
+        document.getElementById(
+            "chaptersContainer"
+        );
+
+    container.innerHTML = "";
+
+
+    const state =
+        getBuilderState();
+
+
+    const chapters =
+        getChapters(state);
+
+
+    if(chapters.length === 0){
+
+        container.innerHTML = `
+            <p class="empty">
+                No chapter content has been added yet.
+                Return to Chapter Builder and add your content.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    chapters.forEach(
+        (chapter,index)=>{
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+            wrapper.className =
+                "chapter";
+
+
+            const chapterTitle =
+                chapter.title ||
+                `Chapter ${index + 1}`;
+
+
+            let html = `
+                <div class="chapter-title">
+                    <h2>
+                        Chapter ${index + 1}:
+                        ${escapeHTML(chapterTitle)}
+                    </h2>
+                </div>
+            `;
+
+
+            const sections =
+                Array.isArray(
+                    chapter.sections
+                )
+                ? chapter.sections
+                : [];
+
+
+            if(sections.length){
+
+                sections.forEach(
+                    section=>{
+
+                        html += `
+                            <div class="subchapter">
+
+                                <h4>
+                                    ${escapeHTML(
+                                        section.title ||
+                                        "Section"
+                                    )}
+                                </h4>
+
+                                <p>
+                                    ${escapeHTML(
+                                        section.content ||
+                                        ""
+                                    )}
+                                </p>
+
+                            </div>
+                        `;
+
+                    }
+                );
+
+            }else if(
+                chapter.content
+            ){
+
+                html += `
+                    <p>
+                        ${escapeHTML(
+                            chapter.content
+                        )}
+                    </p>
+                `;
+
+            }else{
+
+                html += `
+                    <p class="empty">
+                        No content has been added to this chapter yet.
+                    </p>
+                `;
+
+            }
+
+
+            wrapper.innerHTML =
+                html;
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function updateProgress(){
+
+    const state =
+        getBuilderState();
+
+
+    const chapters =
+        getChapters(state);
+
+
+    if(!chapters.length){
+
+        setProgress(0);
+
+        return;
+
+    }
+
+
+    const completed =
+        chapters.filter(
+            chapter =>
+                chapter.completed === true
+        ).length;
+
+
+    const progress =
+        Math.round(
+            (
+                completed /
+                chapters.length
+            ) * 100
+        );
+
+
+    setProgress(progress);
+
+}
+
+
+function setProgress(progress){
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        progress + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        progress + "%";
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+window.goReview =
+function(){
+
+    window.location.href =
+        "review.html?id=" +
+        encodeURIComponent(
+            projectId
+        );
+
+};
+
+
+window.editProject =
+function(){
+
+    window.location.href =
+        "chapter-builder.html?id=" +
+        encodeURIComponent(
+            projectId
+        );
+
+};
+
+
+window.printDocument =
+function(){
+
+    window.print();
+
+};
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message){
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "none";
+
+
+    const error =
+        document.getElementById(
+            "error"
+        );
+
+
+    error.style.display =
+        "block";
+
+
+    error.innerHTML = `
+        <h2>Project Error</h2>
+        <p>${escapeHTML(message)}</p>
+        <br>
+        <button
+            onclick="goProjects()"
+            style="
+                border:0;
+                padding:10px 16px;
+                border-radius:8px;
+                background:#2563eb;
+                color:white;
+                font-weight:700;
+                cursor:pointer;
+            ">
+            Back to My Projects
+        </button>
+    `;
+
+}
+
+
+window.goProjects =
+function(){
+
+    window.location.href =
+        "my-academic-projects.html";
+
+};
+
+</script>
+
+</body>
+</html>

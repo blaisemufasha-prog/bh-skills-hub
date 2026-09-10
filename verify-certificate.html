@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Verify Certificate | BH Skills Hub</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #101827,
+            #1d2940
+        );
+
+    font-family:Arial,sans-serif;
+
+    color:#172033;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+
+    width:100%;
+
+    max-width:560px;
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:35px 25px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.3);
+
+    text-align:center;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+
+    font-size:26px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    color:#172033;
+}
+
+.logo span{
+
+    color:#c9a64d;
+}
+
+.tagline{
+
+    margin-top:6px;
+
+    font-size:10px;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    color:#7a8390;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.title{
+
+    margin-top:30px;
+
+    font-size:27px;
+
+    color:#172033;
+}
+
+.description{
+
+    margin-top:10px;
+
+    color:#687180;
+
+    font-size:14px;
+
+    line-height:1.6;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form{
+
+    margin-top:25px;
+}
+
+input{
+
+    width:100%;
+
+    padding:14px 15px;
+
+    border:1px solid #d6dbe2;
+
+    border-radius:8px;
+
+    outline:none;
+
+    font-size:14px;
+
+    text-align:center;
+
+    transition:.2s;
+}
+
+input:focus{
+
+    border-color:#c9a64d;
+
+    box-shadow:
+        0 0 0 3px rgba(201,166,77,.12);
+}
+
+button{
+
+    width:100%;
+
+    margin-top:12px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#172033;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+button:hover{
+
+    background:#24314a;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+
+    display:none;
+
+    margin-top:22px;
+
+    padding:18px;
+
+    border-radius:10px;
+
+    text-align:left;
+}
+
+.status.valid{
+
+    display:block;
+
+    background:#edf8f1;
+
+    border:1px solid #b7dfc4;
+}
+
+.status.invalid{
+
+    display:block;
+
+    background:#fff1f1;
+
+    border:1px solid #efb7b7;
+}
+
+
+/* =========================
+   VALID
+========================= */
+
+.valid-title{
+
+    color:#177245;
+
+    font-size:20px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+    text-align:center;
+}
+
+.invalid-title{
+
+    color:#b42318;
+
+    font-size:20px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+    text-align:center;
+}
+
+.data{
+
+    margin-top:8px;
+
+    padding:10px 0;
+
+    border-bottom:1px solid rgba(0,0,0,.08);
+
+    font-size:13px;
+}
+
+.data:last-child{
+
+    border-bottom:none;
+}
+
+.label{
+
+    color:#747d89;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+}
+
+.value{
+
+    margin-top:3px;
+
+    font-weight:700;
+
+    color:#172033;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    margin-top:25px;
+
+    font-size:11px;
+
+    color:#7b8490;
+
+    line-height:1.6;
+}
+
+.footer strong{
+
+    color:#172033;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+
+    display:none;
+
+    margin-top:18px;
+
+    color:#687180;
+
+    font-size:13px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- LOGO -->
+
+    <div class="logo">
+        BH <span>SKILLS HUB</span>
+    </div>
+
+    <div class="tagline">
+        Learning • Skills • Growth
+    </div>
+
+
+    <!-- TITLE -->
+
+    <h1 class="title">
+        Certificate Verification
+    </h1>
+
+    <p class="description">
+
+        Verify the authenticity of a certificate
+        issued by BH Skills Hub.
+
+    </p>
+
+
+    <!-- FORM -->
+
+    <div class="form">
+
+        <input
+            type="text"
+            id="certificateId"
+            placeholder="Enter Certificate ID"
+            autocomplete="off"
+        >
+
+        <button onclick="verifyCertificate()">
+            Verify Certificate
+        </button>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+        class="loading"
+        id="loading"
+    >
+        Checking certificate...
+    </div>
+
+
+    <!-- VALID RESULT -->
+
+    <div
+        class="status"
+        id="validResult"
+    >
+
+        <div class="valid-title">
+            ✓ Certificate Verified
+        </div>
+
+
+        <div class="data">
+
+            <div class="label">
+                Student
+            </div>
+
+            <div
+                class="value"
+                id="studentResult"
+            ></div>
+
+        </div>
+
+
+        <div class="data">
+
+            <div class="label">
+                Course
+            </div>
+
+            <div
+                class="value"
+                id="courseResult"
+            ></div>
+
+        </div>
+
+
+        <div class="data">
+
+            <div class="label">
+                Certificate ID
+            </div>
+
+            <div
+                class="value"
+                id="idResult"
+            ></div>
+
+        </div>
+
+
+        <div class="data">
+
+            <div class="label">
+                Date of Completion
+            </div>
+
+            <div
+                class="value"
+                id="dateResult"
+            ></div>
+
+        </div>
+
+
+        <div class="data">
+
+            <div class="label">
+                Issued By
+            </div>
+
+            <div class="value">
+                BH Skills Hub
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INVALID RESULT -->
+
+    <div
+        class="status"
+        id="invalidResult"
+    >
+
+        <div class="invalid-title">
+            ✕ Certificate Not Found
+        </div>
+
+        <p
+            style="
+            text-align:center;
+            font-size:13px;
+            color:#687180;
+            line-height:1.6;
+            "
+        >
+
+            We could not find a certificate
+            matching the Certificate ID you entered.
+
+            Please check the ID and try again.
+
+        </p>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <strong>BH Skills Hub</strong>
+
+        <br>
+
+        Empowering learners through practical skills.
+
+        <br>
+
+        Made by Blaise Hadari
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     FIREBASE
+========================= -->
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+/* =========================
+   FIREBASE INIT
+========================= */
+
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getFirestore(app);
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const input =
+    document.getElementById(
+        "certificateId"
+    );
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const validResult =
+    document.getElementById(
+        "validResult"
+    );
+
+const invalidResult =
+    document.getElementById(
+        "invalidResult"
+    );
+
+
+/* =========================
+   VERIFY FUNCTION
+========================= */
+
+window.verifyCertificate =
+async function(){
+
+    const id =
+        input.value.trim();
+
+
+    /* CLEAR */
+
+    validResult.className =
+        "status";
+
+    invalidResult.className =
+        "status";
+
+
+    /* EMPTY */
+
+    if(!id){
+
+        alert(
+            "Please enter a Certificate ID."
+        );
+
+        input.focus();
+
+        return;
+    }
+
+
+    /* LOADING */
+
+    loading.style.display =
+        "block";
+
+
+    try{
+
+        const certificateRef =
+            doc(
+                db,
+                "certificates",
+                id
+            );
+
+
+        const certificateSnapshot =
+            await getDoc(
+                certificateRef
+            );
+
+
+        loading.style.display =
+            "none";
+
+
+        /* NOT FOUND */
+
+        if(
+            !certificateSnapshot.exists()
+        ){
+
+            invalidResult.className =
+                "status invalid";
+
+            return;
+        }
+
+
+        /* DATA */
+
+        const data =
+            certificateSnapshot.data();
+
+
+        /* DISPLAY */
+
+        document.getElementById(
+            "studentResult"
+        ).textContent =
+            data.studentName || "N/A";
+
+
+        document.getElementById(
+            "courseResult"
+        ).textContent =
+            data.courseName || "N/A";
+
+
+        document.getElementById(
+            "idResult"
+        ).textContent =
+            data.certificateId || id;
+
+
+        document.getElementById(
+            "dateResult"
+        ).textContent =
+            data.completionDate || "N/A";
+
+
+        /* SHOW VALID */
+
+        validResult.className =
+            "status valid";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        loading.style.display =
+            "none";
+
+        alert(
+            "Unable to verify certificate. Please try again."
+        );
+
+    }
+
+};
+
+
+/* =========================
+   AUTO READ QR ID
+========================= */
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const urlId =
+    urlParams.get("id");
+
+
+if(urlId){
+
+    input.value =
+        urlId;
+
+    verifyCertificate();
+
+}
+
+</script>
+
+
+</body>
+</html>

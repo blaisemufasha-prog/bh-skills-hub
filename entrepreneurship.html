@@ -1,0 +1,3104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Entrepreneurship | BH Skills Hub</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f4f6;
+    color:#111827;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    height:64px;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+
+.logo{
+    font-size:20px;
+    font-weight:800;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.menu-btn,
+.back-btn{
+    border:none;
+    background:#1f2937;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.menu-btn:hover,
+.back-btn:hover{
+    background:#374151;
+}
+
+/* ================= OVERLAY ================= */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:1100;
+    display:none;
+}
+
+.overlay.show{
+    display:block;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    position:fixed;
+    top:64px;
+    left:-330px;
+    width:310px;
+    height:calc(100vh - 64px);
+    background:white;
+    z-index:1200;
+    overflow-y:auto;
+    box-shadow:3px 0 15px rgba(0,0,0,.2);
+    transition:.3s ease;
+}
+
+.sidebar.open{
+    left:0;
+}
+
+.sidebar-header{
+    background:#111827;
+    color:white;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.sidebar-header h2{
+    font-size:18px;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:26px;
+    cursor:pointer;
+}
+
+.progress-box{
+    margin:15px;
+    padding:15px;
+    background:#f3f4f6;
+    border-radius:10px;
+}
+
+.progress-title{
+    font-weight:bold;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.progress-bar{
+    width:100%;
+    height:9px;
+    background:#d1d5db;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:#7c3aed;
+    transition:.3s;
+}
+
+.progress-percent{
+    text-align:right;
+    margin-top:6px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.chapter-list{
+    padding:8px 15px 25px;
+}
+
+.chapter-btn{
+    width:100%;
+    border:none;
+    background:#f9fafb;
+    color:#111827;
+    padding:12px;
+    margin-bottom:7px;
+    border-radius:8px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.chapter-btn:hover{
+    background:#e5e7eb;
+}
+
+.chapter-btn.active{
+    background:#7c3aed;
+    color:white;
+}
+
+.chapter-btn.completed{
+    border-left:5px solid #16a34a;
+}
+
+/* ================= MAIN ================= */
+
+main{
+    max-width:1050px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+.course-title{
+    background:linear-gradient(135deg,#7c3aed,#2563eb);
+    color:white;
+    padding:35px 25px;
+    border-radius:16px;
+    margin-bottom:25px;
+    box-shadow:0 8px 25px rgba(37,99,235,.18);
+}
+
+.course-title h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.course-title p{
+    line-height:1.7;
+    font-size:16px;
+}
+
+/* ================= LESSON ================= */
+
+.lesson{
+    display:none;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.lesson.active{
+    display:block;
+}
+
+.lesson h2{
+    font-size:27px;
+    color:#111827;
+    margin-bottom:18px;
+}
+
+.lesson h3{
+    color:#6d28d9;
+    margin:22px 0 10px;
+}
+
+.lesson p{
+    line-height:1.75;
+    margin-bottom:14px;
+}
+
+.lesson ul,
+.lesson ol{
+    margin:10px 0 18px 23px;
+    line-height:1.8;
+}
+
+.lesson li{
+    margin-bottom:4px;
+}
+
+/* ================= PHOTOS ================= */
+
+.lesson-img{
+    width:100%;
+    height:330px;
+    object-fit:cover;
+    border-radius:12px;
+    margin:8px 0 20px;
+}
+
+/* ================= CONTENT BOXES ================= */
+
+.example-box{
+    background:#eff6ff;
+    border-left:5px solid #2563eb;
+    padding:16px;
+    border-radius:8px;
+    margin:18px 0;
+    line-height:1.6;
+}
+
+.exercise-box{
+    background:#fef3c7;
+    border-left:5px solid #f59e0b;
+    padding:16px;
+    border-radius:8px;
+    margin:18px 0;
+    line-height:1.6;
+}
+
+.tip-box{
+    background:#ecfdf5;
+    border-left:5px solid #16a34a;
+    padding:16px;
+    border-radius:8px;
+    margin:18px 0;
+    line-height:1.6;
+}
+
+/* ================= QUICK QUIZ ================= */
+
+.quiz-box{
+    margin-top:25px;
+    padding:20px;
+    background:#f9fafb;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+}
+
+.quiz-box h3{
+    margin-top:0;
+    color:#111827;
+}
+
+.quiz-question{
+    margin:15px 0;
+    font-weight:bold;
+}
+
+.quiz-option{
+    display:block;
+    background:white;
+    border:1px solid #d1d5db;
+    padding:11px;
+    margin:8px 0;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.quiz-option:hover{
+    background:#f3f4f6;
+}
+
+.quiz-check{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:11px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.quiz-result{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+/* ================= FINAL QUIZ ================= */
+
+.final-quiz{
+    margin-top:28px;
+    padding:22px;
+    background:#eef2ff;
+    border:2px solid #6366f1;
+    border-radius:14px;
+}
+
+.final-quiz h3{
+    color:#3730a3;
+    margin-top:0;
+}
+
+.final-question{
+    background:white;
+    padding:16px;
+    border-radius:9px;
+    margin:15px 0;
+}
+
+.final-question p{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.final-question label{
+    display:block;
+    padding:8px 5px;
+    cursor:pointer;
+}
+
+.submit-final{
+    width:100%;
+    border:none;
+    background:#4f46e5;
+    color:white;
+    padding:14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.submit-final:hover{
+    background:#4338ca;
+}
+
+.final-result{
+    margin-top:15px;
+    font-weight:bold;
+    line-height:1.6;
+}
+
+/* ================= NAVIGATION ================= */
+
+.lesson-navigation{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:25px;
+}
+
+.nav-btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.previous-btn{
+    background:#6b7280;
+    color:white;
+}
+
+.next-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.complete-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.nav-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    background:#111827;
+    color:#d1d5db;
+    text-align:center;
+    padding:25px 15px;
+    line-height:1.8;
+}
+
+/* ================= DESKTOP ================= */
+
+@media(min-width:801px){
+
+    .sidebar{
+        left:0;
+        box-shadow:1px 0 8px rgba(0,0,0,.12);
+    }
+
+    .menu-btn{
+        display:none;
+    }
+
+    main{
+        margin-left:330px;
+        max-width:none;
+        padding-right:35px;
+    }
+
+    .overlay{
+        display:none!important;
+    }
+
+    .sidebar-header .close-btn{
+        display:none;
+    }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+
+    header{
+        padding:0 12px;
+    }
+
+    .logo{
+        font-size:17px;
+    }
+
+    .menu-btn,
+    .back-btn{
+        padding:9px 10px;
+        font-size:12px;
+    }
+
+    main{
+        padding:15px 10px 35px;
+    }
+
+    .course-title{
+        padding:25px 18px;
+    }
+
+    .course-title h1{
+        font-size:27px;
+    }
+
+    .lesson{
+        padding:18px 15px;
+    }
+
+    .lesson h2{
+        font-size:22px;
+    }
+
+    .lesson-img{
+        height:230px;
+    }
+
+    .lesson-navigation{
+        flex-direction:column;
+    }
+
+    .nav-btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        BH Skills Hub
+    </div>
+
+    <div class="header-right">
+
+        <button class="menu-btn" onclick="toggleMenu()">
+            ☰ Chapters
+        </button>
+
+        <button class="back-btn" onclick="goCourses()">
+            ← Courses
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ================= OVERLAY ================= -->
+
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeMenu()">
+</div>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+        <h2>Entrepreneurship Course</h2>
+
+        <button
+            class="close-btn"
+            onclick="closeMenu()">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="progress-box">
+
+        <div class="progress-title">
+            Course Progress
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+        <div
+            class="progress-percent"
+            id="progressPercent">
+            0%
+        </div>
+
+    </div>
+
+
+    <div class="chapter-list">
+
+        <button class="chapter-btn" onclick="showLesson(0)">
+            1. Introduction to Entrepreneurship
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(1)">
+            2. Entrepreneurial Mindset
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(2)">
+            3. Finding Business Ideas
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(3)">
+            4. Market Research
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(4)">
+            5. Customers & Target Market
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(5)">
+            6. Business Models
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(6)">
+            7. Business Planning
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(7)">
+            8. Marketing & Branding
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(8)">
+            9. Finance & Pricing
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(9)">
+            10. Sales & Customer Service
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(10)">
+            11. Digital Entrepreneurship
+        </button>
+
+        <button class="chapter-btn" onclick="showLesson(11)">
+            12. Final Business Project
+        </button>
+
+    </div>
+
+</aside>
+
+
+<main>
+
+<!-- ================= COURSE TITLE ================= -->
+
+<section class="course-title">
+
+    <h1>
+        Entrepreneurship
+    </h1>
+
+    <p>
+        Learn how to identify opportunities, develop business ideas,
+        understand customers, create business plans, manage finances,
+        market your business and build an entrepreneurial mindset.
+    </p>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 1 -->
+<!-- ===================================================== -->
+
+<section class="lesson active">
+
+<h2>
+1. Introduction to Entrepreneurship
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"
+alt="Entrepreneurship">
+
+<p>
+Entrepreneurship is the process of identifying opportunities,
+creating solutions, organizing resources and taking calculated
+risks to create value through a business or project.
+</p>
+
+<h3>
+Who is an Entrepreneur?
+</h3>
+
+<p>
+An entrepreneur is a person who identifies a problem or opportunity
+and develops a product, service or business solution around it.
+</p>
+
+<h3>
+Key Characteristics
+</h3>
+
+<ul>
+<li>Creativity</li>
+<li>Problem solving</li>
+<li>Leadership</li>
+<li>Persistence</li>
+<li>Decision making</li>
+<li>Calculated risk taking</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+A student notices that many students struggle to print documents.
+He starts a small printing and online-service business near campus.
+</div>
+
+<div class="exercise-box">
+<strong>Exercise:</strong>
+Identify one problem around your community that could become a
+business opportunity.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What is entrepreneurship mainly about?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q1" value="a">
+Avoiding all risks
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q1" value="b">
+Creating value by solving problems and exploiting opportunities
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q1" value="c">
+Only working for government
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q1','b','r1')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r1"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 2 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+2. Entrepreneurial Mindset
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80"
+alt="Entrepreneurial mindset">
+
+<p>
+An entrepreneurial mindset is the way entrepreneurs think about
+opportunities, challenges, failure and growth.
+</p>
+
+<h3>
+Important Mindset Qualities
+</h3>
+
+<ul>
+<li>Growth mindset</li>
+<li>Confidence</li>
+<li>Discipline</li>
+<li>Adaptability</li>
+<li>Creativity</li>
+<li>Resilience</li>
+</ul>
+
+<div class="tip-box">
+<strong>Remember:</strong>
+Failure can provide information that helps an entrepreneur improve
+a product, service or strategy.
+</div>
+
+<div class="example-box">
+<strong>Example:</strong>
+If customers reject your first product, study their feedback and
+improve the product instead of immediately giving up.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+Which mindset is important for an entrepreneur?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q2" value="a">
+Giving up after failure
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q2" value="b">
+Learning and adapting
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q2" value="c">
+Avoiding customers
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q2','b','r2')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r2"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 3 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+3. Finding Business Ideas
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80"
+alt="Business ideas">
+
+<p>
+Good business ideas often come from real problems, customer needs,
+personal skills, market changes and new technologies.
+</p>
+
+<h3>
+Sources of Business Ideas
+</h3>
+
+<ul>
+<li>Problems in your community</li>
+<li>Customer complaints</li>
+<li>Existing businesses</li>
+<li>New technology</li>
+<li>Personal skills and talents</li>
+<li>Market trends</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+If people in your area travel far to access graphic design services,
+you could start a small digital design service.
+</div>
+
+<div class="exercise-box">
+<strong>Exercise:</strong>
+Write three problems you see around you and propose one possible
+business solution for each.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+Where can entrepreneurs find business ideas?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q3" value="a">
+Only from textbooks
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q3" value="b">
+Problems, needs and opportunities
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q3" value="c">
+Only from banks
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q3','b','r3')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r3"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 4 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+4. Market Research
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80"
+alt="Market research">
+
+<p>
+Market research is the process of collecting information about
+customers, competitors and the market before making business decisions.
+</p>
+
+<h3>
+Why Market Research Matters
+</h3>
+
+<ul>
+<li>Understand customer needs</li>
+<li>Identify competitors</li>
+<li>Estimate demand</li>
+<li>Understand prices</li>
+<li>Reduce business risk</li>
+</ul>
+
+<h3>
+Research Methods
+</h3>
+
+<ul>
+<li>Surveys</li>
+<li>Interviews</li>
+<li>Observation</li>
+<li>Online research</li>
+<li>Competitor analysis</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+Before opening a restaurant, an entrepreneur surveys people in
+the area to understand preferred food, prices and opening hours.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What is the main purpose of market research?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q4" value="a">
+To understand the market and customers
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q4" value="b">
+To waste money
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q4" value="c">
+To avoid competitors completely
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q4','a','r4')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r4"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 5 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+5. Customers & Target Market
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80"
+alt="Customers">
+
+<p>
+A target market is the specific group of people most likely to buy
+a product or service.
+</p>
+
+<h3>
+Customer Segmentation
+</h3>
+
+<ul>
+<li>Age</li>
+<li>Gender</li>
+<li>Location</li>
+<li>Income</li>
+<li>Occupation</li>
+<li>Interests</li>
+<li>Buying behavior</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+A company selling university backpacks may target students aged
+18–30 who need affordable and durable bags.
+</div>
+
+<div class="exercise-box">
+<strong>Exercise:</strong>
+Choose one business idea and describe its ideal customer.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What is a target market?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q5" value="a">
+Everyone in the world
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q5" value="b">
+A specific group of potential customers
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q5" value="c">
+Only business owners
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q5','b','r5')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r5"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 6 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+6. Business Models
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80"
+alt="Business model">
+
+<p>
+A business model explains how a business creates value for customers
+and generates revenue.
+</p>
+
+<h3>
+Common Business Models
+</h3>
+
+<ul>
+<li>Retail</li>
+<li>Subscription</li>
+<li>Freemium</li>
+<li>Marketplace</li>
+<li>Service-based</li>
+<li>Advertising</li>
+<li>Online sales</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+A subscription business charges customers regularly for continued
+access to a product or service.
+</div>
+
+<h3>
+Key Questions
+</h3>
+
+<ul>
+<li>Who are the customers?</li>
+<li>What value do we provide?</li>
+<li>How do we reach customers?</li>
+<li>How will the business make money?</li>
+</ul>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What does a business model explain?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q6" value="a">
+How the business creates value and earns revenue
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q6" value="b">
+Only the business logo
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q6" value="c">
+Only employee names
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q6','a','r6')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r6"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 7 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+7. Business Planning
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80"
+alt="Business planning">
+
+<p>
+A business plan is a document that explains the goals of a business,
+its strategy and how it plans to operate and make money.
+</p>
+
+<h3>
+Main Parts of a Business Plan
+</h3>
+
+<ol>
+<li>Executive summary</li>
+<li>Business description</li>
+<li>Market analysis</li>
+<li>Marketing strategy</li>
+<li>Operations plan</li>
+<li>Management plan</li>
+<li>Financial plan</li>
+</ol>
+
+<div class="example-box">
+<strong>Example:</strong>
+A small printing business can create a plan describing its customers,
+equipment, prices, competitors, marketing strategy and expected income.
+</div>
+
+<div class="exercise-box">
+<strong>Exercise:</strong>
+Create a simple one-page business plan for your business idea.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+Why is a business plan important?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q7" value="a">
+It helps guide the business
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q7" value="b">
+It replaces customers
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q7" value="c">
+It guarantees instant profit
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q7','a','r7')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r7"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 8 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+8. Marketing & Branding
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=1200&q=80"
+alt="Marketing and branding">
+
+<p>
+Marketing is the process of promoting products or services to attract
+and retain customers.
+</p>
+
+<h3>
+Marketing Methods
+</h3>
+
+<ul>
+<li>Social media</li>
+<li>Websites</li>
+<li>Email marketing</li>
+<li>Advertising</li>
+<li>Word of mouth</li>
+<li>Events</li>
+<li>Content marketing</li>
+</ul>
+
+<h3>
+Branding
+</h3>
+
+<p>
+Branding includes the identity, reputation, visual appearance and
+message that customers associate with a business.
+</p>
+
+<div class="example-box">
+<strong>Example:</strong>
+A business can use a consistent logo, colors, slogan and communication
+style across its website and social media pages.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What is one purpose of marketing?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q8" value="a">
+To attract customers
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q8" value="b">
+To hide the business
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q8" value="c">
+To stop communication
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q8','a','r8')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r8"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 9 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+9. Finance & Pricing
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80"
+alt="Business finance">
+
+<p>
+Financial management helps entrepreneurs understand revenue,
+expenses, profit, cash flow and pricing.
+</p>
+
+<h3>
+Basic Concepts
+</h3>
+
+<ul>
+<li>Revenue – money earned from sales</li>
+<li>Expenses – money spent by the business</li>
+<li>Profit – revenue minus expenses</li>
+<li>Cash flow – movement of money in and out</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+If a business earns 500,000 RWF and spends 350,000 RWF,
+its profit before other adjustments is 150,000 RWF.
+</div>
+
+<h3>
+Pricing Factors
+</h3>
+
+<ul>
+<li>Cost of production</li>
+<li>Competitor prices</li>
+<li>Customer willingness to pay</li>
+<li>Business objectives</li>
+<li>Desired profit margin</li>
+</ul>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+Profit is generally calculated as:
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q9" value="a">
+Revenue - Expenses
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q9" value="b">
+Expenses + Expenses
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q9" value="c">
+Customers - Employees
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q9','a','r9')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r9"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 10 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+10. Sales & Customer Service
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1200&q=80"
+alt="Sales and customer service">
+
+<p>
+Sales is the process of helping potential customers understand the
+value of a product or service and encouraging them to purchase it.
+</p>
+
+<h3>
+Good Customer Service
+</h3>
+
+<ul>
+<li>Listen carefully</li>
+<li>Be respectful</li>
+<li>Respond quickly</li>
+<li>Solve problems</li>
+<li>Keep promises</li>
+<li>Ask for feedback</li>
+</ul>
+
+<div class="tip-box">
+<strong>Business Tip:</strong>
+A satisfied customer may return and recommend your business to others.
+Customer experience can become a competitive advantage.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+Which is good customer service?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q10" value="a">
+Ignoring complaints
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q10" value="b">
+Listening and solving customer problems
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q10" value="c">
+Being rude
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q10','b','r10')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r10"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 11 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+11. Digital Entrepreneurship
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80"
+alt="Digital entrepreneurship">
+
+<p>
+Digital entrepreneurship uses digital technologies and online platforms
+to create, market and deliver products or services.
+</p>
+
+<h3>
+Examples
+</h3>
+
+<ul>
+<li>Online stores</li>
+<li>Digital courses</li>
+<li>Freelancing</li>
+<li>Content creation</li>
+<li>Software businesses</li>
+<li>Digital marketing</li>
+<li>Online consulting</li>
+</ul>
+
+<div class="example-box">
+<strong>Example:</strong>
+A designer can sell logos online to customers in different countries
+without needing a physical office.
+</div>
+
+<h3>
+Digital Tools
+</h3>
+
+<ul>
+<li>Websites</li>
+<li>Social media</li>
+<li>Email</li>
+<li>Cloud services</li>
+<li>Online payment systems</li>
+<li>Analytics tools</li>
+</ul>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="quiz-question">
+What is digital entrepreneurship?
+</div>
+
+<label class="quiz-option">
+<input type="radio" name="q11" value="a">
+Using digital technology to create and operate businesses
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q11" value="b">
+Avoiding technology
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q11" value="c">
+Only selling physical products in a market
+</label>
+
+<button class="quiz-check"
+onclick="checkQuiz('q11','a','r11')">
+Check Answer
+</button>
+
+<div class="quiz-result" id="r11"></div>
+
+</div>
+
+</section>
+
+
+<!-- ===================================================== -->
+<!-- LESSON 12 -->
+<!-- ===================================================== -->
+
+<section class="lesson">
+
+<h2>
+12. Final Business Project
+</h2>
+
+<img
+class="lesson-img"
+src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80"
+alt="Final business project">
+
+<p>
+This final chapter combines the knowledge learned throughout
+the Entrepreneurship course.
+</p>
+
+<h3>
+Final Project Requirements
+</h3>
+
+<ol>
+<li>Identify a real problem</li>
+<li>Propose a business solution</li>
+<li>Describe your target customers</li>
+<li>Conduct basic market research</li>
+<li>Explain your business model</li>
+<li>Create a marketing strategy</li>
+<li>Set a reasonable price</li>
+<li>Prepare a simple financial estimate</li>
+<li>Explain how technology can support the business</li>
+<li>Present your business idea clearly</li>
+</ol>
+
+<div class="exercise-box">
+<strong>Final Business Project:</strong>
+Create a complete business idea based on a real problem in your
+community. Explain how your business will create value and generate revenue.
+</div>
+
+<div class="tip-box">
+<strong>Certificate Requirement:</strong>
+Complete all 12 chapters and pass the Final Quiz with at least
+<strong>70%</strong> to receive your certificate.
+</div>
+
+
+<!-- ================= FINAL QUIZ ================= -->
+
+<div class="final-quiz">
+
+<h3>
+🏆 Entrepreneurship Final Quiz
+</h3>
+
+<p>
+Answer all 10 questions. Pass mark:
+<strong>70%</strong>.
+</p>
+
+
+<!-- QUESTION 1 -->
+
+<div class="final-question">
+
+<p>
+1. What is entrepreneurship?
+</p>
+
+<label>
+<input type="radio" name="f1" value="a">
+Avoiding all business activities
+</label>
+
+<label>
+<input type="radio" name="f1" value="b">
+Creating value through opportunities and solutions
+</label>
+
+<label>
+<input type="radio" name="f1" value="c">
+Only working for another person
+</label>
+
+</div>
+
+
+<!-- QUESTION 2 -->
+
+<div class="final-question">
+
+<p>
+2. Which quality is useful to entrepreneurs?
+</p>
+
+<label>
+<input type="radio" name="f2" value="a">
+Giving up quickly
+</label>
+
+<label>
+<input type="radio" name="f2" value="b">
+Ignoring feedback
+</label>
+
+<label>
+<input type="radio" name="f2" value="c">
+Persistence
+</label>
+
+</div>
+
+
+<!-- QUESTION 3 -->
+
+<div class="final-question">
+
+<p>
+3. A good business idea should usually solve:
+</p>
+
+<label>
+<input type="radio" name="f3" value="a">
+A real customer problem or need
+</label>
+
+<label>
+<input type="radio" name="f3" value="b">
+No problem
+</label>
+
+<label>
+<input type="radio" name="f3" value="c">
+Only an imaginary problem
+</label>
+
+</div>
+
+
+<!-- QUESTION 4 -->
+
+<div class="final-question">
+
+<p>
+4. Market research helps a business understand:
+</p>
+
+<label>
+<input type="radio" name="f4" value="a">
+Only office furniture
+</label>
+
+<label>
+<input type="radio" name="f4" value="b">
+Customers and competitors
+</label>
+
+<label>
+<input type="radio" name="f4" value="c">
+Only employee names
+</label>
+
+</div>
+
+
+<!-- QUESTION 5 -->
+
+<div class="final-question">
+
+<p>
+5. What is a target market?
+</p>
+
+<label>
+<input type="radio" name="f5" value="a">
+A specific group of potential customers
+</label>
+
+<label>
+<input type="radio" name="f5" value="b">
+Every person in the world
+</label>
+
+<label>
+<input type="radio" name="f5" value="c">
+Only competitors
+</label>
+
+</div>
+
+
+<!-- QUESTION 6 -->
+
+<div class="final-question">
+
+<p>
+6. What does a business model explain?
+</p>
+
+<label>
+<input type="radio" name="f6" value="a">
+Only the business logo
+</label>
+
+<label>
+<input type="radio" name="f6" value="b">
+Only employee salaries
+</label>
+
+<label>
+<input type="radio" name="f6" value="c">
+How a business creates value and earns revenue
+</label>
+
+</div>
+
+
+<!-- QUESTION 7 -->
+
+<div class="final-question">
+
+<p>
+7. Why is a business plan useful?
+</p>
+
+<label>
+<input type="radio" name="f7" value="a">
+It guarantees instant profit
+</label>
+
+<label>
+<input type="radio" name="f7" value="b">
+It helps guide business goals and strategies
+</label>
+
+<label>
+<input type="radio" name="f7" value="c">
+It replaces customers
+</label>
+
+</div>
+
+
+<!-- QUESTION 8 -->
+
+<div class="final-question">
+
+<p>
+8. Profit is generally calculated as:
+</p>
+
+<label>
+<input type="radio" name="f8" value="a">
+Expenses + Expenses
+</label>
+
+<label>
+<input type="radio" name="f8" value="b">
+Customers - Products
+</label>
+
+<label>
+<input type="radio" name="f8" value="c">
+Revenue - Expenses
+</label>
+
+</div>
+
+
+<!-- QUESTION 9 -->
+
+<div class="final-question">
+
+<p>
+9. Which is an example of digital entrepreneurship?
+</p>
+
+<label>
+<input type="radio" name="f9" value="a">
+Avoiding technology
+</label>
+
+<label>
+<input type="radio" name="f9" value="b">
+Selling digital courses online
+</label>
+
+<label>
+<input type="radio" name="f9" value="c">
+Refusing online communication
+</label>
+
+</div>
+
+
+<!-- QUESTION 10 -->
+
+<div class="final-question">
+
+<p>
+10. Good customer service involves:
+</p>
+
+<label>
+<input type="radio" name="f10" value="a">
+Ignoring customers
+</label>
+
+<label>
+<input type="radio" name="f10" value="b">
+Being rude to customers
+</label>
+
+<label>
+<input type="radio" name="f10" value="c">
+Listening and solving customer problems
+</label>
+
+</div>
+
+
+<button
+class="submit-final"
+onclick="submitFinalQuiz()">
+
+Submit Final Quiz
+
+</button>
+
+<div
+class="final-result"
+id="finalResult">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<div class="lesson-navigation">
+
+<button
+class="nav-btn previous-btn"
+onclick="previousLesson()">
+
+← Previous
+
+</button>
+
+
+<button
+class="nav-btn next-btn"
+onclick="nextLesson()">
+
+Next →
+
+</button>
+
+
+<button
+class="nav-btn complete-btn"
+id="completeBtn"
+onclick="finishCourse()"
+disabled>
+
+Complete Course
+
+</button>
+
+</div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div>
+© 2026 BH Skills Hub — All Rights Reserved.
+</div>
+
+<div>
+Made by Blaise Hadari
+</div>
+
+</footer>
+
+
+<!-- ===================================================== -->
+<!-- FIREBASE -->
+<!-- ===================================================== -->
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+const app =
+initializeApp(firebaseConfig);
+
+
+const auth =
+getAuth(app);
+
+
+const db =
+getFirestore(app);
+
+
+/* ================= COURSE CONFIG ================= */
+
+const COURSE_CONFIG = {
+
+    id:
+    "entrepreneurship",
+
+    name:
+    "Entrepreneurship",
+
+    code:
+    "ENT",
+
+    totalLessons:
+    12
+
+};
+
+
+/* ================= STORAGE ================= */
+
+const CURRENT_KEY =
+"entrepreneurshipCurrentLesson";
+
+const COMPLETED_KEY =
+"entrepreneurshipCompletedLessons";
+
+const FINAL_KEY =
+"entrepreneurshipFinalQuizPassed";
+
+const QUIZ_KEY =
+"entrepreneurshipQuizResults";
+
+
+/* ================= STATE ================= */
+
+let currentLesson =
+Number(
+    localStorage.getItem(CURRENT_KEY) || 0
+);
+
+
+let completedLessons =
+JSON.parse(
+    localStorage.getItem(COMPLETED_KEY) || "[]"
+);
+
+
+let finalQuizPassed =
+localStorage.getItem(FINAL_KEY)
+===
+"true";
+
+
+let quizResults =
+JSON.parse(
+    localStorage.getItem(QUIZ_KEY) || "{}"
+);
+
+
+let currentUser =
+null;
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+    auth,
+    async (user)=>{
+
+        if(!user){
+
+            sessionStorage.setItem(
+                "redirectAfterLogin",
+                "entrepreneurship.html"
+            );
+
+            window.location.href =
+            "login.html";
+
+            return;
+        }
+
+
+        currentUser =
+        user;
+
+
+        await loadProgress();
+
+
+        showLesson(
+            currentLesson
+        );
+
+    }
+);
+
+
+/* ================= LOAD PROGRESS ================= */
+
+async function loadProgress(){
+
+    try{
+
+        const ref =
+        doc(
+            db,
+            "courseProgress",
+            currentUser.uid
+        );
+
+
+        const snap =
+        await getDoc(ref);
+
+
+        if(snap.exists()){
+
+            const data =
+            snap.data();
+
+
+            const progress =
+            data.entrepreneurship ||
+            {};
+
+
+            if(
+                progress.currentLesson
+                !== undefined
+            ){
+
+                currentLesson =
+                progress.currentLesson;
+
+            }
+
+
+            if(
+                Array.isArray(
+                    progress.completedLessons
+                )
+            ){
+
+                completedLessons =
+                progress.completedLessons;
+
+            }
+
+
+            if(
+                progress.finalQuizPassed
+                !== undefined
+            ){
+
+                finalQuizPassed =
+                progress.finalQuizPassed;
+
+            }
+
+
+            if(
+                progress.quizResults
+            ){
+
+                quizResults =
+                progress.quizResults;
+
+            }
+
+        }
+
+
+        saveLocal();
+
+    }
+    catch(error){
+
+        console.error(
+            "Progress loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ================= SAVE LOCAL ================= */
+
+function saveLocal(){
+
+    localStorage.setItem(
+        CURRENT_KEY,
+        currentLesson
+    );
+
+
+    localStorage.setItem(
+        COMPLETED_KEY,
+        JSON.stringify(
+            completedLessons
+        )
+    );
+
+
+    localStorage.setItem(
+        FINAL_KEY,
+        finalQuizPassed
+    );
+
+
+    localStorage.setItem(
+        QUIZ_KEY,
+        JSON.stringify(
+            quizResults
+        )
+    );
+
+}
+
+
+/* ================= SAVE FIRESTORE ================= */
+
+async function saveProgress(){
+
+    saveLocal();
+
+
+    if(!currentUser)
+        return;
+
+
+    try{
+
+        const ref =
+        doc(
+            db,
+            "courseProgress",
+            currentUser.uid
+        );
+
+
+        await setDoc(
+            ref,
+            {
+
+                entrepreneurship:{
+
+                    currentLesson:
+                    currentLesson,
+
+                    completedLessons:
+                    completedLessons,
+
+                    progress:
+                    calculateProgress(),
+
+                    finalQuizPassed:
+                    finalQuizPassed,
+
+                    quizResults:
+                    quizResults,
+
+                    lastUpdated:
+                    new Date().toISOString()
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Firestore error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ================= CALCULATE PROGRESS ================= */
+
+function calculateProgress(){
+
+    return Math.round(
+
+        (
+            completedLessons.length /
+            COURSE_CONFIG.totalLessons
+        ) * 100
+
+    );
+
+}
+
+
+/* ================= UPDATE UI ================= */
+
+function updateProgressUI(){
+
+    const percentage =
+    calculateProgress();
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+    percentage + "%";
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+    percentage + "%";
+
+
+    const buttons =
+    document.querySelectorAll(
+        ".chapter-btn"
+    );
+
+
+    buttons.forEach(
+        (button,index)=>{
+
+            button.classList.remove(
+                "active",
+                "completed"
+            );
+
+
+            if(
+                completedLessons.includes(
+                    index
+                )
+            ){
+
+                button.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            if(
+                index === currentLesson
+            ){
+
+                button.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+    );
+
+
+    const completeBtn =
+    document.getElementById(
+        "completeBtn"
+    );
+
+
+    const allCompleted =
+    completedLessons.length ===
+    COURSE_CONFIG.totalLessons;
+
+
+    completeBtn.disabled =
+    !(
+        allCompleted &&
+        finalQuizPassed
+    );
+
+}
+
+
+/* ================= SHOW LESSON ================= */
+
+window.showLesson =
+async function(index){
+
+    const lessons =
+    document.querySelectorAll(
+        ".lesson"
+    );
+
+
+    lessons.forEach(
+        lesson =>
+        lesson.classList.remove(
+            "active"
+        )
+    );
+
+
+    lessons[index].classList.add(
+        "active"
+    );
+
+
+    currentLesson =
+    index;
+
+
+    updateProgressUI();
+
+
+    await saveProgress();
+
+
+    closeMenu();
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+
+/* ================= NEXT ================= */
+
+window.nextLesson =
+async function(){
+
+    if(
+        !completedLessons.includes(
+            currentLesson
+        )
+    ){
+
+        completedLessons.push(
+            currentLesson
+        );
+
+
+        completedLessons.sort(
+            (a,b)=>a-b
+        );
+
+    }
+
+
+    if(
+        currentLesson <
+        COURSE_CONFIG.totalLessons - 1
+    ){
+
+        currentLesson++;
+
+
+        await saveProgress();
+
+
+        showLesson(
+            currentLesson
+        );
+
+    }
+    else{
+
+        await saveProgress();
+
+
+        if(!finalQuizPassed){
+
+            alert(
+                "Pass the Final Quiz with at least 70% before completing the course."
+            );
+
+        }
+        else{
+
+            alert(
+                "All chapters are completed. You can now complete the course."
+            );
+
+        }
+
+    }
+
+};
+
+
+/* ================= PREVIOUS ================= */
+
+window.previousLesson =
+function(){
+
+    if(
+        currentLesson > 0
+    ){
+
+        currentLesson--;
+
+
+        showLesson(
+            currentLesson
+        );
+
+    }
+
+};
+
+
+/* ================= QUICK QUIZ ================= */
+
+window.checkQuiz =
+async function(
+    questionName,
+    correctAnswer,
+    resultId
+){
+
+    const selected =
+    document.querySelector(
+        `input[name="${questionName}"]:checked`
+    );
+
+
+    const result =
+    document.getElementById(
+        resultId
+    );
+
+
+    if(!selected){
+
+        result.textContent =
+        "Please select an answer.";
+
+        result.style.color =
+        "#dc2626";
+
+        return;
+
+    }
+
+
+    if(
+        selected.value ===
+        correctAnswer
+    ){
+
+        result.textContent =
+        "✓ Correct!";
+
+        result.style.color =
+        "#16a34a";
+
+
+        quizResults[
+            questionName
+        ] = {
+
+            correct:true,
+
+            completedAt:
+            new Date().toISOString()
+
+        };
+
+    }
+    else{
+
+        result.textContent =
+        "✗ Incorrect. Try again.";
+
+        result.style.color =
+        "#dc2626";
+
+
+        quizResults[
+            questionName
+        ] = {
+
+            correct:false,
+
+            completedAt:
+            new Date().toISOString()
+
+        };
+
+    }
+
+
+    await saveProgress();
+
+};
+
+
+/* ================= FINAL QUIZ ================= */
+
+window.submitFinalQuiz =
+async function(){
+
+    const answers = {
+
+        f1:"b",
+
+        f2:"c",
+
+        f3:"a",
+
+        f4:"b",
+
+        f5:"a",
+
+        f6:"c",
+
+        f7:"b",
+
+        f8:"c",
+
+        f9:"b",
+
+        f10:"c"
+
+    };
+
+
+    let score =
+    0;
+
+
+    let answered =
+    0;
+
+
+    for(
+        const question in answers
+    ){
+
+        const selected =
+        document.querySelector(
+            `input[name="${question}"]:checked`
+        );
+
+
+        if(selected){
+
+            answered++;
+
+
+            if(
+                selected.value ===
+                answers[question]
+            ){
+
+                score++;
+
+            }
+
+        }
+
+    }
+
+
+    const result =
+    document.getElementById(
+        "finalResult"
+    );
+
+
+    if(
+        answered < 10
+    ){
+
+        result.textContent =
+        "Please answer all 10 questions before submitting.";
+
+        result.style.color =
+        "#dc2626";
+
+        return;
+
+    }
+
+
+    const percentage =
+    Math.round(
+        (score / 10) * 100
+    );
+
+
+    quizResults.finalQuiz = {
+
+        score:
+        score,
+
+        percentage:
+        percentage,
+
+        completedAt:
+        new Date().toISOString()
+
+    };
+
+
+    if(
+        percentage >= 70
+    ){
+
+        finalQuizPassed =
+        true;
+
+
+        result.innerHTML =
+        `
+        ✓ Congratulations!<br>
+        You scored ${score}/10 (${percentage}%).<br>
+        <strong>FINAL QUIZ PASSED.</strong>
+        `;
+
+
+        result.style.color =
+        "#16a34a";
+
+    }
+    else{
+
+        finalQuizPassed =
+        false;
+
+
+        result.innerHTML =
+        `
+        ✗ You scored ${score}/10 (${percentage}%).<br>
+        You need at least 70% to pass.
+        `;
+
+
+        result.style.color =
+        "#dc2626";
+
+    }
+
+
+    await saveProgress();
+
+
+    updateProgressUI();
+
+};
+
+
+/* ================= FINISH COURSE ================= */
+
+window.finishCourse =
+async function(){
+
+    const allCompleted =
+    completedLessons.length ===
+    COURSE_CONFIG.totalLessons;
+
+
+    if(!allCompleted){
+
+        alert(
+            "Please complete all 12 chapters first."
+        );
+
+        return;
+
+    }
+
+
+    if(!finalQuizPassed){
+
+        alert(
+            "You must pass the Final Quiz with at least 70%."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please login first."
+        );
+
+        return;
+
+    }
+
+
+    const certificateId =
+    await createCertificate();
+
+
+    if(!certificateId){
+
+        alert(
+            "Could not create certificate. Please try again."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "🎉 Congratulations! Your Entrepreneurship certificate has been created."
+    );
+
+
+    const studentName =
+    currentUser.displayName ||
+    currentUser.email.split("@")[0];
+
+
+    window.location.href =
+    "certificate.html" +
+
+    "?course=entrepreneurship" +
+
+    "&name=" +
+    encodeURIComponent(
+        studentName
+    ) +
+
+    "&id=" +
+    encodeURIComponent(
+        certificateId
+    );
+
+};
+
+
+/* ================= CREATE CERTIFICATE ================= */
+
+async function createCertificate(){
+
+    try{
+
+        const year =
+        new Date().getFullYear();
+
+
+        const random =
+        Math.random()
+        .toString(36)
+        .substring(2,8)
+        .toUpperCase();
+
+
+        const certificateId =
+        `BH-ENT-${year}-${random}`;
+
+
+        const finalResult =
+        quizResults.finalQuiz ||
+        {};
+
+
+        const studentName =
+        currentUser.displayName ||
+        currentUser.email.split("@")[0];
+
+
+        const certificateData = {
+
+            certificateId:
+            certificateId,
+
+            studentName:
+            studentName,
+
+            studentEmail:
+            currentUser.email,
+
+            courseId:
+            COURSE_CONFIG.id,
+
+            courseName:
+            COURSE_CONFIG.name,
+
+            courseCode:
+            COURSE_CONFIG.code,
+
+            uid:
+            currentUser.uid,
+
+            completionDate:
+            new Date().toISOString(),
+
+            issuedBy:
+            "BH Skills Hub",
+
+            finalQuizScore:
+            finalResult.score || 0,
+
+            finalQuizPercentage:
+            finalResult.percentage || 0,
+
+            status:
+            "valid"
+
+        };
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "certificates",
+                certificateId
+            ),
+
+            certificateData
+
+        );
+
+
+        const progressRef =
+        doc(
+            db,
+            "courseProgress",
+            currentUser.uid
+        );
+
+
+        await setDoc(
+
+            progressRef,
+
+            {
+
+                entrepreneurship:{
+
+                    currentLesson:
+                    11,
+
+                    completedLessons:
+                    completedLessons,
+
+                    progress:
+                    100,
+
+                    finalQuizPassed:
+                    true,
+
+                    quizResults:
+                    quizResults,
+
+                    certificateId:
+                    certificateId,
+
+                    completed:
+                    true,
+
+                    completionDate:
+                    new Date().toISOString(),
+
+                    lastUpdated:
+                    new Date().toISOString()
+
+                }
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+
+        return certificateId;
+
+    }
+    catch(error){
+
+        console.error(
+            "Certificate creation error:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* ================= MENU ================= */
+
+window.toggleMenu =
+function(){
+
+    document.getElementById(
+        "sidebar"
+    ).classList.add(
+        "open"
+    );
+
+
+    document.getElementById(
+        "overlay"
+    ).classList.add(
+        "show"
+    );
+
+};
+
+
+window.closeMenu =
+function(){
+
+    document.getElementById(
+        "sidebar"
+    ).classList.remove(
+        "open"
+    );
+
+
+    document.getElementById(
+        "overlay"
+    ).classList.remove(
+        "show"
+    );
+
+};
+
+
+/* ================= COURSES ================= */
+
+window.goCourses =
+function(){
+
+    window.location.href =
+    "courses.html";
+
+};
+
+
+/* ================= INITIAL UI ================= */
+
+updateProgressUI();
+
+</script>
+
+</body>
+</html>

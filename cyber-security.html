@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cyber Security | BH Skills Hub</title>
+
+<style>
+/* =====================================================
+   BH SKILLS HUB — CYBER SECURITY
+   MODERN RESPONSIVE DESIGN
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Inter,Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(37,99,235,.08),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(139,92,246,.08),transparent 30%),
+        #f5f8fc;
+    color:#172033;
+    line-height:1.7;
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+#authLoading{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#07111f;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:15px;
+    font-weight:700;
+}
+
+.loader{
+    width:48px;
+    height:48px;
+    border:4px solid rgba(255,255,255,.2);
+    border-top-color:#22d3ee;
+    border-right-color:#6366f1;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:5000;
+    min-height:70px;
+    padding:0 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(7,17,31,.94);
+    backdrop-filter:blur(14px);
+    color:white;
+    border-bottom:1px solid rgba(34,211,238,.2);
+    box-shadow:0 8px 30px rgba(0,0,0,.22);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:21px;
+    font-weight:900;
+    letter-spacing:.2px;
+}
+
+.logo-icon{
+    width:39px;
+    height:39px;
+    display:grid;
+    place-items:center;
+    border-radius:11px;
+    background:linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);
+    box-shadow:0 0 22px rgba(34,211,238,.3);
+}
+
+.logo span{
+    color:#22d3ee;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+.header-btn{
+    border:1px solid rgba(255,255,255,.12);
+    background:#132238;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:800;
+    transition:.25s;
+}
+
+.header-btn:hover{
+    background:#1e3552;
+    border-color:#22d3ee;
+    transform:translateY(-1px);
+}
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:6000;
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.drawer{
+    position:fixed;
+    top:0;
+    left:-370px;
+    width:350px;
+    height:100vh;
+    background:#f8fbff;
+    z-index:7000;
+    box-shadow:15px 0 45px rgba(0,0,0,.3);
+    transition:left .35s ease;
+    overflow-y:auto;
+}
+
+.drawer.open{
+    left:0;
+}
+
+.drawer-header{
+    position:sticky;
+    top:0;
+    z-index:2;
+    padding:18px;
+    color:white;
+    background:
+        linear-gradient(135deg,#07111f,#102b48 60%,#312e81);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.drawer-header h2{
+    font-size:18px;
+}
+
+.close-btn{
+    width:38px;
+    height:38px;
+    border:0;
+    border-radius:10px;
+    background:#ef4444;
+    color:white;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.chapter-list{
+    padding:14px;
+}
+
+.chapter-item{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    padding:14px 13px;
+    margin-bottom:8px;
+    border-radius:12px;
+    background:white;
+    border:1px solid #dce6f2;
+    color:#24324a;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.chapter-item:hover{
+    transform:translateX(3px);
+    border-color:#38bdf8;
+    background:#effbff;
+}
+
+.chapter-item.active{
+    color:white;
+    border-color:#2563eb;
+    background:
+        linear-gradient(135deg,#2563eb,#4f46e5);
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main{
+    width:100%;
+    max-width:1180px;
+    margin:auto;
+    padding:35px 20px 70px;
+}
+
+/* =====================================================
+   COURSE HERO
+===================================================== */
+
+.course-header{
+    position:relative;
+    overflow:hidden;
+    padding:38px;
+    margin-bottom:24px;
+    border-radius:24px;
+    color:white;
+    background:
+        radial-gradient(circle at 85% 20%,rgba(34,211,238,.28),transparent 25%),
+        radial-gradient(circle at 20% 90%,rgba(124,58,237,.3),transparent 30%),
+        linear-gradient(135deg,#07111f,#102a46 55%,#312e81);
+    box-shadow:
+        0 20px 50px rgba(15,23,42,.18);
+}
+
+.course-header:after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-60px;
+    bottom:-70px;
+    border:2px solid rgba(34,211,238,.18);
+    border-radius:50%;
+}
+
+.security-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 12px;
+    margin-bottom:14px;
+    border-radius:999px;
+    background:rgba(34,211,238,.12);
+    border:1px solid rgba(34,211,238,.3);
+    color:#67e8f9;
+    font-size:12px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.course-header h1{
+    font-size:42px;
+    line-height:1.15;
+    margin-bottom:12px;
+}
+
+.course-header p{
+    max-width:800px;
+    color:#d8e7f7;
+    font-size:16px;
+}
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress-box{
+    margin-top:27px;
+    max-width:850px;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    color:#e8f5ff;
+    font-size:14px;
+    font-weight:800;
+}
+
+.progress{
+    width:100%;
+    height:13px;
+    overflow:hidden;
+    border-radius:999px;
+    background:rgba(255,255,255,.14);
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    border-radius:999px;
+    background:
+        linear-gradient(90deg,#22d3ee,#3b82f6,#8b5cf6);
+    box-shadow:0 0 18px rgba(34,211,238,.55);
+    transition:.5s ease;
+}
+
+/* =====================================================
+   LESSON CARD
+===================================================== */
+
+.lesson-card{
+    background:rgba(255,255,255,.94);
+    border:1px solid #dce6f2;
+    border-radius:24px;
+    padding:38px;
+    box-shadow:
+        0 15px 45px rgba(15,23,42,.08);
+}
+
+/* =====================================================
+   LESSON CONTENT
+===================================================== */
+
+.lesson-card h2{
+    position:relative;
+    color:#0f172a;
+    font-size:31px;
+    line-height:1.25;
+    margin-bottom:22px;
+    padding-bottom:15px;
+}
+
+.lesson-card h2:after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:65px;
+    height:4px;
+    border-radius:20px;
+    background:
+        linear-gradient(90deg,#06b6d4,#6366f1);
+}
+
+.lesson-card h3{
+    color:#1d4ed8;
+    font-size:20px;
+    margin-top:30px;
+    margin-bottom:10px;
+}
+
+.lesson-card p{
+    color:#334155;
+    margin-bottom:16px;
+}
+
+.lesson-card ul,
+.lesson-card ol{
+    margin:12px 0 22px 25px;
+}
+
+.lesson-card li{
+    margin-bottom:10px;
+    color:#334155;
+}
+
+.lesson-card strong{
+    color:#172554;
+}
+
+/* =====================================================
+   INFORMATION BOXES
+===================================================== */
+
+.info-box,
+.warning-box,
+.success-box{
+    position:relative;
+    padding:19px 20px;
+    margin:23px 0;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.info-box{
+    background:#ecfeff;
+    border:1px solid #a5f3fc;
+    border-left:5px solid #06b6d4;
+}
+
+.warning-box{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    border-left:5px solid #f97316;
+}
+
+.success-box{
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    border-left:5px solid #10b981;
+}
+
+/* =====================================================
+   CODE
+===================================================== */
+
+.code-box{
+    padding:20px;
+    margin:20px 0;
+    overflow-x:auto;
+    border-radius:14px;
+    background:#07111f;
+    color:#67e8f9;
+    border:1px solid #1e3a5f;
+    font-family:"Courier New",monospace;
+    box-shadow:inset 0 0 25px rgba(34,211,238,.05);
+}
+
+/* =====================================================
+   QUICK QUIZ
+===================================================== */
+
+.quiz-box{
+    margin-top:34px;
+    padding:24px;
+    border-radius:18px;
+    background:
+        linear-gradient(135deg,#f8fbff,#eef6ff);
+    border:1px solid #cfe0f5;
+}
+
+.quiz-box h3{
+    margin-top:0;
+    color:#1e40af;
+}
+
+.question{
+    margin:21px 0;
+}
+
+.question p{
+    color:#172033;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.option{
+    display:block;
+    width:100%;
+    padding:13px 14px;
+    margin:8px 0;
+    border:1px solid #d3deeb;
+    border-radius:11px;
+    background:white;
+    cursor:pointer;
+    color:#334155;
+    transition:.2s;
+}
+
+.option:hover{
+    border-color:#38bdf8;
+    background:#f0faff;
+    transform:translateX(2px);
+}
+
+.option input{
+    margin-right:9px;
+    accent-color:#2563eb;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.quiz-btn,
+.next-btn,
+.complete-btn{
+    border:0;
+    border-radius:11px;
+    padding:13px 19px;
+    font-weight:900;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.quiz-btn{
+    color:white;
+    background:
+        linear-gradient(135deg,#2563eb,#4f46e5);
+    box-shadow:0 8px 20px rgba(37,99,235,.2);
+}
+
+.quiz-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(37,99,235,.3);
+}
+
+.next-btn{
+    color:white;
+    background:#0f172a;
+}
+
+.next-btn:hover{
+    background:#1e293b;
+    transform:translateY(-2px);
+}
+
+.complete-btn{
+    width:100%;
+    margin-top:22px;
+    padding:16px;
+    color:white;
+    font-size:15px;
+    background:
+        linear-gradient(135deg,#059669,#16a34a);
+    box-shadow:0 10px 25px rgba(22,163,74,.2);
+}
+
+.complete-btn:hover:not(:disabled){
+    transform:translateY(-2px);
+}
+
+.complete-btn:disabled{
+    color:#e2e8f0;
+    background:#94a3b8;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+.quiz-result{
+    display:none;
+    margin-top:15px;
+    padding:13px 15px;
+    border-radius:10px;
+    font-weight:800;
+}
+
+.quiz-pass{
+    background:#dcfce7;
+    color:#166534;
+    border:1px solid #86efac;
+}
+
+.quiz-fail{
+    background:#fee2e2;
+    color:#991b1b;
+    border:1px solid #fca5a5;
+}
+
+/* =====================================================
+   FINAL QUIZ
+===================================================== */
+
+.final-quiz{
+    margin-top:38px;
+    padding:30px;
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 90% 0%,rgba(99,102,241,.1),transparent 30%),
+        white;
+    border:2px solid #6366f1;
+    box-shadow:0 15px 40px rgba(79,70,229,.1);
+}
+
+.final-quiz h2{
+    color:#312e81;
+    font-size:27px;
+    margin-bottom:7px;
+}
+
+.final-quiz > p{
+    color:#64748b;
+}
+
+.final-question{
+    padding:19px;
+    margin:20px 0;
+    border-radius:14px;
+    background:#f8fafc;
+    border:1px solid #dce6f2;
+}
+
+.final-question p{
+    color:#172033;
+    font-weight:850;
+    margin-bottom:12px;
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.lesson-navigation{
+    display:flex;
+    gap:13px;
+    margin-top:30px;
+}
+
+.lesson-navigation button{
+    flex:1;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    padding:32px 18px;
+    text-align:center;
+    color:#b8c7d9;
+    background:#07111f;
+    border-top:1px solid rgba(34,211,238,.12);
+}
+
+footer strong{
+    color:white;
+}
+
+.footer-brand{
+    color:#22d3ee;
+    font-weight:900;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    header{
+        min-height:62px;
+        padding:0 10px;
+    }
+
+    .logo{
+        font-size:16px;
+        gap:7px;
+    }
+
+    .logo-icon{
+        width:34px;
+        height:34px;
+    }
+
+    .header-actions{
+        gap:6px;
+    }
+
+    .header-btn{
+        padding:8px 9px;
+        font-size:11px;
+    }
+
+    main{
+        padding:15px 10px 45px;
+    }
+
+    .course-header{
+        padding:24px 20px;
+        border-radius:19px;
+    }
+
+    .course-header h1{
+        font-size:29px;
+    }
+
+    .course-header p{
+        font-size:14px;
+    }
+
+    .lesson-card{
+        padding:22px 16px;
+        border-radius:19px;
+    }
+
+    .lesson-card h2{
+        font-size:24px;
+    }
+
+    .lesson-card h3{
+        font-size:18px;
+    }
+
+    .lesson-card p,
+    .lesson-card li{
+        font-size:14px;
+    }
+
+    .drawer{
+        width:88%;
+        left:-92%;
+    }
+
+    .lesson-navigation{
+        flex-direction:column;
+    }
+
+    .final-quiz{
+        padding:20px 14px;
+    }
+
+    .final-quiz h2{
+        font-size:22px;
+    }
+
+    .final-question{
+        padding:14px;
+    }
+
+    .option{
+        font-size:14px;
+    }
+}
+
+/* =====================================================
+   TABLET / COMPUTER
+===================================================== */
+
+@media(min-width:701px){
+
+    .lesson-card{
+        min-height:600px;
+    }
+
+}
+
+/* =====================================================
+   LARGE SCREEN
+===================================================== */
+
+@media(min-width:1200px){
+
+    main{
+        padding-left:0;
+        padding-right:0;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUTH LOADING -->
+<div id="authLoading">
+    <div class="loader"></div>
+    Checking your account...
+</div>
+
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">🛡️</div>
+        BH <span>Skills Hub</span>
+    </div>
+
+    <div class="header-actions">
+
+        <button class="header-btn" onclick="openDrawer()">
+            ☰ Chapters
+        </button>
+
+        <button class="header-btn" onclick="goCourses()">
+            ← Courses
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- OVERLAY -->
+<div
+    class="overlay"
+    id="overlay"
+    onclick="closeDrawer()">
+</div>
+
+
+<!-- CHAPTER DRAWER -->
+<aside
+    class="drawer"
+    id="drawer">
+
+    <div class="drawer-header">
+
+        <h2>🛡️ Cyber Security</h2>
+
+        <button
+            class="close-btn"
+            onclick="closeDrawer()">
+            ×
+        </button>
+
+    </div>
+
+    <div
+        class="chapter-list"
+        id="chapterList">
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main>
+
+    <!-- COURSE HEADER -->
+    <section class="course-header">
+
+        <div class="security-badge">
+            🛡️ Cyber Security Course
+        </div>
+
+        <h1>Cyber Security</h1>
+
+        <p>
+            Learn the fundamentals of cybersecurity, threats,
+            protection, ethical hacking, encryption, network security
+            and incident response.
+        </p>
+
+        <div class="progress-box">
+
+            <div class="progress-top">
+
+                <span>
+                    Course Progress
+                </span>
+
+                <span id="progressText">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar"
+                    id="progressBar">
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- LESSON -->
+    <section class="lesson-card">
+
+        <div id="lessonContent"></div>
+
+        <div class="lesson-navigation">
+
+            <button
+                class="next-btn"
+                onclick="previousLesson()">
+                ← Previous
+            </button>
+
+            <button
+                class="next-btn"
+                onclick="nextLesson()">
+                Next →
+            </button>
+
+        </div>
+
+
+        <button
+            id="completeBtn"
+            class="complete-btn"
+            onclick="finishCourse()"
+            disabled>
+
+            🔒 Pass Final Quiz to Complete Course
+
+        </button>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <strong>
+        © 2026 BH Skills Hub — All Rights Reserved.
+    </strong>
+
+    <br>
+
+    Made by
+    <span class="footer-brand">
+        Blaise Hadari
+    </span>
+
+</footer>
+
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyB589OXINetS1PMr2i8SSU6YRZ-khF3nj8",
+
+    authDomain:
+    "bh-skills-hub.firebaseapp.com",
+
+    projectId:
+    "bh-skills-hub",
+
+    storageBucket:
+    "bh-skills-hub.firebasestorage.app",
+
+    messagingSenderId:
+    "503359590632",
+
+    appId:
+    "1:503359590632:web:5b81f57e402addaf2bb95d6"
+
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const auth =
+    getAuth(app);
+
+const db =
+    getFirestore(app);
+
+
+/* =====================================================
+   COURSE CONFIG
+===================================================== */
+
+const COURSE_CONFIG = {
+
+    id:"cyber-security",
+
+    name:"Cyber Security",
+
+    code:"CS",
+
+    totalLessons:12
+
+};
+
+
+/* =====================================================
+   LESSONS
+===================================================== */
+
+const lessons = [
+
+{
+title:"Introduction to Cyber Security",
+content:`
+
+<h2>Chapter 1: Introduction to Cyber Security</h2>
+
+<p>
+Cyber Security is the practice of protecting computers, networks,
+applications, devices and data from unauthorized access, attacks,
+damage or disruption.
+</p>
+
+<div class="info-box">
+
+<strong>Cyber Security protects:</strong>
+
+<ul>
+<li>Computers and mobile devices</li>
+<li>Networks</li>
+<li>Applications</li>
+<li>Personal and organizational data</li>
+<li>Online accounts and services</li>
+</ul>
+
+</div>
+
+<h3>Why Cyber Security Matters</h3>
+
+<p>
+Modern organizations depend heavily on technology. A successful cyber
+attack can cause financial loss, data theft, service interruption and
+damage to reputation.
+</p>
+
+<h3>Common Cyber Threats</h3>
+
+<ul>
+<li>Malware</li>
+<li>Phishing</li>
+<li>Password attacks</li>
+<li>Denial-of-Service attacks</li>
+<li>Man-in-the-Middle attacks</li>
+<li>Data breaches</li>
+</ul>
+
+<div class="warning-box">
+Never assume that your device or account is automatically safe.
+Security requires continuous protection and good security practices.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What does cyber security mainly protect?</p>
+
+<label class="option">
+<input type="radio" name="q1" value="0">
+Systems, networks, applications and data
+</label>
+
+<label class="option">
+<input type="radio" name="q1" value="1">
+Only computer screens
+</label>
+
+<label class="option">
+<input type="radio" name="q1" value="2">
+Only printers
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(0,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult0"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"CIA Triad",
+content:`
+
+<h2>Chapter 2: CIA Triad</h2>
+
+<p>
+The CIA Triad is one of the most important foundations of cyber security.
+CIA stands for Confidentiality, Integrity and Availability.
+</p>
+
+<h3>Confidentiality</h3>
+
+<p>
+Confidentiality means ensuring that information is only accessed by
+authorized people.
+</p>
+
+<h3>Integrity</h3>
+
+<p>
+Integrity means ensuring that information remains accurate and is not
+changed without authorization.
+</p>
+
+<h3>Availability</h3>
+
+<p>
+Availability means ensuring that systems and information are available
+when authorized users need them.
+</p>
+
+<div class="info-box">
+Example: A university student database should be private,
+accurate and available to authorized staff and students.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What does CIA stand for?</p>
+
+<label class="option">
+<input type="radio" name="q2" value="0">
+Confidentiality, Integrity, Availability
+</label>
+
+<label class="option">
+<input type="radio" name="q2" value="1">
+Computer, Internet, Application
+</label>
+
+<label class="option">
+<input type="radio" name="q2" value="2">
+Control, Information, Access
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(1,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult1"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Malware",
+content:`
+
+<h2>Chapter 3: Malware</h2>
+
+<p>
+Malware means malicious software designed to damage systems,
+steal information or perform unauthorized actions.
+</p>
+
+<h3>Types of Malware</h3>
+
+<ul>
+<li><strong>Virus:</strong> attaches itself to files and spreads when executed.</li>
+<li><strong>Worm:</strong> can spread automatically across networks.</li>
+<li><strong>Trojan:</strong> appears legitimate but performs malicious actions.</li>
+<li><strong>Ransomware:</strong> encrypts data and demands payment.</li>
+<li><strong>Spyware:</strong> secretly collects information.</li>
+</ul>
+
+<h3>Reducing Malware Risk</h3>
+
+<ul>
+<li>Keep software updated.</li>
+<li>Use security software.</li>
+<li>Avoid suspicious downloads.</li>
+<li>Do not open unknown attachments.</li>
+<li>Use strong authentication.</li>
+<li>Back up important files.</li>
+</ul>
+
+<div class="warning-box">
+Never install software from suspicious or unknown sources.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>Which of the following is malware?</p>
+
+<label class="option">
+<input type="radio" name="q3" value="0">
+Ransomware
+</label>
+
+<label class="option">
+<input type="radio" name="q3" value="1">
+HTML
+</label>
+
+<label class="option">
+<input type="radio" name="q3" value="2">
+Ethernet
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(2,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult2"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Phishing & Social Engineering",
+content:`
+
+<h2>Chapter 4: Phishing & Social Engineering</h2>
+
+<p>
+Phishing is a social engineering technique used to trick people into
+revealing sensitive information or clicking malicious links.
+</p>
+
+<h3>Common Warning Signs</h3>
+
+<ul>
+<li>Urgent requests for passwords or money.</li>
+<li>Suspicious links.</li>
+<li>Unknown senders.</li>
+<li>Unexpected attachments.</li>
+<li>Messages creating fear or pressure.</li>
+<li>Requests for confidential information.</li>
+</ul>
+
+<h3>Safe Practices</h3>
+
+<ul>
+<li>Verify the sender.</li>
+<li>Check links before opening them.</li>
+<li>Never share passwords.</li>
+<li>Use MFA.</li>
+<li>Contact the organization directly if unsure.</li>
+</ul>
+
+<div class="warning-box">
+Attackers often target people because humans can be easier to manipulate
+than technical security systems.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>Which is a common phishing warning sign?</p>
+
+<label class="option">
+<input type="radio" name="q4" value="0">
+A suspicious urgent request or link
+</label>
+
+<label class="option">
+<input type="radio" name="q4" value="1">
+A normal offline document
+</label>
+
+<label class="option">
+<input type="radio" name="q4" value="2">
+A computer mouse
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(3,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult3"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Passwords & Authentication",
+content:`
+
+<h2>Chapter 5: Passwords & Authentication</h2>
+
+<p>
+Authentication verifies the identity of a user before allowing access
+to a system or service.
+</p>
+
+<h3>Strong Password Practices</h3>
+
+<ul>
+<li>Use long passwords.</li>
+<li>Avoid predictable information.</li>
+<li>Use unique passwords for important accounts.</li>
+<li>Use a trusted password manager.</li>
+<li>Never share passwords.</li>
+</ul>
+
+<h3>Multi-Factor Authentication</h3>
+
+<p>
+MFA requires more than one authentication factor.
+</p>
+
+<ul>
+<li>Password</li>
+<li>Authentication code</li>
+<li>Security key</li>
+<li>Biometric verification</li>
+</ul>
+
+<div class="success-box">
+MFA can significantly reduce the risk of account compromise when a
+password is stolen.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What does MFA provide?</p>
+
+<label class="option">
+<input type="radio" name="q5" value="0">
+More than one authentication factor
+</label>
+
+<label class="option">
+<input type="radio" name="q5" value="1">
+Only a username
+</label>
+
+<label class="option">
+<input type="radio" name="q5" value="2">
+Only an email address
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(4,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult4"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Network Security",
+content:`
+
+<h2>Chapter 6: Network Security</h2>
+
+<p>
+Network security protects communication infrastructure and the devices
+connected to it.
+</p>
+
+<h3>Important Practices</h3>
+
+<ul>
+<li>Secure network devices.</li>
+<li>Use firewalls.</li>
+<li>Segment networks.</li>
+<li>Control user access.</li>
+<li>Monitor network activity.</li>
+<li>Keep devices updated.</li>
+<li>Secure Wi-Fi networks.</li>
+</ul>
+
+<h3>Network Segmentation</h3>
+
+<p>
+Segmentation divides a network into smaller logical sections.
+This can reduce the impact of a security incident.
+</p>
+
+<div class="info-box">
+Example: A university can separate student devices,
+administrative systems and servers into different network segments.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What is one benefit of network segmentation?</p>
+
+<label class="option">
+<input type="radio" name="q6" value="0">
+It can reduce exposure during security incidents
+</label>
+
+<label class="option">
+<input type="radio" name="q6" value="1">
+It removes every cyber threat
+</label>
+
+<label class="option">
+<input type="radio" name="q6" value="2">
+It makes passwords unnecessary
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(5,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult5"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Firewalls",
+content:`
+
+<h2>Chapter 7: Firewalls</h2>
+
+<p>
+A firewall is a security control that monitors and controls network
+traffic according to defined rules.
+</p>
+
+<h3>Firewall Rules Can Consider</h3>
+
+<ul>
+<li>Source address</li>
+<li>Destination address</li>
+<li>Protocol</li>
+<li>Port</li>
+<li>Direction</li>
+</ul>
+
+<h3>Types of Firewalls</h3>
+
+<ul>
+<li>Network firewall</li>
+<li>Host-based firewall</li>
+<li>Next-generation firewall</li>
+<li>Cloud firewall</li>
+</ul>
+
+<div class="warning-box">
+A firewall is important, but it is not a complete cybersecurity solution.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What does a firewall control?</p>
+
+<label class="option">
+<input type="radio" name="q7" value="0">
+Network traffic according to security rules
+</label>
+
+<label class="option">
+<input type="radio" name="q7" value="1">
+Only screen brightness
+</label>
+
+<label class="option">
+<input type="radio" name="q7" value="2">
+Only keyboard input
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(6,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult6"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Encryption",
+content:`
+
+<h2>Chapter 8: Encryption</h2>
+
+<p>
+Encryption transforms readable information, called plaintext,
+into protected information called ciphertext.
+</p>
+
+<div class="code-box">
+Plaintext → Encryption → Ciphertext
+</div>
+
+<h3>Symmetric Encryption</h3>
+
+<p>
+Symmetric encryption uses the same secret key to encrypt and decrypt data.
+</p>
+
+<h3>Asymmetric Encryption</h3>
+
+<p>
+Asymmetric encryption uses a pair of keys, commonly called a public key
+and private key.
+</p>
+
+<h3>Where Encryption Is Used</h3>
+
+<ul>
+<li>HTTPS</li>
+<li>VPNs</li>
+<li>Secure messaging</li>
+<li>Encrypted storage</li>
+<li>Secure authentication systems</li>
+</ul>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What is the purpose of encryption?</p>
+
+<label class="option">
+<input type="radio" name="q8" value="0">
+To protect information by transforming it
+</label>
+
+<label class="option">
+<input type="radio" name="q8" value="1">
+To increase screen brightness
+</label>
+
+<label class="option">
+<input type="radio" name="q8" value="2">
+To remove computer hardware
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(7,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult7"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Ethical Hacking",
+content:`
+
+<h2>Chapter 9: Ethical Hacking</h2>
+
+<p>
+Ethical hacking is authorized security testing performed to identify
+weaknesses before attackers exploit them.
+</p>
+
+<h3>Typical Process</h3>
+
+<ol>
+<li>Obtain permission.</li>
+<li>Define scope.</li>
+<li>Gather information.</li>
+<li>Perform authorized testing.</li>
+<li>Document findings.</li>
+<li>Recommend fixes.</li>
+<li>Verify the fixes.</li>
+</ol>
+
+<div class="warning-box">
+<strong>Important:</strong> Never perform security testing against systems
+without explicit authorization.
+</div>
+
+<h3>Ethical Hacking vs Malicious Hacking</h3>
+
+<p>
+The key difference is authorization and purpose. Ethical hackers operate
+within an approved scope to improve security.
+</p>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What is required before ethical hacking?</p>
+
+<label class="option">
+<input type="radio" name="q9" value="0">
+Authorization and defined scope
+</label>
+
+<label class="option">
+<input type="radio" name="q9" value="1">
+Stealing passwords
+</label>
+
+<label class="option">
+<input type="radio" name="q9" value="2">
+Attacking random websites
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(8,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult8"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Vulnerabilities & Risk",
+content:`
+
+<h2>Chapter 10: Vulnerabilities & Risk</h2>
+
+<p>
+A vulnerability is a weakness that could be exploited by a threat actor.
+</p>
+
+<h3>Important Terms</h3>
+
+<ul>
+<li><strong>Asset:</strong> something valuable that needs protection.</li>
+<li><strong>Threat:</strong> something capable of causing harm.</li>
+<li><strong>Vulnerability:</strong> a weakness.</li>
+<li><strong>Risk:</strong> the potential impact of a threat exploiting a vulnerability.</li>
+</ul>
+
+<h3>Risk Management</h3>
+
+<ol>
+<li>Identify assets.</li>
+<li>Identify threats.</li>
+<li>Identify vulnerabilities.</li>
+<li>Assess risk.</li>
+<li>Apply security controls.</li>
+<li>Monitor and review.</li>
+</ol>
+
+<div class="info-box">
+Good cybersecurity is not about eliminating every possible risk.
+It is about identifying and managing important risks appropriately.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>What is a vulnerability?</p>
+
+<label class="option">
+<input type="radio" name="q10" value="0">
+A weakness that could be exploited
+</label>
+
+<label class="option">
+<input type="radio" name="q10" value="1">
+A computer monitor
+</label>
+
+<label class="option">
+<input type="radio" name="q10" value="2">
+A network cable
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(9,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult9"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Web & Mobile Security",
+content:`
+
+<h2>Chapter 11: Web & Mobile Security</h2>
+
+<p>
+Web and mobile applications handle valuable information and therefore
+need strong security controls.
+</p>
+
+<h3>Basic Web Security Practices</h3>
+
+<ul>
+<li>Use HTTPS.</li>
+<li>Validate and safely handle user input.</li>
+<li>Use secure authentication.</li>
+<li>Protect sessions.</li>
+<li>Keep software updated.</li>
+<li>Do not expose sensitive information unnecessarily.</li>
+</ul>
+
+<h3>Mobile Security</h3>
+
+<ul>
+<li>Install applications from trusted sources.</li>
+<li>Review application permissions.</li>
+<li>Keep the operating system updated.</li>
+<li>Use screen locks.</li>
+<li>Enable appropriate security features.</li>
+</ul>
+
+<div class="success-box">
+Security should be considered during application design,
+development, deployment and maintenance.
+</div>
+
+<div class="quiz-box">
+
+<h3>Quick Quiz</h3>
+
+<div class="question">
+
+<p>Which is a basic web security practice?</p>
+
+<label class="option">
+<input type="radio" name="q11" value="0">
+Using HTTPS
+</label>
+
+<label class="option">
+<input type="radio" name="q11" value="1">
+Sharing passwords publicly
+</label>
+
+<label class="option">
+<input type="radio" name="q11" value="2">
+Disabling all updates
+</label>
+
+</div>
+
+<button
+class="quiz-btn"
+onclick="checkQuiz(10,0)">
+Check Answer
+</button>
+
+<div
+id="quizResult10"
+class="quiz-result">
+</div>
+
+</div>
+`
+},
+
+{
+title:"Incident Response",
+content:`
+
+<h2>Chapter 12: Incident Response</h2>
+
+<p>
+Incident response is the organized process used to detect, analyze,
+contain and recover from cybersecurity incidents.
+</p>
+
+<h3>Incident Response Lifecycle</h3>
+
+<ol>
+<li><strong>Detect:</strong> identify suspicious activity.</li>
+<li><strong>Analyze:</strong> understand what happened.</li>
+<li><strong>Contain:</strong> limit the impact.</li>
+<li><strong>Eradicate:</strong> remove the cause.</li>
+<li><strong>Recover:</strong> restore normal operations.</li>
+<li><strong>Learn:</strong> improve security based on lessons learned.</li>
+</ol>
+
+<div class="info-box">
+Example: If malware is detected on a company computer,
+security staff may isolate the device, investigate the infection,
+remove the malware, restore the system and review how the incident occurred.
+</div>
+
+<h3>Final Cyber Security Project</h3>
+
+<p>
+Design a basic cybersecurity plan for a school, small business or
+organization. Your project should identify assets, threats,
+vulnerabilities, risks and recommended security controls.
+</p>
+
+<div class="success-box">
+You have reached the final chapter.
+Complete the Final Quiz below.
+You need at least <strong>70%</strong> to pass the course.
+</div>
+
+
+<!-- FINAL QUIZ -->
+
+<div class="final-quiz">
+
+<h2>🎓 Final Cyber Security Quiz</h2>
+
+<p>
+Answer all 10 questions. Pass mark:
+<strong>70%</strong>.
+</p>
+
+
+<div class="final-question">
+
+<p>1. What does cyber security primarily protect?</p>
+
+<label class="option">
+<input type="radio" name="f1" value="a">
+Systems, networks, applications and data
+</label>
+
+<label class="option">
+<input type="radio" name="f1" value="b">
+Only keyboards
+</label>
+
+<label class="option">
+<input type="radio" name="f1" value="c">
+Only monitors
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>2. What does CIA stand for?</p>
+
+<label class="option">
+<input type="radio" name="f2" value="a">
+Confidentiality, Integrity, Availability
+</label>
+
+<label class="option">
+<input type="radio" name="f2" value="b">
+Computer, Internet, Application
+</label>
+
+<label class="option">
+<input type="radio" name="f2" value="c">
+Control, Internet, Access
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>3. Which is an example of malware?</p>
+
+<label class="option">
+<input type="radio" name="f3" value="a">
+HTML
+</label>
+
+<label class="option">
+<input type="radio" name="f3" value="b">
+Ransomware
+</label>
+
+<label class="option">
+<input type="radio" name="f3" value="c">
+Ethernet
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>4. Which is a common phishing warning sign?</p>
+
+<label class="option">
+<input type="radio" name="f4" value="a">
+A suspicious urgent request or link
+</label>
+
+<label class="option">
+<input type="radio" name="f4" value="b">
+A normal calculator
+</label>
+
+<label class="option">
+<input type="radio" name="f4" value="c">
+A USB keyboard
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>5. What does MFA use?</p>
+
+<label class="option">
+<input type="radio" name="f5" value="a">
+Multiple authentication factors
+</label>
+
+<label class="option">
+<input type="radio" name="f5" value="b">
+Only a username
+</label>
+
+<label class="option">
+<input type="radio" name="f5" value="c">
+Only an IP address
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>6. What is the main purpose of a firewall?</p>
+
+<label class="option">
+<input type="radio" name="f6" value="a">
+Control network traffic according to rules
+</label>
+
+<label class="option">
+<input type="radio" name="f6" value="b">
+Increase storage capacity
+</label>
+
+<label class="option">
+<input type="radio" name="f6" value="c">
+Create passwords automatically
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>7. What is required for ethical hacking?</p>
+
+<label class="option">
+<input type="radio" name="f7" value="a">
+Authorization and defined scope
+</label>
+
+<label class="option">
+<input type="radio" name="f7" value="b">
+Attacking random systems
+</label>
+
+<label class="option">
+<input type="radio" name="f7" value="c">
+Stealing information
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>8. What is a vulnerability?</p>
+
+<label class="option">
+<input type="radio" name="f8" value="a">
+A weakness that could be exploited
+</label>
+
+<label class="option">
+<input type="radio" name="f8" value="b">
+A strong password
+</label>
+
+<label class="option">
+<input type="radio" name="f8" value="c">
+A backup
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>9. What does encryption do?</p>
+
+<label class="option">
+<input type="radio" name="f9" value="a">
+Transforms information to help protect it
+</label>
+
+<label class="option">
+<input type="radio" name="f9" value="b">
+Deletes every file
+</label>
+
+<label class="option">
+<input type="radio" name="f9" value="c">
+Disables the network
+</label>
+
+</div>
+
+
+<div class="final-question">
+
+<p>10. Which is part of incident response?</p>
+
+<label class="option">
+<input type="radio" name="f10" value="a">
+Detect, analyze, contain and recover
+</label>
+
+<label class="option">
+<input type="radio" name="f10" value="b">
+Ignore the incident
+</label>
+
+<label class="option">
+<input type="radio" name="f10" value="c">
+Share passwords
+</label>
+
+</div>
+
+
+<button
+class="quiz-btn"
+onclick="submitFinalQuiz()">
+
+Submit Final Quiz
+
+</button>
+
+
+<div
+id="finalQuizResult"
+class="quiz-result">
+</div>
+
+</div>
+
+`
+}
+
+];
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentLesson = 0;
+
+let completedLessons = [];
+
+let quizResults = {};
+
+let finalQuizPassed = false;
+
+let currentUser = null;
+
+
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+function loadLocalData(){
+
+    const lesson =
+        localStorage.getItem(
+            "cyberCurrentLesson"
+        );
+
+    const completed =
+        localStorage.getItem(
+            "cyberCompletedLessons"
+        );
+
+    const quizzes =
+        localStorage.getItem(
+            "cyberQuizResults"
+        );
+
+    const finalPassed =
+        localStorage.getItem(
+            "cyberFinalQuizPassed"
+        );
+
+
+    if(lesson !== null){
+
+        currentLesson =
+            parseInt(lesson);
+
+    }
+
+
+    if(completed){
+
+        try{
+
+            completedLessons =
+                JSON.parse(completed);
+
+        }catch{
+
+            completedLessons = [];
+
+        }
+
+    }
+
+
+    if(quizzes){
+
+        try{
+
+            quizResults =
+                JSON.parse(quizzes);
+
+        }catch{
+
+            quizResults = {};
+
+        }
+
+    }
+
+
+    if(finalPassed === "true"){
+
+        finalQuizPassed = true;
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE LOCAL
+===================================================== */
+
+function saveLocalData(){
+
+    localStorage.setItem(
+        "cyberCurrentLesson",
+        currentLesson
+    );
+
+    localStorage.setItem(
+        "cyberCompletedLessons",
+        JSON.stringify(
+            completedLessons
+        )
+    );
+
+    localStorage.setItem(
+        "cyberQuizResults",
+        JSON.stringify(
+            quizResults
+        )
+    );
+
+    localStorage.setItem(
+        "cyberFinalQuizPassed",
+        finalQuizPassed
+            ? "true"
+            : "false"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD FIRESTORE
+===================================================== */
+
+async function loadFirestoreData(){
+
+    if(!currentUser) return;
+
+    try{
+
+        const ref =
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            );
+
+        const snap =
+            await getDoc(ref);
+
+        if(snap.exists()){
+
+            const data =
+                snap.data();
+
+            if(data.cyberSecurity){
+
+                const course =
+                    data.cyberSecurity;
+
+
+                if(
+                    course.currentLesson
+                    !== undefined
+                ){
+
+                    currentLesson =
+                        course.currentLesson;
+
+                }
+
+
+                if(
+                    Array.isArray(
+                        course.completedLessons
+                    )
+                ){
+
+                    completedLessons =
+                        course.completedLessons;
+
+                }
+
+
+                if(course.quizResults){
+
+                    quizResults =
+                        course.quizResults;
+
+                }
+
+
+                if(
+                    course.finalQuizPassed
+                    === true
+                ){
+
+                    finalQuizPassed =
+                        true;
+
+                }
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Firestore error:",
+            error
+        );
+
+    }
+
+    saveLocalData();
+
+}
+
+
+/* =====================================================
+   SAVE FIRESTORE
+===================================================== */
+
+async function saveFirestoreData(){
+
+    if(!currentUser) return;
+
+    try{
+
+        const progress =
+            Math.round(
+                (
+                    completedLessons.length /
+                    lessons.length
+                ) * 100
+            );
+
+
+        const ref =
+            doc(
+                db,
+                "courseProgress",
+                currentUser.uid
+            );
+
+
+        await setDoc(
+            ref,
+            {
+
+                cyberSecurity:{
+
+                    currentLesson,
+
+                    completedLessons,
+
+                    progress,
+
+                    quizResults,
+
+                    finalQuizPassed,
+
+                    courseCompleted:
+                        completedLessons.length ===
+                        lessons.length &&
+                        finalQuizPassed === true,
+
+                    lastUpdated:
+                        new Date().toISOString()
+
+                }
+
+            },
+            {
+                merge:true
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Firestore save error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async(user)=>{
+
+        if(!user){
+
+            sessionStorage.setItem(
+                "redirectAfterLogin",
+                "cyber-security.html"
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        currentUser = user;
+
+        loadLocalData();
+
+        await loadFirestoreData();
+
+        document.getElementById(
+            "authLoading"
+        ).style.display = "none";
+
+
+        renderChapters();
+
+        renderLesson();
+
+    }
+);
+
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+window.openDrawer = function(){
+
+    document
+        .getElementById("drawer")
+        .classList.add("open");
+
+    document
+        .getElementById("overlay")
+        .classList.add("show");
+
+};
+
+
+window.closeDrawer = function(){
+
+    document
+        .getElementById("drawer")
+        .classList.remove("open");
+
+    document
+        .getElementById("overlay")
+        .classList.remove("show");
+
+};
+
+
+/* =====================================================
+   CHAPTERS
+===================================================== */
+
+function renderChapters(){
+
+    const list =
+        document.getElementById(
+            "chapterList"
+        );
+
+    list.innerHTML = "";
+
+
+    lessons.forEach(
+        (lesson,index)=>{
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "chapter-item";
+
+
+            if(index === currentLesson){
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            const completed =
+                completedLessons.includes(
+                    index
+                );
+
+
+            item.innerHTML =
+                `<span>
+                    ${completed ? "✅" : "📘"}
+                 </span>
+                 <span>
+                    Chapter ${index + 1}:
+                    ${lesson.title}
+                 </span>`;
+
+
+            item.onclick = ()=>{
+
+                currentLesson =
+                    index;
+
+                saveLocalData();
+
+                renderChapters();
+
+                renderLesson();
+
+                closeDrawer();
+
+            };
+
+
+            list.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LESSON
+===================================================== */
+
+function renderLesson(){
+
+    document.getElementById(
+        "lessonContent"
+    ).innerHTML =
+        lessons[currentLesson].content;
+
+
+    updateProgress();
+
+    renderChapters();
+
+    updateCompleteButton();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+    const progress =
+        Math.round(
+            (
+                completedLessons.length /
+                lessons.length
+            ) * 100
+        );
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        progress + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        progress + "%";
+
+}
+
+
+/* =====================================================
+   NEXT LESSON
+===================================================== */
+
+window.nextLesson = async function(){
+
+    if(
+        !completedLessons.includes(
+            currentLesson
+        )
+    ){
+
+        completedLessons.push(
+            currentLesson
+        );
+
+    }
+
+
+    saveLocalData();
+
+    await saveFirestoreData();
+
+
+    if(
+        currentLesson <
+        lessons.length - 1
+    ){
+
+        currentLesson++;
+
+        saveLocalData();
+
+        renderLesson();
+
+    }else{
+
+        alert(
+            "You are on the final chapter. Complete the Final Quiz."
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
+
+window.previousLesson = function(){
+
+    if(currentLesson > 0){
+
+        currentLesson--;
+
+        saveLocalData();
+
+        renderLesson();
+
+    }
+
+};
+
+
+/* =====================================================
+   QUICK QUIZ
+===================================================== */
+
+window.checkQuiz =
+function(lessonIndex,correctAnswer){
+
+    const selected =
+        document.querySelector(
+            `input[name="q${lessonIndex + 1}"]:checked`
+        );
+
+
+    const result =
+        document.getElementById(
+            "quizResult" +
+            lessonIndex
+        );
+
+
+    if(!selected){
+
+        result.style.display =
+            "block";
+
+        result.className =
+            "quiz-result quiz-fail";
+
+        result.textContent =
+            "Please select an answer.";
+
+        return;
+
+    }
+
+
+    const answer =
+        parseInt(
+            selected.value
+        );
+
+
+    if(answer === correctAnswer){
+
+        result.style.display =
+            "block";
+
+        result.className =
+            "quiz-result quiz-pass";
+
+        result.textContent =
+            "✓ Correct answer!";
+
+
+        quizResults[
+            "chapter" +
+            (lessonIndex + 1)
+        ] = {
+
+            passed:true,
+
+            completedAt:
+                new Date().toISOString()
+
+        };
+
+    }else{
+
+        result.style.display =
+            "block";
+
+        result.className =
+            "quiz-result quiz-fail";
+
+        result.textContent =
+            "✗ Incorrect answer. Try again.";
+
+
+        quizResults[
+            "chapter" +
+            (lessonIndex + 1)
+        ] = {
+
+            passed:false,
+
+            completedAt:
+                new Date().toISOString()
+
+        };
+
+    }
+
+
+    saveLocalData();
+
+    saveFirestoreData();
+
+};
+
+
+/* =====================================================
+   FINAL QUIZ
+===================================================== */
+
+window.submitFinalQuiz =
+async function(){
+
+    const answers = {
+
+        f1:"a",
+        f2:"a",
+        f3:"b",
+        f4:"a",
+        f5:"a",
+        f6:"a",
+        f7:"a",
+        f8:"a",
+        f9:"a",
+        f10:"a"
+
+    };
+
+
+    let score = 0;
+
+    let answered = 0;
+
+
+    for(
+        const question in answers
+    ){
+
+        const selected =
+            document.querySelector(
+                `input[name="${question}"]:checked`
+            );
+
+
+        if(selected){
+
+            answered++;
+
+
+            if(
+                selected.value ===
+                answers[question]
+            ){
+
+                score++;
+
+            }
+
+        }
+
+    }
+
+
+    const result =
+        document.getElementById(
+            "finalQuizResult"
+        );
+
+
+    if(answered < 10){
+
+        result.style.display =
+            "block";
+
+        result.className =
+            "quiz-result quiz-fail";
+
+        result.textContent =
+            `Please answer all 10 questions. You answered ${answered}/10.`;
+
+        return;
+
+    }
+
+
+    const percentage =
+        score * 10;
+
+
+    const passed =
+        percentage >= 70;
+
+
+    finalQuizPassed =
+        passed;
+
+
+    const previousAttempts =
+        quizResults.finalQuiz &&
+        quizResults.finalQuiz.attempts
+        ? quizResults.finalQuiz.attempts
+        : 0;
+
+
+    quizResults.finalQuiz = {
+
+        score,
+
+        percentage,
+
+        passed,
+
+        attempts:
+            previousAttempts + 1,
+
+        completedAt:
+            new Date().toISOString()
+
+    };
+
+
+    saveLocalData();
+
+    await saveFirestoreData();
+
+
+    result.style.display =
+        "block";
+
+
+    if(passed){
+
+        result.className =
+            "quiz-result quiz-pass";
+
+
+        result.innerHTML =
+            `🎉 Congratulations! You scored
+            <strong>${score}/10 (${percentage}%)</strong>.
+            <br><br>
+            You passed the Final Quiz.
+            You can now complete the course.`;
+
+    }else{
+
+        result.className =
+            "quiz-result quiz-fail";
+
+
+        result.innerHTML =
+            `You scored
+            <strong>${score}/10 (${percentage}%)</strong>.
+            <br>
+            You need at least <strong>70%</strong>
+            to pass.`;
+
+    }
+
+
+    updateCompleteButton();
+
+};
+
+
+/* =====================================================
+   COMPLETE BUTTON
+===================================================== */
+
+function updateCompleteButton(){
+
+    const button =
+        document.getElementById(
+            "completeBtn"
+        );
+
+
+    const allLessons =
+        completedLessons.length ===
+        lessons.length;
+
+
+    if(
+        allLessons &&
+        finalQuizPassed
+    ){
+
+        button.disabled =
+            false;
+
+        button.innerHTML =
+            "🎓 Complete Course & Get Certificate";
+
+    }else if(!finalQuizPassed){
+
+        button.disabled =
+            true;
+
+        button.innerHTML =
+            "🔒 Pass Final Quiz to Complete Course";
+
+    }else{
+
+        button.disabled =
+            true;
+
+        button.innerHTML =
+            "🔒 Complete All Chapters First";
+
+    }
+
+}
+
+
+/* =====================================================
+   FINISH COURSE
+===================================================== */
+
+window.finishCourse =
+async function(){
+
+    if(!finalQuizPassed){
+
+        alert(
+            "You must pass the Final Quiz with at least 70%."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        completedLessons.length !==
+        lessons.length
+    ){
+
+        alert(
+            "Please complete all 12 chapters first."
+        );
+
+        return;
+
+    }
+
+
+    if(!currentUser){
+
+        alert(
+            "Please login again."
+        );
+
+        return;
+
+    }
+
+
+    completedLessons =
+        lessons.map(
+            (_,index)=>index
+        );
+
+
+    saveLocalData();
+
+    await saveFirestoreData();
+
+
+    const certificateId =
+        generateCertificateId();
+
+
+    const studentName =
+        currentUser.displayName ||
+        currentUser.email
+            .split("@")[0];
+
+
+    const completionDate =
+        new Date().toISOString();
+
+
+    try{
+
+        const certificateRef =
+            doc(
+                db,
+                "certificates",
+                certificateId
+            );
+
+
+        await setDoc(
+            certificateRef,
+            {
+
+                certificateId,
+
+                studentName,
+
+                studentEmail:
+                    currentUser.email,
+
+                courseId:
+                    COURSE_CONFIG.id,
+
+                courseName:
+                    COURSE_CONFIG.name,
+
+                courseCode:
+                    COURSE_CONFIG.code,
+
+                completionDate,
+
+                uid:
+                    currentUser.uid,
+
+                issuedBy:
+                    "BH Skills Hub"
+
+            }
+        );
+
+
+        localStorage.setItem(
+            "cyberCertificateId",
+            certificateId
+        );
+
+
+        const url =
+            "certificate.html" +
+            "?course=" +
+            encodeURIComponent(
+                COURSE_CONFIG.id
+            ) +
+            "&name=" +
+            encodeURIComponent(
+                studentName
+            ) +
+            "&id=" +
+            encodeURIComponent(
+                certificateId
+            );
+
+
+        window.location.href =
+            url;
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Certificate creation failed. Check Firestore rules."
+        );
+
+    }
+
+};
+
+
+/* =====================================================
+   CERTIFICATE ID
+===================================================== */
+
+function generateCertificateId(){
+
+    const year =
+        new Date().getFullYear();
+
+
+    const random =
+        Math.random()
+        .toString(36)
+        .substring(2,8)
+        .toUpperCase();
+
+
+    return (
+        "BH-" +
+        COURSE_CONFIG.code +
+        "-" +
+        year +
+        "-" +
+        random
+    );
+
+}
+
+
+/* =====================================================
+   COURSES
+===================================================== */
+
+window.goCourses = function(){
+
+    window.location.href =
+        "courses.html";
+
+};
+
+</script>
+
+</body>
+</html>
